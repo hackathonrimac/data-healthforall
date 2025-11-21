@@ -21,34 +21,38 @@
 
 ## Nombre del equipo
 
-**[Nombre de tu equipo]**
+HealthForAll 🚀🩺
 
 
 ---
 
 ## ¿Cuéntanos a grandes rasgos qué planean hacer?
 
-> Describe brevemente la idea principal de tu solución. Incluye los componentes clave, la tecnología que planeas usar y cómo esperas que tu solución resuelva el reto planteado.
+Desarollaremos una aplicación web para encontrar la facilidad médica más cercana a ti. 
+NOTA: Solo trabajaremos en Lima Metropolitana - Callao 
 
-**Ejemplo:**  
-*"Desarrollaremos un buscador inteligente de doctores que utiliza web scraping para extraer información de clínicas públicas (médicos, especialidades, horarios). Implementaremos un sistema ETL con Python y Pandas para normalizar los datos, una API REST con FastAPI para las consultas, y un frontend con Next.js. La búsqueda será potenciada con algoritmos de ML para búsqueda semántica, permitiendo a los usuarios encontrar especialistas por ubicación, disponibilidad o tipo de atención."*
+1) Extraeremos la información de doctores, clínicas y ubicación con técnicas de web scrapping.
+   Tecnología: Python, BeatifulSoup, Pandas, Selenium
+   - Verificamos la información del Colegio Médico del Perú
+   - Enlances web de las clínicas existentes en el Perú
+   - Link del staff asociado a cada especialdiad y clínica.
 
-**Tu respuesta:**
+2) Desplegaremos un servicio REST API para enviar la información al navegador
+   Tecnología: CDK AWS, REST API, Lambda Server Functions
+   - Se crearán endpoints para las peticiones requeridas en el flujo del usuario
 
-[Escribe aquí tu propuesta]
+3) Implementación de una web app para que el usuario pueda encontrar las clínicas más cercanas.
+   Tecnología: NextJS, Vercel AI SDK, OpenAI SDK
+   - Preguntaremos con los síntomas del paciente
+   - Mostraremos un mapa con la información de cada clínica y especialidad
+   - Listado de doctores disponibles en cada clínica
 
 ---
 
 ## ¿Qué retos/riesgos visualizan? (¿Con qué te podemos ayudar?)
 
-> Identifica los principales desafíos o riesgos que podrían afectar el desarrollo de tu solución. Estos pueden ser técnicos, operativos o relacionados con la viabilidad de la idea. Además, menciona cualquier apoyo específico que necesites para superar estos obstáculos.
+Los retos que vemos es que mucha información sobre la disponibilidad médica no está disponible, debido a que los sistemas virtuales de cada hospital son cerrados y existen clínicas con poca virtualización de sus datos. 
 
-**Ejemplo:**  
-*"El principal reto será la variabilidad en la estructura de los sitios web de las clínicas, lo que puede dificultar el scraping. También prevemos desafíos en la normalización de especialidades médicas que tienen diferentes nomenclaturas. Necesitaríamos apoyo con acceso a APIs oficiales si existen, y guía sobre el manejo de datos sensibles de salud."*
-
-**Tu respuesta:**
-
-[Escribe aquí los retos que visualizas]
 
 ---
 
@@ -57,24 +61,21 @@
 Lista las principales tecnologías, frameworks y herramientas que planean utilizar:
 
 **Frontend:**
-- [Ejemplo: Next.js, Tailwind CSS, shadcn/ui]
+- NextJS, Tailwind CSS, Vercel AI, SDK
 
 **Backend:**
-- [Ejemplo: FastAPI, PostgreSQL, Redis]
+- FastAPI, Postgres SQL
 
 **IA/ML:**
-- [Ejemplo: OpenAI API, LangChain, Scikit-learn]
+- Open AI API 
 
 **Cloud/DevOps:**
-- [Ejemplo: AWS Lambda, S3, API Gateway, Docker]
+- AWS Lambda Server functions
 
 **Otras:**
-- [Ejemplo: Selenium para scraping, Pandas para ETL]
-
+- Beautiful Soup y Pandas para ETL
 ---
 
 ## Notas adicionales
 
-Espacio libre para cualquier información relevante sobre el equipo (experiencia previa, motivación, proyectos similares realizados, etc.).
-
-[Escribe aquí cualquier información adicional]
+Para asegurar que toda la información sea válida y podamos revisarla de forma manual para evitar halucinaciones, nos limitamos a trabajar únicamente con Lima Metropolitana y Callao. 
