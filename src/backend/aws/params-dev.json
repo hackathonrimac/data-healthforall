@@ -1,0 +1,5 @@
+{
+  "EnvironmentName": "dev",
+  "CodeS3Bucket": "replace-with-dev-bucket",
+  "CodeS3KeyPrefix": "dist/dev"
+}

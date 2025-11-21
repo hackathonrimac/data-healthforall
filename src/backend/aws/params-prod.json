@@ -1,0 +1,5 @@
+{
+  "EnvironmentName": "prod",
+  "CodeS3Bucket": "replace-with-prod-bucket",
+  "CodeS3KeyPrefix": "dist/prod"
+}
