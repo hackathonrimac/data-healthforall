@@ -1,0 +1,5 @@
+{
+  "EnvironmentName": "dev",
+  "CodeS3Bucket": "health-backend-artifacts-dev",
+  "CodeS3KeyPrefix": "dist/dev"
+}
