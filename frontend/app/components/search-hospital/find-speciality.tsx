@@ -142,11 +142,8 @@ export function FindSpeciality({
       <div className="relative flex-1" ref={dropdownRef}>
         {/* Input with Selected Chips */}
         <div className="relative">
-          <div className="w-full min-h-[42px] px-3 py-2 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-black/10">
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* Search Icon */}
-              <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
-              
+          <div className="w-full px-3 py-2 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-black/10 min-h-[42px]">
+            <div className="flex items-center gap-2 flex-wrap">              
               {/* Selected Specialty Chips */}
               {selectedSpecialties.map((specialtyId) => {
                 const specialty = specialties.find(s => s.EspecialidadId === specialtyId);
@@ -154,7 +151,7 @@ export function FindSpeciality({
                 return (
                   <span
                     key={specialtyId}
-                    className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-white bg-black rounded"
+                    className="inline-flex text-xsitems-center gap-1.5 px-2 py-1 text-xs font-medium text-white bg-black rounded"
                   >
                     <span>{specialty.Nombre}</span>
                     <button
@@ -181,7 +178,7 @@ export function FindSpeciality({
                 onFocus={() => setIsOpen(true)}
                 placeholder={selectedSpecialties.length === 0 ? "Buscar especialidad..." : ""}
                 disabled={loading}
-                className="flex-1 min-w-[120px] bg-transparent border-none outline-none text-xs text-gray-900 placeholder:text-gray-400"
+                className="flex-1 text-xs min-w-[120px] bg-transparent border-none outline-none text-xs text-gray-900 placeholder:text-gray-400"
               />
               
               {/* Loading/Chevron Icon */}

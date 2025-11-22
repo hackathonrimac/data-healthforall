@@ -7,7 +7,7 @@ import { Button } from '@/app/components/ui/button';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Card, CardContent } from '@/app/components/ui/card';
 import { searchSchema } from '@/lib/types/search-object';
-import { FindUbication } from '@/app/components/find-ubication';
+import { FindUbication } from '@/app/components/search-hospital/find-ubication';
 import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
 
 export function ChatInterface() {

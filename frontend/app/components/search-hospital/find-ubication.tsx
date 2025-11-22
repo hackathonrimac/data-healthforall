@@ -132,7 +132,7 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
                 : "Escribe o selecciona tu distrito"
           }
           disabled={isLoading || !!error}
-          className="w-full px-4 py-2 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full text-xs px-4 py-2 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
         />
 
         {isOpen && !isLoading && !error && filteredDistricts.length > 0 && (
@@ -142,7 +142,7 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
                 key={district.code}
                 type="button"
                 onClick={() => handleDistrictSelect(district)}
-                className={`w-full text-left px-4 py-2 text-sm transition-colors hover:bg-blue-50 ${
+                className={`w-full text-left text-xs px-4 py-2 text-sm transition-colors hover:bg-blue-50 ${
                   selectedDistrict === district.code ? 'bg-blue-50 text-blue-900' : 'text-gray-700'
                 }`}
               >

@@ -1,17 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { Card, CardContent } from '@/app/components/ui/card';
-import { FindUbication } from '@/app/components/find-ubication';
-import { FindInsurance } from '@/app/components/find-insurance';
-import { FindSpeciality } from '@/app/components/find-speciality';
-import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
+import { FindUbication } from '@/app/components/search-hospital/find-ubication';
+import { FindInsurance } from '@/app/components/search-hospital/find-insurance';
+import { FindSpeciality } from '@/app/components/search-hospital/find-speciality';
+import { useSearchFilters } from '@/app/components/search-hospital/useSearchFilters';
 
 export function SearchHospital() {
-  const [input, setInput] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState<UbigeoDistrict | null>(null);
-  const [selectedInsurances, setSelectedInsurances] = useState<string[]>([]);
-  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+  const {
+    filters,
+    setSelectedLocation,
+    setSelectedInsurances,
+    setSelectedSpecialties,
+  } = useSearchFilters();
   
 
 

@@ -127,7 +127,7 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
               <span className="text-red-500 text-xs">{error}</span>
             )}
             {!isLoading && !error && selectedInsurances.length === 0 && (
-              <span className="text-gray-400">Selecciona tus seguros</span>
+              <span className="text-gray-400 text-xs">Selecciona tus seguros</span>
             )}
             {!isLoading && !error && selectedInsurances.length > 0 && selectedInsurances.length <= 2 && (
               <div className="flex items-center gap-2 flex-wrap">
@@ -198,7 +198,7 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
                     >
                       {/* Insurance Name */}
                       <div className="flex-1 text-left">
-                        <span className={`text-sm font-medium ${isSelected ? 'text-blue-900' : 'text-gray-700'}`}>
+                        <span className={`text-xs font-medium ${isSelected ? 'text-blue-900' : 'text-gray-700'}`}>
                           {insurance.name}
                         </span>
                       </div>
@@ -206,7 +206,7 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
                       {/* Checkbox Indicator */}
                       <div
                         className={`
-                          flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0
+                          flex text-xs items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0
                           ${
                             isSelected
                               ? 'bg-blue-500 border-blue-500'
