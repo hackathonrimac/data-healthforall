@@ -21,36 +21,16 @@
 
 ## 1. ¿Qué hallazgos han tenido?
 
-> Describe los principales descubrimientos y aprendizajes que tu equipo ha realizado hasta ahora.
-
-**Ejemplo:**  
-*"Descubrimos que el 70% de las clínicas públicas no tienen APIs abiertas, por lo que tuvimos que implementar web scraping. Identificamos que las especialidades médicas tienen 15 nomenclaturas diferentes que debemos normalizar. También encontramos que existen datasets públicos del Colegio Médico del Perú que podemos aprovechar para validar nuestros datos."*
-
-**Tu respuesta:**
-
-[Describe tus hallazgos principales]
+*"En el análisis identificamos un total de 120 clínicas, muchas de ellas con información incompleta o con formatos inconsistentes. Para complementar y estandarizar los datos realizamos web scraping en diversas fuentes públicas y en el Colegio Médico del Perú, desde donde obtuvimos especialidades, subespecialidades y el MCP de los doctores. Además, aproximadamente el 30% de las clínicas contaban con APIs abiertas, lo que permitió obtener parte del staff médico de forma estructurada. También encontramos que la información sobre grupos propietarios estaba fragmentada, por lo que construimos una tabla maestra que nos permitió identificar 16 grupos de clínicas que administran múltiples sedes. Finalmente, completamos los ubigeos cruzando distritos y direcciones con tablas oficiales y normalizamos las nomenclaturas médicas, logrando una base integrada, consistente y lista para análisis."*
 
 ---
 
 ## 2. ¿En qué se van a enfocar para el cierre?
 
-> Explica en qué aspectos de tu proyecto se concentrará tu equipo durante la fase final.
-
-**Ejemplo:**  
 *"Nos concentraremos en:"*
-- *Completar la integración con al menos 5 clínicas principales*
-- *Optimizar el algoritmo de búsqueda semántica para mejorar precisión*
-- *Desarrollar el dashboard de visualización con métricas clave*
-- *Crear una presentación impactante que demuestre el valor de la solución*
-- *Realizar pruebas de usabilidad con 3-5 usuarios potenciales*
-
-**Tu respuesta:**
-
-[Describe el enfoque para el cierre]
-
-
-
-- Integrar más fuentes de datos (Git commits, code reviews)
-- Implementar un modelo de series de tiempo (LSTM, Prophet)
-- Agregar alertas automáticas vía Slack/Teams
-- Crear un modelo personalizable por tipo de proyecto
+- *Subir y estructurar todas las tablas en AWS.*
+- *Habilitar las consultas SQL para buscar clínicas, médicos y especialidades.*
+- *Conectar el chatbot que interpretará los síntomas del paciente y asignará la especialidad adecuada.*
+- *Relacionar esa especialidad con médicos y con las clínicas donde trabajan.*
+- *Recomendar automáticamente la clínica más cercana al paciente usando su ubicación.*
+- *Validar el flujo completo end-to-end para entregar una demo funcional.*
