@@ -1,5 +1,5 @@
 {
   "EnvironmentName": "prod",
-  "CodeS3Bucket": "replace-with-prod-bucket",
+  "CodeS3Bucket": "health-backend-artifacts-prod",
   "CodeS3KeyPrefix": "dist/prod"
 }
