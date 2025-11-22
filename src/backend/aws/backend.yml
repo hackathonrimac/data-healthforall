@@ -204,22 +204,24 @@ Resources:
         Variables:
           ENVIRONMENT: !Ref EnvironmentName
 
-  ClinicsApi:
+  HealthApi:
     Type: AWS::ApiGateway::RestApi
     Properties:
-      Name: !Sub ClinicsApi-${EnvironmentName}
+      Name: !Sub HealthApi-${EnvironmentName}
+      Description: Unified API for health search backend
 
+  # Clinics resources
   ClinicsResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref ClinicsApi
-      ParentId: !GetAtt ClinicsApi.RootResourceId
+      RestApiId: !Ref HealthApi
+      ParentId: !GetAtt HealthApi.RootResourceId
       PathPart: clinics
 
   ClinicsMethodGet:
     Type: AWS::ApiGateway::Method
     Properties:
-      RestApiId: !Ref ClinicsApi
+      RestApiId: !Ref HealthApi
       ResourceId: !Ref ClinicsResource
       HttpMethod: GET
       AuthorizationType: NONE
@@ -228,37 +230,26 @@ Resources:
         IntegrationHttpMethod: POST
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ClinicsFunction.Arn}/invocations
 
-  ClinicsDeployment:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn: ClinicsMethodGet
-    Properties:
-      RestApiId: !Ref ClinicsApi
-      StageName: !Ref EnvironmentName
-
   ClinicsLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref ClinicsFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ClinicsApi}/*/GET/clinics
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HealthApi}/*/GET/clinics
 
-  DoctorsApi:
-    Type: AWS::ApiGateway::RestApi
-    Properties:
-      Name: !Sub DoctorsApi-${EnvironmentName}
-
+  # Doctors resources
   DoctorsResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref DoctorsApi
-      ParentId: !GetAtt DoctorsApi.RootResourceId
+      RestApiId: !Ref HealthApi
+      ParentId: !GetAtt HealthApi.RootResourceId
       PathPart: doctors
 
   DoctorsMethodGet:
     Type: AWS::ApiGateway::Method
     Properties:
-      RestApiId: !Ref DoctorsApi
+      RestApiId: !Ref HealthApi
       ResourceId: !Ref DoctorsResource
       HttpMethod: GET
       AuthorizationType: NONE
@@ -267,44 +258,33 @@ Resources:
         IntegrationHttpMethod: POST
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DoctorsFunction.Arn}/invocations
 
-  DoctorsDeployment:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn: DoctorsMethodGet
-    Properties:
-      RestApiId: !Ref DoctorsApi
-      StageName: !Ref EnvironmentName
-
   DoctorsLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref DoctorsFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${DoctorsApi}/*/GET/doctors
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HealthApi}/*/GET/doctors
 
-  EspecialidadesApi:
-    Type: AWS::ApiGateway::RestApi
-    Properties:
-      Name: !Sub EspecialidadesApi-${EnvironmentName}
-
+  # Especialidades resources
   EspecialidadesResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref EspecialidadesApi
-      ParentId: !GetAtt EspecialidadesApi.RootResourceId
+      RestApiId: !Ref HealthApi
+      ParentId: !GetAtt HealthApi.RootResourceId
       PathPart: especialidades
 
   SubEspecialidadesResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref EspecialidadesApi
-      ParentId: !GetAtt EspecialidadesApi.RootResourceId
+      RestApiId: !Ref HealthApi
+      ParentId: !GetAtt HealthApi.RootResourceId
       PathPart: subespecialidades
 
   EspecialidadesMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      RestApiId: !Ref EspecialidadesApi
+      RestApiId: !Ref HealthApi
       ResourceId: !Ref EspecialidadesResource
       HttpMethod: GET
       AuthorizationType: NONE
@@ -316,7 +296,7 @@ Resources:
   SubEspecialidadesMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      RestApiId: !Ref EspecialidadesApi
+      RestApiId: !Ref HealthApi
       ResourceId: !Ref SubEspecialidadesResource
       HttpMethod: GET
       AuthorizationType: NONE
@@ -325,46 +305,33 @@ Resources:
         IntegrationHttpMethod: POST
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${EspecialidadesFunction.Arn}/invocations
 
-  EspecialidadesDeployment:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn:
-      - EspecialidadesMethod
-      - SubEspecialidadesMethod
-    Properties:
-      RestApiId: !Ref EspecialidadesApi
-      StageName: !Ref EnvironmentName
-
   EspecialidadesLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref EspecialidadesFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${EspecialidadesApi}/*/*
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HealthApi}/*/*
 
-  SegurosApi:
-    Type: AWS::ApiGateway::RestApi
-    Properties:
-      Name: !Sub SegurosApi-${EnvironmentName}
-
+  # Seguros resources
   SegurosResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref SegurosApi
-      ParentId: !GetAtt SegurosApi.RootResourceId
+      RestApiId: !Ref HealthApi
+      ParentId: !GetAtt HealthApi.RootResourceId
       PathPart: seguros
 
   SegurosClinicasResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref SegurosApi
-      ParentId: !GetAtt SegurosApi.RootResourceId
+      RestApiId: !Ref HealthApi
+      ParentId: !GetAtt HealthApi.RootResourceId
       PathPart: seguros-clinicas
 
   SegurosMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      RestApiId: !Ref SegurosApi
+      RestApiId: !Ref HealthApi
       ResourceId: !Ref SegurosResource
       HttpMethod: GET
       AuthorizationType: NONE
@@ -376,7 +343,7 @@ Resources:
   SegurosClinicasMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      RestApiId: !Ref SegurosApi
+      RestApiId: !Ref HealthApi
       ResourceId: !Ref SegurosClinicasResource
       HttpMethod: GET
       AuthorizationType: NONE
@@ -385,46 +352,33 @@ Resources:
         IntegrationHttpMethod: POST
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SegurosFunction.Arn}/invocations
 
-  SegurosDeployment:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn:
-      - SegurosMethod
-      - SegurosClinicasMethod
-    Properties:
-      RestApiId: !Ref SegurosApi
-      StageName: !Ref EnvironmentName
-
   SegurosLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref SegurosFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${SegurosApi}/*/*
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HealthApi}/*/*
 
-  SearchApi:
-    Type: AWS::ApiGateway::RestApi
-    Properties:
-      Name: !Sub SearchApi-${EnvironmentName}
-
+  # Search resources
   SearchResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref SearchApi
-      ParentId: !GetAtt SearchApi.RootResourceId
+      RestApiId: !Ref HealthApi
+      ParentId: !GetAtt HealthApi.RootResourceId
       PathPart: search
 
   SearchDoctorsResource:
     Type: AWS::ApiGateway::Resource
     Properties:
-      RestApiId: !Ref SearchApi
+      RestApiId: !Ref HealthApi
       ParentId: !Ref SearchResource
       PathPart: doctors
 
   SearchDoctorsMethod:
     Type: AWS::ApiGateway::Method
     Properties:
-      RestApiId: !Ref SearchApi
+      RestApiId: !Ref HealthApi
       ResourceId: !Ref SearchDoctorsResource
       HttpMethod: GET
       AuthorizationType: NONE
@@ -433,34 +387,74 @@ Resources:
         IntegrationHttpMethod: POST
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SearchFunction.Arn}/invocations
 
-  SearchDeployment:
-    Type: AWS::ApiGateway::Deployment
-    DependsOn: SearchDoctorsMethod
-    Properties:
-      RestApiId: !Ref SearchApi
-      StageName: !Ref EnvironmentName
-
   SearchLambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref SearchFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${SearchApi}/*/GET/search/doctors
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HealthApi}/*/GET/search/doctors
+
+  # Single deployment for all endpoints
+  ApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - ClinicsMethodGet
+      - DoctorsMethodGet
+      - EspecialidadesMethod
+      - SubEspecialidadesMethod
+      - SegurosMethod
+      - SegurosClinicasMethod
+      - SearchDoctorsMethod
+    Properties:
+      RestApiId: !Ref HealthApi
+      StageName: !Ref EnvironmentName
 
 Outputs:
-  ClinicsApiUrl:
-    Description: Base URL for Clinics API stage
-    Value: !Sub https://${ClinicsApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/clinics
-  DoctorsApiUrl:
-    Description: Base URL for Doctors API stage
-    Value: !Sub https://${DoctorsApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/doctors
-  EspecialidadesApiUrl:
-    Description: Base URL for Especialidades API stage
-    Value: !Sub https://${EspecialidadesApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}
-  SegurosApiUrl:
-    Description: Base URL for Seguros API stage
-    Value: !Sub https://${SegurosApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}
-  SearchApiUrl:
-    Description: Base URL for Search API stage
-    Value: !Sub https://${SearchApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/search/doctors
+  ApiBaseUrl:
+    Description: Base URL for the unified Health API
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}
+    Export:
+      Name: !Sub ${AWS::StackName}-ApiBaseUrl
+
+  ClinicsEndpoint:
+    Description: Full URL for Clinics endpoint
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/clinics
+    Export:
+      Name: !Sub ${AWS::StackName}-ClinicsEndpoint
+
+  DoctorsEndpoint:
+    Description: Full URL for Doctors endpoint
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/doctors
+    Export:
+      Name: !Sub ${AWS::StackName}-DoctorsEndpoint
+
+  EspecialidadesEndpoint:
+    Description: Full URL for Especialidades endpoint
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/especialidades
+    Export:
+      Name: !Sub ${AWS::StackName}-EspecialidadesEndpoint
+
+  SubEspecialidadesEndpoint:
+    Description: Full URL for SubEspecialidades endpoint
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/subespecialidades
+    Export:
+      Name: !Sub ${AWS::StackName}-SubEspecialidadesEndpoint
+
+  SegurosEndpoint:
+    Description: Full URL for Seguros endpoint
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/seguros
+    Export:
+      Name: !Sub ${AWS::StackName}-SegurosEndpoint
+
+  SegurosClinicasEndpoint:
+    Description: Full URL for Seguros Clinicas endpoint
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/seguros-clinicas
+    Export:
+      Name: !Sub ${AWS::StackName}-SegurosClinicasEndpoint
+
+  SearchDoctorsEndpoint:
+    Description: Full URL for Search Doctors endpoint
+    Value: !Sub https://${HealthApi}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentName}/search/doctors
+    Export:
+      Name: !Sub ${AWS::StackName}-SearchDoctorsEndpoint
