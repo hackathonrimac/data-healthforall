@@ -115,9 +115,9 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
   const selectedDistrictData = districts.find(d => d.code === selectedDistrict);
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <MapPin className="w-4 h-4 text-gray-400" />
-      <div className="relative flex-1" ref={dropdownRef}>
+    <div className={`relative ${className}`} ref={dropdownRef}>
+      <div className="relative">
+        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
         <input
           ref={inputRef}
           type="text"
@@ -129,35 +129,39 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
               ? "Cargando distritos..." 
               : error 
                 ? error 
-                : "Escribe o selecciona tu distrito"
+                : "Ubicación"
           }
           disabled={isLoading || !!error}
-          className="w-full text-xs px-4 py-2 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-12 pl-11 pr-4 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-gray-900 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
         />
+      </div>
 
-        {isOpen && !isLoading && !error && filteredDistricts.length > 0 && (
-          <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto">
+      {isOpen && !isLoading && !error && filteredDistricts.length > 0 && (
+        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 max-h-80 overflow-hidden backdrop-blur-md">
+          <div className="max-h-80 overflow-y-auto p-2">
             {filteredDistricts.map((district) => (
               <button
                 key={district.code}
                 type="button"
                 onClick={() => handleDistrictSelect(district)}
-                className={`w-full text-left text-xs px-4 py-2 text-sm transition-colors hover:bg-blue-50 ${
-                  selectedDistrict === district.code ? 'bg-blue-50 text-blue-900' : 'text-gray-700'
+                className={`w-full text-left px-4 py-3 text-sm rounded-lg transition-colors ${
+                  selectedDistrict === district.code 
+                    ? 'bg-gray-900 text-white font-medium' 
+                    : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 {district.name}
               </button>
             ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {isOpen && !isLoading && !error && filteredDistricts.length === 0 && (
-          <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 px-4 py-3 text-sm text-gray-500">
-            No se encontraron distritos
-          </div>
-        )}
-      </div>
+      {isOpen && !isLoading && !error && filteredDistricts.length === 0 && (
+        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 px-4 py-3 text-sm text-gray-500">
+          No se encontraron distritos
+        </div>
+      )}
     </div>
   );
 }

@@ -137,170 +137,157 @@ export function FindSpeciality({
   });
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <Stethoscope className="w-4 h-4 text-gray-400" />
-      <div className="relative flex-1" ref={dropdownRef}>
-        {/* Input with Selected Chips */}
-        <div className="relative">
-          <div className="w-full px-3 py-2 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-black/10 min-h-[42px]">
-            <div className="flex items-center gap-2 flex-wrap">              
-              {/* Selected Specialty Chips */}
-              {selectedSpecialties.map((specialtyId) => {
-                const specialty = specialties.find(s => s.EspecialidadId === specialtyId);
-                if (!specialty) return null;
-                return (
-                  <span
-                    key={specialtyId}
-                    className="inline-flex text-xsitems-center gap-1.5 px-2 py-1 text-xs font-medium text-white bg-black rounded"
-                  >
-                    <span>{specialty.Nombre}</span>
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleSpecialty(specialtyId);
-                      }}
-                      className="ml-1 hover:bg-gray-700 rounded-full transition-colors"
-                    >
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </span>
-                );
-              })}
-              
-              {/* Input Field */}
+    <div className={`relative ${className}`} ref={dropdownRef}>
+      <div className="relative">
+        <Stethoscope className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+        <div 
+          className="w-full h-12 pl-11 pr-10 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-gray-900/10 flex items-center cursor-text"
+          onClick={() => !loading && setIsOpen(true)}
+        >
+          <div className="flex-1 overflow-hidden">
+            {loading ? (
+              <span className="text-gray-400 text-sm">Cargando...</span>
+            ) : selectedSpecialties.length === 0 ? (
+              <span className="text-gray-400 text-sm">Especialidad</span>
+            ) : selectedSpecialties.length === 1 ? (
+              <span className="text-gray-900 font-medium text-sm truncate">
+                {specialties.find(s => s.EspecialidadId === selectedSpecialties[0])?.Nombre}
+              </span>
+            ) : (
+              <span className="text-gray-900 font-medium text-sm">
+                {selectedSpecialties.length} especialidades
+              </span>
+            )}
+          </div>
+          {selectedSpecialties.length > 0 && !loading && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                clearAll();
+              }}
+              className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-900 transition-colors z-10"
+              title="Limpiar"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
+        <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 transition-transform pointer-events-none ${isOpen ? 'rotate-180' : ''}`} />
+      </div>
+
+      {/* Dropdown Menu */}
+      {isOpen && !loading && (
+        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 overflow-hidden backdrop-blur-md">
+          {/* Search Input */}
+          <div className="p-3 border-b border-gray-200">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onFocus={() => setIsOpen(true)}
-                placeholder={selectedSpecialties.length === 0 ? "Buscar especialidad..." : ""}
-                disabled={loading}
-                className="flex-1 text-xs min-w-[120px] bg-transparent border-none outline-none text-xs text-gray-900 placeholder:text-gray-400"
+                placeholder="Buscar especialidad..."
+                className="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-gray-900 placeholder:text-gray-400"
+                autoFocus
               />
-              
-              {/* Loading/Chevron Icon */}
-              <div className="flex items-center gap-2 flex-shrink-0">
-                {selectedSpecialties.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={clearAll}
-                    className="text-gray-400 hover:text-black transition-colors"
-                    title="Limpiar todo"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )}
-                <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-              </div>
             </div>
           </div>
-        </div>
 
-        {/* Dropdown Menu */}
-        {isOpen && !loading && (
-          <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-80 overflow-hidden">
-            {/* Selection Counter */}
-            {selectedSpecialties.length > 0 && (
-              <div className="bg-gray-100 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
-                <span className="text-xs text-black font-medium">
-                  {selectedSpecialties.length} seleccionada{selectedSpecialties.length !== 1 ? 's' : ''}
-                  {maxSelections && <span className="text-gray-600"> / {maxSelections} máx.</span>}
-                </span>
+          {/* Selection Counter */}
+          {selectedSpecialties.length > 0 && (
+            <div className="bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+              <span className="text-sm text-gray-600 font-medium">
+                {selectedSpecialties.length} seleccionada{selectedSpecialties.length !== 1 ? 's' : ''}
+                {maxSelections && <span className="text-gray-500"> / {maxSelections} máx.</span>}
+              </span>
+              <button
+                onClick={clearAll}
+                className="text-sm text-gray-900 hover:text-gray-700 transition-colors font-medium"
+              >
+                Limpiar
+              </button>
+            </div>
+          )}
+
+          {/* Specialty Options */}
+          <div className="max-h-80 overflow-y-auto p-2">
+            {filteredSpecialties.length === 0 && (
+              <div className="text-center py-8 text-gray-500 text-sm">
+                {searchTerm ? (
+                  <>No se encontraron especialidades</>
+                ) : (
+                  <>No hay especialidades disponibles</>
+                )}
               </div>
             )}
-
-            {/* Specialty Options */}
-            <div className="max-h-64 overflow-y-auto p-2 space-y-1">
-              {filteredSpecialties.length === 0 && (
-                <div className="text-center py-8 text-gray-500 text-xs">
-                  {searchTerm ? (
-                    <>No se encontraron especialidades que coincidan con &quot;{searchTerm}&quot;</>
-                  ) : (
-                    <>No hay especialidades disponibles</>
-                  )}
-                </div>
-              )}
+            
+            {filteredSpecialties.map((specialty) => {
+              if (!specialty || !specialty.EspecialidadId) return null;
               
-              {filteredSpecialties.map((specialty) => {
-                if (!specialty || !specialty.EspecialidadId) return null;
-                
-                const isSelected = selectedSpecialties.includes(specialty.EspecialidadId);
-                const isMaxReached = selectedSpecialties.length >= maxSelections && !isSelected;
-                
-                return (
-                  <button
-                    key={specialty.EspecialidadId}
-                    type="button"
-                    onClick={() => toggleSpecialty(specialty.EspecialidadId)}
-                    disabled={isMaxReached}
+              const isSelected = selectedSpecialties.includes(specialty.EspecialidadId);
+              const isMaxReached = selectedSpecialties.length >= maxSelections && !isSelected;
+              
+              return (
+                <button
+                  key={specialty.EspecialidadId}
+                  type="button"
+                  onClick={() => toggleSpecialty(specialty.EspecialidadId)}
+                  disabled={isMaxReached}
+                  className={`
+                    w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                    ${
+                      isSelected
+                        ? 'bg-gray-900 text-white hover:bg-gray-800'
+                        : isMaxReached
+                        ? 'opacity-40 cursor-not-allowed'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }
+                  `}
+                  title={specialty.Descripcion || specialty.Nombre || 'Especialidad'}
+                >
+                  {/* Specialty Name */}
+                  <div className="flex-1 text-left min-w-0">
+                    <span className={`text-sm font-medium block ${isSelected ? 'text-white' : 'text-gray-700'}`}>
+                      {specialty.Nombre || 'Sin nombre'}
+                    </span>
+                    {specialty.Descripcion && (
+                      <span className={`text-xs block mt-0.5 line-clamp-1 ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>
+                        {specialty.Descripcion}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Checkbox Indicator */}
+                  <div
                     className={`
-                      w-full flex items-center gap-3 p-3 rounded-lg transition-all
+                      flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 transition-colors
                       ${
                         isSelected
-                          ? 'bg-black text-white hover:bg-gray-800 border-2 border-black'
-                          : isMaxReached
-                          ? 'opacity-40 cursor-not-allowed'
-                          : 'hover:bg-gray-50 border-2 border-transparent'
+                          ? 'bg-white border-white'
+                          : 'bg-white border-gray-300'
                       }
                     `}
-                    title={specialty.Descripcion || specialty.Nombre || 'Especialidad'}
                   >
-                    {/* Specialty Name */}
-                    <div className="flex-1 text-left min-w-0">
-                      <span className={`text-xs font-medium block ${isSelected ? 'text-white' : 'text-gray-700'}`}>
-                        {specialty.Nombre || 'Sin nombre'}
-                      </span>
-                      {specialty.Descripcion && (
-                        <span className={`text-xs block mt-0.5 line-clamp-1 ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>
-                          {specialty.Descripcion}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Checkbox Indicator */}
-                    <div
-                      className={`
-                        flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 transition-colors
-                        ${
-                          isSelected
-                            ? 'bg-white border-white'
-                            : 'bg-white border-gray-300'
-                        }
-                      `}
-                    >
-                      {isSelected && <Check className="w-3 h-3 text-black" />}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Error message */}
-            {error && (
-              <div className="bg-gray-100 border-t border-gray-200 px-4 py-2">
-                <p className="text-xs text-gray-800">
-                  {error}
-                </p>
-              </div>
-            )}
+                    {isSelected && <Check className="w-3 h-3 text-gray-900" />}
+                  </div>
+                </button>
+              );
+            })}
           </div>
-        )}
-        
-        {/* Loading State Overlay */}
-        {loading && (
-          <div className="absolute inset-0 bg-white/80 rounded-lg flex items-center justify-center">
-            <div className="flex items-center gap-2 text-xs text-gray-600">
-              <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-              Cargando...
+
+          {/* Error message */}
+          {error && (
+            <div className="bg-gray-50 border-t border-gray-200 px-4 py-2">
+              <p className="text-sm text-gray-600">
+                {error}
+              </p>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

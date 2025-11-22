@@ -109,121 +109,109 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
   };
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <Shield className="w-4 h-4 text-gray-400" />
-      <div className="relative flex-1" ref={dropdownRef}>
-        {/* Dropdown Button */}
+    <div className={`relative ${className}`} ref={dropdownRef}>
+      <div className="relative">
+        <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           disabled={isLoading}
-          className="w-full px-4 py-2 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-left flex items-center justify-between gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-12 pl-11 pr-10 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-left flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <div className="flex-1 flex items-center gap-2 overflow-hidden">
+          <div className="flex-1 overflow-hidden">
             {isLoading && (
               <span className="text-gray-400">Cargando seguros...</span>
             )}
             {!isLoading && error && (
-              <span className="text-red-500 text-xs">{error}</span>
+              <span className="text-red-500 text-sm">{error}</span>
             )}
             {!isLoading && !error && selectedInsurances.length === 0 && (
-              <span className="text-gray-400 text-xs">Selecciona tus seguros</span>
+              <span className="text-gray-400">Seguro</span>
             )}
-            {!isLoading && !error && selectedInsurances.length > 0 && selectedInsurances.length <= 2 && (
-              <div className="flex items-center gap-2 flex-wrap">
-                {selectedInsurances.map((insuranceId) => {
-                  const insurance = insuranceCompanies.find(i => i.id === insuranceId);
-                  if (!insurance) return null;
-                  return (
-                    <span
-                      key={insuranceId}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-gray-700"
-                    >
-                      <span>{insurance.name}</span>
-                    </span>
-                  );
-                })}
-              </div>
+            {!isLoading && !error && selectedInsurances.length === 1 && (
+              <span className="text-gray-900 font-medium truncate">
+                {insuranceCompanies.find(i => i.id === selectedInsurances[0])?.name}
+              </span>
             )}
-            {!isLoading && !error && selectedInsurances.length > 2 && (
-              <span className="text-gray-900">
-                {selectedInsurances.length} seguros seleccionados
+            {!isLoading && !error && selectedInsurances.length > 1 && (
+              <span className="text-gray-900 font-medium">
+                {selectedInsurances.length} seguros
               </span>
             )}
           </div>
-          <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
         </button>
+        <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 transition-transform pointer-events-none ${isOpen ? 'rotate-180' : ''}`} />
+      </div>
 
-        {/* Dropdown Menu */}
-        {isOpen && !isLoading && !error && (
-          <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-y-auto">
-            {/* Clear All Button */}
-            {selectedInsurances.length > 0 && (
-              <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-2 flex justify-between items-center">
-                <span className="text-xs text-gray-600">
-                  {selectedInsurances.length} seleccionado{selectedInsurances.length !== 1 ? 's' : ''}
-                </span>
-                <button
-                  onClick={clearAll}
-                  className="text-xs text-blue-600 hover:text-blue-700 transition-colors font-medium"
-                >
-                  Limpiar todo
-                </button>
+      {/* Dropdown Menu */}
+      {isOpen && !isLoading && !error && (
+        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 max-h-96 overflow-hidden backdrop-blur-md">
+          {/* Clear All Button */}
+          {selectedInsurances.length > 0 && (
+            <div className="sticky top-0 bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+              <span className="text-sm text-gray-600 font-medium">
+                {selectedInsurances.length} seleccionado{selectedInsurances.length !== 1 ? 's' : ''}
+              </span>
+              <button
+                onClick={clearAll}
+                className="text-sm text-gray-900 hover:text-gray-700 transition-colors font-medium"
+              >
+                Limpiar
+              </button>
+            </div>
+          )}
+
+          {/* Insurance Options */}
+          <div className="max-h-80 overflow-y-auto p-2">
+            {insuranceCompanies.length === 0 ? (
+              <div className="px-4 py-3 text-sm text-gray-500 text-center">
+                No hay seguros disponibles
               </div>
-            )}
+            ) : (
+              insuranceCompanies.map((insurance) => {
+                const isSelected = selectedInsurances.includes(insurance.id);
+                
+                return (
+                  <button
+                    key={insurance.id}
+                    type="button"
+                    onClick={() => toggleInsurance(insurance.id)}
+                    className={`
+                      w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                      ${
+                        isSelected
+                          ? 'bg-gray-900 text-white hover:bg-gray-800'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }
+                    `}
+                  >
+                    {/* Insurance Name */}
+                    <div className="flex-1 text-left">
+                      <span className={`text-sm font-medium ${isSelected ? 'text-white' : 'text-gray-700'}`}>
+                        {insurance.name}
+                      </span>
+                    </div>
 
-            {/* Insurance Options */}
-            <div className="p-2 space-y-1">
-              {insuranceCompanies.length === 0 ? (
-                <div className="px-4 py-3 text-sm text-gray-500 text-center">
-                  No hay seguros disponibles
-                </div>
-              ) : (
-                insuranceCompanies.map((insurance) => {
-                  const isSelected = selectedInsurances.includes(insurance.id);
-                  
-                  return (
-                    <button
-                      key={insurance.id}
-                      type="button"
-                      onClick={() => toggleInsurance(insurance.id)}
+                    {/* Checkbox Indicator */}
+                    <div
                       className={`
-                        w-full flex items-center gap-3 p-3 rounded-lg transition-all
+                        flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0
                         ${
                           isSelected
-                            ? 'bg-blue-50 hover:bg-blue-100'
-                            : 'hover:bg-gray-50'
+                            ? 'bg-white border-white'
+                            : 'bg-white border-gray-300'
                         }
                       `}
                     >
-                      {/* Insurance Name */}
-                      <div className="flex-1 text-left">
-                        <span className={`text-xs font-medium ${isSelected ? 'text-blue-900' : 'text-gray-700'}`}>
-                          {insurance.name}
-                        </span>
-                      </div>
-
-                      {/* Checkbox Indicator */}
-                      <div
-                        className={`
-                          flex text-xs items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0
-                          ${
-                            isSelected
-                              ? 'bg-blue-500 border-blue-500'
-                              : 'bg-white border-gray-300'
-                          }
-                        `}
-                      >
-                        {isSelected && <Check className="w-3 h-3 text-white" />}
-                      </div>
-                    </button>
-                  );
-                })
-              )}
-            </div>
+                      {isSelected && <Check className="w-3 h-3 text-gray-900" />}
+                    </div>
+                  </button>
+                );
+              })
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

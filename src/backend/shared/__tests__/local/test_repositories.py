@@ -15,7 +15,7 @@ def test_list_clinics_filters_by_ubigeo():
 
     results = repo.list_clinics({"ubigeoId": "150101"})
 
-    assert [clinic["clinicaId"] for clinic in results] == ["CLIN-001"]
+    assert sorted([clinic["clinicaId"] for clinic in results]) == ["CLIN-001", "CLIN-002", "CLIN-004"]
 
 
 def test_list_clinics_filters_by_multiple_fields():
@@ -38,7 +38,7 @@ def test_list_doctors_filters_by_clinic():
 
     results = repo.list_doctors({"clinicaId": "CLIN-002"})
 
-    assert [doctor["doctorId"] for doctor in results] == ["DOC-002"]
+    assert sorted([doctor["doctorId"] for doctor in results]) == ["DOC-002", "DOC-008"]
 
 
 def test_list_doctors_filters_by_specialty():
@@ -46,7 +46,7 @@ def test_list_doctors_filters_by_specialty():
 
     results = repo.list_doctors({"especialidadId": "CARD"})
 
-    assert [doctor["doctorId"] for doctor in results] == ["DOC-001"]
+    assert sorted([doctor["doctorId"] for doctor in results]) == ["DOC-001", "DOC-008"]
 
 
 # Specialties --------------------------------------------------------------
@@ -64,7 +64,7 @@ def test_list_subspecialties_by_parent():
 
     results = repo.list_subspecialties("CARD")
 
-    assert [item["subEspecialidadId"] for item in results] == ["CARD_INT"]
+    assert sorted([item["subEspecialidadId"] for item in results]) == ["CARD_ELECT", "CARD_INT"]
 
 
 # Insurers -----------------------------------------------------------------
@@ -81,7 +81,7 @@ def test_list_clinics_by_insurer_returns_joined_data():
 
     results = repo.list_clinics_by_insurer("PACIFICO")
 
-    assert [clinic["clinicaId"] for clinic in results] == ["CLIN-001"]
+    assert sorted([clinic["clinicaId"] for clinic in results]) == ["CLIN-001", "CLIN-002", "CLIN-004", "CLIN-005"]
 
 
 # Ubigeo -------------------------------------------------------------------
