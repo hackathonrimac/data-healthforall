@@ -8,7 +8,42 @@ Instead of a single `search` API, you will have **multiple domain APIs**, each w
 - **Doctors API** → API Gateway `DoctorsApi` + Lambda `doctors`.
 - **Especialidades API** → API Gateway `EspecialidadesApi` + Lambda `especialidades`.
 - **Seguros API** → API Gateway `SegurosApi` + Lambda `seguros`.
-- **(Optional) Search API** → API Gateway `SearchApi` + Lambda `search` (cross-domain “search near me”).
+- **(Optional) Search API** → API Gateway `SearchApi` + Lambda `search` (cross-domain "search near me").
+
+---
+
+### Populate DynamoDB tables with test data
+
+After deploying your backend, populate the DynamoDB tables with mock data:
+
+```bash
+# Populate all tables in dev environment
+python3 scripts/populate_tables.py --env dev
+
+# Populate all tables in prod environment
+python3 scripts/populate_tables.py --env prod
+
+# Populate specific tables only
+python3 scripts/populate_tables.py --env dev --tables doctors clinics
+
+# Use different AWS region
+python3 scripts/populate_tables.py --env dev --region us-west-2
+```
+
+**Available options:**
+- `--env`: Environment (dev or prod). Default: dev
+- `--region`: AWS region. Default: us-east-1
+- `--tables`: Specific tables to populate (doctors, clinics, especialidades, subespecialidades, seguros, ubigeo, all). Default: all
+
+**Note:** The script always uses the `hackathon` AWS profile.
+
+**Sample data includes:**
+- 5 clinics across different districts in Lima
+- 8 doctors with various specialties
+- 7 medical specialties
+- 5 subspecialties
+- 3 insurance providers
+- 4 ubigeo locations (districts)
 
 ---
 
