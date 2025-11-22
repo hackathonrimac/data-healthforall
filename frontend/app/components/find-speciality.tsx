@@ -15,54 +15,6 @@ interface FindSpecialityProps {
   maxSelections?: number;
 }
 
-// Íconos para especialidades
-const SPECIALTY_ICONS: Record<string, string> = {
-  CARD: '❤️',
-  DERM: '🔬',
-  NEURO: '🧠',
-  GINEC: '👶',
-  TRAUM: '🦴',
-  ONCO: '🎗️',
-  PEDIA: '👨‍⚕️',
-  OFTAL: '👁️',
-  OTORR: '👂',
-  GASTRO: '🫁',
-  PSIQ: '💭',
-  ENDO: '💉',
-  UROL: '🔬',
-  NEFRO: '🫘',
-  REUMA: '🦴',
-  HEMATO: '🩸',
-  ALER: '🤧',
-  GERIA: '👴',
-  MEDGEN: '🏥',
-  NUTRI: '🥗',
-};
-
-// Colores para especialidades
-const SPECIALTY_COLORS: Record<string, string> = {
-  CARD: 'bg-red-500',
-  DERM: 'bg-pink-500',
-  NEURO: 'bg-purple-500',
-  GINEC: 'bg-pink-400',
-  TRAUM: 'bg-orange-500',
-  ONCO: 'bg-purple-600',
-  PEDIA: 'bg-blue-400',
-  OFTAL: 'bg-cyan-500',
-  OTORR: 'bg-teal-500',
-  GASTRO: 'bg-amber-500',
-  PSIQ: 'bg-indigo-500',
-  ENDO: 'bg-violet-500',
-  UROL: 'bg-blue-600',
-  NEFRO: 'bg-emerald-500',
-  REUMA: 'bg-orange-600',
-  HEMATO: 'bg-red-600',
-  ALER: 'bg-yellow-500',
-  GERIA: 'bg-gray-500',
-  MEDGEN: 'bg-blue-500',
-  NUTRI: 'bg-green-500',
-};
-
 export function FindSpeciality({ 
   onSpecialtySelect, 
   className,
@@ -184,21 +136,13 @@ export function FindSpeciality({
     return nameMatch || descriptionMatch;
   });
 
-  const getSpecialtyIcon = (specialtyId: string) => {
-    return SPECIALTY_ICONS[specialtyId] || '🏥';
-  };
-
-  const getSpecialtyColor = (specialtyId: string) => {
-    return SPECIALTY_COLORS[specialtyId] || 'bg-gray-500';
-  };
-
   return (
     <div className={`flex items-center gap-3 ${className}`}>
       <Stethoscope className="w-4 h-4 text-gray-400" />
       <div className="relative flex-1" ref={dropdownRef}>
         {/* Input with Selected Chips */}
         <div className="relative">
-          <div className="w-full min-h-[42px] px-3 py-2 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-blue-500/20">
+          <div className="w-full min-h-[42px] px-3 py-2 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-black/10">
             <div className="flex items-center gap-2 flex-wrap">
               {/* Search Icon */}
               <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
@@ -210,9 +154,8 @@ export function FindSpeciality({
                 return (
                   <span
                     key={specialtyId}
-                    className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium text-white ${getSpecialtyColor(specialtyId)}`}
+                    className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-white bg-black rounded"
                   >
-                    <span>{getSpecialtyIcon(specialtyId)}</span>
                     <span>{specialty.Nombre}</span>
                     <button
                       type="button"
@@ -220,7 +163,7 @@ export function FindSpeciality({
                         e.stopPropagation();
                         toggleSpecialty(specialtyId);
                       }}
-                      className="ml-1 hover:bg-white/20 rounded-full transition-colors"
+                      className="ml-1 hover:bg-gray-700 rounded-full transition-colors"
                     >
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -238,7 +181,7 @@ export function FindSpeciality({
                 onFocus={() => setIsOpen(true)}
                 placeholder={selectedSpecialties.length === 0 ? "Buscar especialidad..." : ""}
                 disabled={loading}
-                className="flex-1 min-w-[120px] bg-transparent border-none outline-none text-sm text-gray-900 placeholder:text-gray-400"
+                className="flex-1 min-w-[120px] bg-transparent border-none outline-none text-xs text-gray-900 placeholder:text-gray-400"
               />
               
               {/* Loading/Chevron Icon */}
@@ -247,7 +190,7 @@ export function FindSpeciality({
                   <button
                     type="button"
                     onClick={clearAll}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                    className="text-gray-400 hover:text-black transition-colors"
                     title="Limpiar todo"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -266,10 +209,10 @@ export function FindSpeciality({
           <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-80 overflow-hidden">
             {/* Selection Counter */}
             {selectedSpecialties.length > 0 && (
-              <div className="bg-blue-50 border-b border-blue-100 px-4 py-2 flex justify-between items-center">
-                <span className="text-xs text-blue-700 font-medium">
+              <div className="bg-gray-100 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+                <span className="text-xs text-black font-medium">
                   {selectedSpecialties.length} seleccionada{selectedSpecialties.length !== 1 ? 's' : ''}
-                  {maxSelections && <span className="text-blue-500"> / {maxSelections} máx.</span>}
+                  {maxSelections && <span className="text-gray-600"> / {maxSelections} máx.</span>}
                 </span>
               </div>
             )}
@@ -277,7 +220,7 @@ export function FindSpeciality({
             {/* Specialty Options */}
             <div className="max-h-64 overflow-y-auto p-2 space-y-1">
               {filteredSpecialties.length === 0 && (
-                <div className="text-center py-8 text-gray-500 text-sm">
+                <div className="text-center py-8 text-gray-500 text-xs">
                   {searchTerm ? (
                     <>No se encontraron especialidades que coincidan con &quot;{searchTerm}&quot;</>
                   ) : (
@@ -302,7 +245,7 @@ export function FindSpeciality({
                       w-full flex items-center gap-3 p-3 rounded-lg transition-all
                       ${
                         isSelected
-                          ? 'bg-blue-50 hover:bg-blue-100 border-2 border-blue-200'
+                          ? 'bg-black text-white hover:bg-gray-800 border-2 border-black'
                           : isMaxReached
                           ? 'opacity-40 cursor-not-allowed'
                           : 'hover:bg-gray-50 border-2 border-transparent'
@@ -310,23 +253,13 @@ export function FindSpeciality({
                     `}
                     title={specialty.Descripcion || specialty.Nombre || 'Especialidad'}
                   >
-                    {/* Specialty Icon */}
-                    <div
-                      className={`
-                        flex items-center justify-center w-9 h-9 rounded-lg
-                        ${getSpecialtyColor(specialty.EspecialidadId)} text-white text-lg flex-shrink-0
-                      `}
-                    >
-                      {getSpecialtyIcon(specialty.EspecialidadId)}
-                    </div>
-
                     {/* Specialty Name */}
                     <div className="flex-1 text-left min-w-0">
-                      <span className={`text-sm font-medium block ${isSelected ? 'text-blue-900' : 'text-gray-700'}`}>
+                      <span className={`text-xs font-medium block ${isSelected ? 'text-white' : 'text-gray-700'}`}>
                         {specialty.Nombre || 'Sin nombre'}
                       </span>
                       {specialty.Descripcion && (
-                        <span className={`text-xs block mt-0.5 line-clamp-1 ${isSelected ? 'text-blue-700' : 'text-gray-500'}`}>
+                        <span className={`text-xs block mt-0.5 line-clamp-1 ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>
                           {specialty.Descripcion}
                         </span>
                       )}
@@ -338,12 +271,12 @@ export function FindSpeciality({
                         flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 transition-colors
                         ${
                           isSelected
-                            ? 'bg-blue-500 border-blue-500'
+                            ? 'bg-white border-white'
                             : 'bg-white border-gray-300'
                         }
                       `}
                     >
-                      {isSelected && <Check className="w-3 h-3 text-white" />}
+                      {isSelected && <Check className="w-3 h-3 text-black" />}
                     </div>
                   </button>
                 );
@@ -352,8 +285,8 @@ export function FindSpeciality({
 
             {/* Error message */}
             {error && (
-              <div className="bg-yellow-50 border-t border-yellow-200 px-4 py-2">
-                <p className="text-xs text-yellow-800">
+              <div className="bg-gray-100 border-t border-gray-200 px-4 py-2">
+                <p className="text-xs text-gray-800">
                   {error}
                 </p>
               </div>
@@ -364,8 +297,8 @@ export function FindSpeciality({
         {/* Loading State Overlay */}
         {loading && (
           <div className="absolute inset-0 bg-white/80 rounded-lg flex items-center justify-center">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="flex items-center gap-2 text-xs text-gray-600">
+              <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
               Cargando...
             </div>
           </div>

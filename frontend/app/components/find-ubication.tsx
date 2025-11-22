@@ -2,7 +2,14 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { MapPin } from 'lucide-react';
-import { SORTED_DISTRICTS, type UbigeoDistrict } from '@/lib/constants/ubigeo';
+import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
+
+interface UbigeoApiResponse {
+  ubigeoId: string;
+  nombreDistrito: string;
+  departamento: string;
+  provincia: string;
+}
 
 interface FindUbicationProps {
   onLocationSelect?: (ubigeo: UbigeoDistrict) => void;
@@ -13,8 +20,48 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
   const [selectedDistrict, setSelectedDistrict] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
+  const [districts, setDistricts] = useState<UbigeoDistrict[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch districts from API
+  useEffect(() => {
+    const fetchDistricts = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        const response = await fetch('/api/ubigeo');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch districts');
+        }
+        
+        const data: UbigeoApiResponse[] = await response.json();
+        
+        // Transform API response to component format and sort alphabetically
+        const transformed: UbigeoDistrict[] = data
+          .map((item) => ({
+            code: item.ubigeoId,
+            name: item.nombreDistrito,
+            department: item.departamento,
+            province: item.provincia,
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        
+        setDistricts(transformed);
+      } catch (err) {
+        console.error('Error fetching districts:', err);
+        setError('No se pudieron cargar los distritos');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDistricts();
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -23,7 +70,7 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
         setIsOpen(false);
         // Reset search term to selected district name when closing
         if (selectedDistrict) {
-          const district = SORTED_DISTRICTS.find(d => d.code === selectedDistrict);
+          const district = districts.find(d => d.code === selectedDistrict);
           setSearchTerm(district?.name || '');
         } else {
           setSearchTerm('');
@@ -38,7 +85,7 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen, selectedDistrict]);
+  }, [isOpen, selectedDistrict, districts]);
 
   const handleDistrictSelect = (district: UbigeoDistrict) => {
     setSelectedDistrict(district.code);
@@ -55,15 +102,17 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
   };
 
   const handleInputFocus = () => {
-    setIsOpen(true);
+    if (!isLoading && !error) {
+      setIsOpen(true);
+    }
   };
 
   // Filter districts based on search term
-  const filteredDistricts = SORTED_DISTRICTS.filter(district =>
+  const filteredDistricts = districts.filter(district =>
     district.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const selectedDistrictData = SORTED_DISTRICTS.find(d => d.code === selectedDistrict);
+  const selectedDistrictData = districts.find(d => d.code === selectedDistrict);
 
   return (
     <div className={`flex items-center gap-3 ${className}`}>
@@ -75,11 +124,18 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
           value={searchTerm}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
-          placeholder="Escribe o selecciona tu distrito"
-          className="w-full px-4 py-2 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 placeholder:text-gray-400"
+          placeholder={
+            isLoading 
+              ? "Cargando distritos..." 
+              : error 
+                ? error 
+                : "Escribe o selecciona tu distrito"
+          }
+          disabled={isLoading || !!error}
+          className="w-full px-4 py-2 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
         />
 
-        {isOpen && filteredDistricts.length > 0 && (
+        {isOpen && !isLoading && !error && filteredDistricts.length > 0 && (
           <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto">
             {filteredDistricts.map((district) => (
               <button
@@ -96,7 +152,7 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
           </div>
         )}
 
-        {isOpen && filteredDistricts.length === 0 && (
+        {isOpen && !isLoading && !error && filteredDistricts.length === 0 && (
           <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200 px-4 py-3 text-sm text-gray-500">
             No se encontraron distritos
           </div>
