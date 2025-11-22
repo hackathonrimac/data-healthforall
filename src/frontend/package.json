@@ -11,6 +11,7 @@
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^3.0.57",
     "@aws-sdk/credential-providers": "^3.936.0",
+    "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-slot": "^1.2.4",
     "ai": "^5.0.99",
     "class-variance-authority": "^0.7.1",
