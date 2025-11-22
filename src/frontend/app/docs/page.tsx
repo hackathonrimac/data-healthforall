@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 
 type EndpointMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -319,12 +319,123 @@ function ParameterTable({ parameters }: { parameters: Parameter[] }) {
   );
 }
 
+function TryItPanel({ endpoint, baseUrl }: { endpoint: Endpoint; baseUrl: string }) {
+  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [response, setResponse] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setResponse(null);
+
+    try {
+      const params = new URLSearchParams();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value.trim()) {
+          params.append(key, value.trim());
+        }
+      });
+
+      const apiPath = `/api${baseUrl}${endpoint.path}`;
+      const url = params.toString() ? `${apiPath}?${params.toString()}` : apiPath;
+      
+      const res = await fetch(url);
+      const data = await res.json();
+      
+      setResponse(JSON.stringify(data, null, 2));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Request failed');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-6 border-t border-gray-200 pt-6">
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-sm font-semibold text-gray-900">Try it out</h4>
+        <span className="text-xs text-gray-500">Test this endpoint directly</span>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {endpoint.parameters.map((param) => (
+          <div key={param.name} className="flex gap-4 items-start">
+            <div className="w-1/3">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {param.name}
+                {param.required && <span className="text-red-500 ml-1">*</span>}
+              </label>
+              <p className="text-xs text-gray-500">{param.type}</p>
+            </div>
+            <div className="flex-1">
+              <input
+                type="text"
+                placeholder={param.default || `Enter ${param.name}`}
+                value={formData[param.name] || ''}
+                onChange={(e) => setFormData({ ...formData, [param.name]: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-200"
+              />
+            </div>
+          </div>
+        ))}
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full bg-gray-900 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          {isLoading ? 'Sending...' : 'Send Request'}
+        </button>
+      </form>
+
+      {(response || error) && (
+        <div className="mt-4">
+          <div className="flex items-center justify-between mb-2">
+            <h5 className="text-sm font-semibold text-gray-900">Response</h5>
+            {response && (
+              <button
+                onClick={() => navigator.clipboard.writeText(response)}
+                className="text-xs text-gray-600 hover:text-gray-900"
+              >
+                Copy
+              </button>
+            )}
+          </div>
+          {error && (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-800">{error}</p>
+            </div>
+          )}
+          {response && (
+            <pre className="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-xs max-h-96">
+              <code className="text-gray-800 font-mono">{response}</code>
+            </pre>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function EndpointCard({ endpoint, baseUrl }: { endpoint: Endpoint; baseUrl: string }) {
+  const [showTryIt, setShowTryIt] = useState(false);
+
   return (
     <div className="bg-white/70 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-6 mb-6">
-      <div className="flex items-center gap-3 mb-4">
-        <MethodBadge method={endpoint.method} />
-        <code className="text-gray-900 font-mono text-sm font-semibold">{baseUrl}{endpoint.path || '/'}</code>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <MethodBadge method={endpoint.method} />
+          <code className="text-gray-900 font-mono text-sm font-semibold">{baseUrl}{endpoint.path || '/'}</code>
+        </div>
+        <button
+          onClick={() => setShowTryIt(!showTryIt)}
+          className="px-3 py-1 text-xs font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+        >
+          {showTryIt ? 'Hide' : 'Try it'}
+        </button>
       </div>
 
       <p className="text-gray-600 mb-6">{endpoint.description}</p>
@@ -351,6 +462,8 @@ function EndpointCard({ endpoint, baseUrl }: { endpoint: Endpoint; baseUrl: stri
           </ul>
         </div>
       )}
+
+      {showTryIt && <TryItPanel endpoint={endpoint} baseUrl={baseUrl} />}
     </div>
   );
 }
@@ -365,8 +478,11 @@ export default function DocsPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">API Reference</h1>
-          <p className="text-gray-600">Complete documentation for HealthForAll backend endpoints</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">API Documentation</h1>
+          <p className="text-gray-600 mb-4">
+            Explore our open API for finding doctors, clinics, and medical specialties in Peru
+          </p>
+        
         </div>
 
         <div className="flex gap-8">
@@ -394,25 +510,21 @@ export default function DocsPage() {
 
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">
-                  Resources
+                  About
                 </h3>
-                <div className="space-y-2">
-                  <a
-                    href="https://aws.amazon.com/dynamodb/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    DynamoDB Docs
-                  </a>
-                  <a
-                    href="https://aws.amazon.com/lambda/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    AWS Lambda
-                  </a>
+                <p className="text-xs text-gray-600 mb-3">
+                  HealthForAll is an open-source platform connecting patients with healthcare providers across Peru.
+                </p>
+                <div className="space-y-1">
+                  <div className="text-xs text-gray-500">
+                    ✓ Real-time data
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    ✓ Free to use
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    ✓ Open source
+                  </div>
                 </div>
               </div>
             </div>
@@ -424,10 +536,9 @@ export default function DocsPage() {
               <h2 className="text-3xl font-bold text-gray-900 mb-2">{currentSection.title}</h2>
               <p className="text-gray-600 mb-4">{currentSection.description}</p>
               <div className="flex items-center gap-2 p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                <span className="text-xs font-semibold text-gray-500 uppercase">Base URL</span>
+                <span className="text-xs font-semibold text-gray-500 uppercase">Endpoint</span>
                 <code className="text-sm font-mono text-gray-900">
-                  {process.env.NEXT_PUBLIC_API_URL || 'https://api.healthforall.com'}
-                  {currentSection.baseUrl}
+                  /api{currentSection.baseUrl}
                 </code>
               </div>
             </div>
@@ -439,36 +550,50 @@ export default function DocsPage() {
               ))}
             </div>
 
-            {/* Authentication Section */}
+            {/* Usage Example Section */}
             <div className="mt-8 bg-white/70 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Authentication</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Usage Example</h3>
               <p className="text-gray-600 text-sm mb-4">
-                All API endpoints are public and do not require authentication for this hackathon version.
-                In production, implement API Gateway authorization with API keys or JWT tokens.
+                All endpoints can be called directly from your browser or application without authentication.
               </p>
               <CodeBlock
-                code={`// Example request with future API key
-fetch('https://api.healthforall.com/search/doctors?ubigeoId=150117&especialidadId=CARD', {
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY'
-  }
-});`}
+                code={`// Example: Search for cardiologists in Jesús María
+fetch('/api/search/doctors?ubigeoId=150117&especialidadId=CARD')
+  .then(response => response.json())
+  .then(data => console.log(data.doctors));
+
+// Example: Get all specialties
+fetch('/api/especialidades')
+  .then(response => response.json())
+  .then(data => console.log(data.especialidades));`}
               />
             </div>
 
-            {/* Pagination Section */}
-            <div className="mt-6 bg-white/70 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Pagination</h3>
-              <p className="text-gray-600 text-sm mb-4">
-                All list endpoints support pagination using <code className="bg-gray-100 px-1 rounded">page</code> and{' '}
-                <code className="bg-gray-100 px-1 rounded">pageSize</code> query parameters.
-              </p>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>• Default page: <code className="bg-gray-100 px-1 rounded">1</code></li>
-                <li>• Default pageSize: <code className="bg-gray-100 px-1 rounded">10</code></li>
-                <li>• Minimum page: <code className="bg-gray-100 px-1 rounded">1</code></li>
-                <li>• Maximum pageSize: <code className="bg-gray-100 px-1 rounded">100</code></li>
-              </ul>
+            {/* Pagination & Sample Data Section */}
+            <div className="mt-6 grid grid-cols-2 gap-6">
+              <div className="bg-white/70 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Pagination</h3>
+                <p className="text-gray-600 text-sm mb-4">
+                  List endpoints support pagination for efficient data retrieval.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• Default page: <code className="bg-gray-100 px-1 rounded">1</code></li>
+                  <li>• Default pageSize: <code className="bg-gray-100 px-1 rounded">10</code></li>
+                  <li>• Max pageSize: <code className="bg-gray-100 px-1 rounded">100</code></li>
+                </ul>
+              </div>
+              
+              <div className="bg-white/70 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Sample Data</h3>
+                <p className="text-gray-600 text-sm mb-4">
+                  Use these values to test the API:
+                </p>
+                <ul className="space-y-1 text-xs text-gray-600">
+                  <li>• <strong>ubigeoId:</strong> 150117, 150130</li>
+                  <li>• <strong>especialidadId:</strong> CARD, NEUR, ONCO</li>
+                  <li>• <strong>seguroId:</strong> RIMAC, PACIFICO</li>
+                </ul>
+              </div>
             </div>
           </main>
         </div>
