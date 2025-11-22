@@ -7,9 +7,12 @@ import { Button } from '@/app/components/ui/button';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Card, CardContent } from '@/app/components/ui/card';
 import { searchSchema } from '@/lib/types/search-object';
+import { FindUbication } from '@/app/components/find-ubication';
+import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
 
 export function ChatInterface() {
   const [input, setInput] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState<UbigeoDistrict | null>(null);
   
   const { object, submit, isLoading } = useObject({
     api: '/api/search',
@@ -28,7 +31,11 @@ export function ChatInterface() {
   return (
     <div className="w-full max-w-2xl space-y-6">
       <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl">
-        <CardContent className="pt-6">
+        <CardContent className="pt-6 space-y-4">
+          <FindUbication 
+            onLocationSelect={(ubigeo) => setSelectedLocation(ubigeo)}
+          />
+          
           <form onSubmit={handleSubmit} className="flex gap-2 items-end">
               <Textarea
                 value={input}
@@ -65,19 +72,19 @@ export function ChatInterface() {
       </Card>
 
       {object && (
-        <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl">
+        <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
           <CardContent className="pt-6">
             <div className="space-y-4">
               {(object?.especialidad || object?.distrito) && (
                 <div className="flex flex-wrap gap-2">
                   {object.especialidad && (
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium animate-in fade-in slide-in-from-left-2 duration-300 delay-100">
                       <Stethoscope className="w-4 h-4" />
                       <span>{object.especialidad}</span>
                     </div>
                   )}
                   {object.distrito && (
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium animate-in fade-in slide-in-from-left-2 duration-300 delay-150">
                       <MapPin className="w-4 h-4" />
                       <span>{object.distrito}</span>
                     </div>
@@ -85,7 +92,7 @@ export function ChatInterface() {
                 </div>
               )}
               {object?.texto && (
-                <p className="text-gray-900 leading-relaxed whitespace-pre-wrap">{object.texto}</p>
+                <p className="text-gray-900 leading-relaxed whitespace-pre-wrap animate-in fade-in duration-500 delay-200">{object.texto}</p>
               )}
             </div>
           </CardContent>
