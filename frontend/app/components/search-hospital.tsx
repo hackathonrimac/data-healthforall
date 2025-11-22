@@ -3,11 +3,15 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/app/components/ui/card';
 import { FindUbication } from '@/app/components/find-ubication';
+import { FindInsurance } from '@/app/components/find-insurance';
+import { FindSpeciality } from '@/app/components/find-speciality';
 import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
 
 export function SearchHospital() {
   const [input, setInput] = useState('');
   const [selectedLocation, setSelectedLocation] = useState<UbigeoDistrict | null>(null);
+  const [selectedInsurances, setSelectedInsurances] = useState<string[]>([]);
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   
 
 
@@ -17,6 +21,14 @@ export function SearchHospital() {
         <CardContent className="pt-6 space-y-4">
           <FindUbication 
             onLocationSelect={(ubigeo) => setSelectedLocation(ubigeo)}
+          />
+
+          <FindInsurance 
+            onInsuranceSelect={(insurances) => setSelectedInsurances(insurances)}
+          />
+
+          <FindSpeciality 
+            onSpecialtySelect={(specialties) => setSelectedSpecialties(specialties)}
           />
 
         </CardContent>
