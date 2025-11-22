@@ -1,4 +1,4 @@
-import { ChatInterface } from './components/chat_interface';
+import { SearchHospital } from './components/search-hospital';
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
           </h1>
         </div>
         
-        <ChatInterface />
+        <SearchHospital />
       </main>
     </div>
   );

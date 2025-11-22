@@ -36,7 +36,7 @@ export function ChatInterface() {
             onLocationSelect={(ubigeo) => setSelectedLocation(ubigeo)}
           />
           
-          <form onSubmit={handleSubmit} className="flex gap-2 items-end">
+          {/* <form onSubmit={handleSubmit} className="flex gap-2 items-end">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -67,7 +67,7 @@ export function ChatInterface() {
                     <Send className="w-5 h-5" />
                 )}
               </Button>
-          </form>
+          </form> */}
         </CardContent>
       </Card>
 
