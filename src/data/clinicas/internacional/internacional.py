@@ -46,12 +46,15 @@ def fetch_doctors():
 
 def fetch_doctor_detail_by_slug(slug: str) -> dict:
     """
-    Llama al detalle del doctor usando el slug y populate=*.
-    Estructura basada en el JSON que enviaste.
+    Llama al detalle del doctor usando el slug con populate profundo.
+    Captura todos los campos disponibles incluyendo nested relations.
     """
     if not slug:
         return {}
 
+    # Use populate=* to get all nested data
+    # We'll extract only the fields we need from sede (title, slug, address, phone, codigo_sede)
+    # and ignore nested relations like SEO, images, especialidads
     params = {
         "filters[slug][$eq]": slug,
         "populate": "*",
@@ -75,6 +78,7 @@ def fetch_doctor_detail_by_slug(slug: str) -> dict:
         is_active = doc.get("isActive", "")
         created_at = doc.get("createdAt", "")
         updated_at = doc.get("updatedAt", "")
+        published_at = doc.get("publishedAt", "")
 
         # --- Especialidades (vienen en cada item de "schedule" bajo "especialidad") ---
         specialties = set()
@@ -126,23 +130,74 @@ def fetch_doctor_detail_by_slug(slug: str) -> dict:
 
         education_titles = set()
         education_places = set()
+        education_dates = set()
         education_summary_items = []
 
         for item in edu_content:
             t = (item.get("title") or "").strip()
             p = (item.get("place") or "").strip()
+            d = (item.get("date") or "").strip()
 
             if t:
                 education_titles.add(t)
             if p:
                 education_places.add(p)
+            if d:
+                education_dates.add(d)
 
-            if t and p:
-                education_summary_items.append(f"{t} ({p})")
-            elif t:
-                education_summary_items.append(t)
-            elif p:
-                education_summary_items.append(p)
+            # Build summary with date if available
+            parts = []
+            if t:
+                parts.append(t)
+            if p:
+                parts.append(f"({p})")
+            if d:
+                parts.append(f"[{d}]")
+            
+            if parts:
+                education_summary_items.append(" ".join(parts))
+        
+        # --- Certificación, Premios, Posts ---
+        certification = doc.get("certification")
+        awards = doc.get("awards")
+        posts = doc.get("posts")
+        
+        certification_text = ""
+        if certification:
+            # Handle certification structure (could be object or array)
+            if isinstance(certification, dict):
+                cert_title = certification.get("title", "")
+                cert_content = certification.get("content", [])
+                if cert_title:
+                    certification_text = cert_title
+                elif cert_content:
+                    certification_text = str(cert_content)
+            elif isinstance(certification, list) and certification:
+                certification_text = ", ".join([str(c) for c in certification])
+        
+        awards_text = ""
+        if awards:
+            if isinstance(awards, dict):
+                awards_title = awards.get("title", "")
+                awards_content = awards.get("content", [])
+                if awards_title:
+                    awards_text = awards_title
+                elif awards_content:
+                    awards_text = ", ".join([str(a) for a in awards_content])
+            elif isinstance(awards, list) and awards:
+                awards_text = ", ".join([str(a) for a in awards])
+        
+        posts_text = ""
+        if posts:
+            if isinstance(posts, dict):
+                posts_title = posts.get("title", "")
+                posts_content = posts.get("content", [])
+                if posts_title:
+                    posts_text = posts_title
+                elif posts_content:
+                    posts_text = ", ".join([str(p) for p in posts_content])
+            elif isinstance(posts, list) and posts:
+                posts_text = ", ".join([str(p) for p in posts])
 
         return {
             "medicalCode": medical_code,
@@ -150,6 +205,7 @@ def fetch_doctor_detail_by_slug(slug: str) -> dict:
             "isActive": is_active,
             "createdAt": created_at,
             "updatedAt": updated_at,
+            "publishedAt": published_at,
             "specialties": ", ".join(sorted(specialties)) if specialties else "",
             "sedes": ", ".join(sorted(sedes_titles)) if sedes_titles else "",
             "sedes_slugs": ", ".join(sorted(sedes_slugs)) if sedes_slugs else "",
@@ -157,7 +213,11 @@ def fetch_doctor_detail_by_slug(slug: str) -> dict:
             "schedule_summary": " | ".join(schedule_slots) if schedule_slots else "",
             "education_titles": ", ".join(sorted(education_titles)) if education_titles else "",
             "education_places": ", ".join(sorted(education_places)) if education_places else "",
+            "education_dates": ", ".join(sorted(education_dates)) if education_dates else "",
             "education_summary": " | ".join(education_summary_items) if education_summary_items else "",
+            "certification": certification_text,
+            "awards": awards_text,
+            "posts": posts_text,
         }
 
     except Exception as e:
@@ -165,7 +225,7 @@ def fetch_doctor_detail_by_slug(slug: str) -> dict:
         return {}
 
 
-def save_to_csv(doctors, filename="clinicainternacional_doctores_detallado.csv"):
+def save_to_csv(doctors, filename="internacional.csv"):
     # Columnas del CSV
     fieldnames = [
         # básicos del listado
@@ -182,6 +242,7 @@ def save_to_csv(doctors, filename="clinicainternacional_doctores_detallado.csv")
         "isActive",
         "createdAt",
         "updatedAt",
+        "publishedAt",
         "specialties",
         "sedes",
         "sedes_slugs",
@@ -189,7 +250,11 @@ def save_to_csv(doctors, filename="clinicainternacional_doctores_detallado.csv")
         "schedule_summary",
         "education_titles",
         "education_places",
+        "education_dates",
         "education_summary",
+        "certification",
+        "awards",
+        "posts",
     ]
 
     with open(filename, "w", newline="", encoding="utf-8") as f:
@@ -220,6 +285,7 @@ def save_to_csv(doctors, filename="clinicainternacional_doctores_detallado.csv")
                 "isActive": extra.get("isActive", ""),
                 "createdAt": extra.get("createdAt", ""),
                 "updatedAt": extra.get("updatedAt", ""),
+                "publishedAt": extra.get("publishedAt", ""),
                 "specialties": extra.get("specialties", ""),
                 "sedes": extra.get("sedes", ""),
                 "sedes_slugs": extra.get("sedes_slugs", ""),
@@ -227,7 +293,11 @@ def save_to_csv(doctors, filename="clinicainternacional_doctores_detallado.csv")
                 "schedule_summary": extra.get("schedule_summary", ""),
                 "education_titles": extra.get("education_titles", ""),
                 "education_places": extra.get("education_places", ""),
+                "education_dates": extra.get("education_dates", ""),
                 "education_summary": extra.get("education_summary", ""),
+                "certification": extra.get("certification", ""),
+                "awards": extra.get("awards", ""),
+                "posts": extra.get("posts", ""),
             }
 
             writer.writerow(row)
