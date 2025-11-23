@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 import { SearchHospital } from '@/app/components/search-hospital/search-hospital';
 import { CardInformation } from './card-information/card-information';
 import { useSearchFilters } from './search-hospital/useSearchFilters';
@@ -30,10 +31,24 @@ export default function Main() {
   });
 
   const handleSearch = () => {
+    // Check if AT LEAST ONE filter is selected before triggering search
+    // We do this to prevent invalid API calls if the user clicks search without selecting anything
     if (filters.selectedLocation || filters.selectedSpecialties.length > 0 || filters.selectedInsurances.length > 0) {
-      setIsSearchTriggered(true);
+       setIsSearchTriggered(true);
+    } else {
+       toast.error("Por favor, selecciona una opción", {
+         description: "Indícanos qué necesitas buscar para ayudarte.",
+         duration: 3000,
+       });
     }
   };
+
+  // Reset search trigger if filters become empty (optional, but good for consistency)
+  useEffect(() => {
+     if (!filters.selectedLocation && filters.selectedSpecialties.length === 0 && filters.selectedInsurances.length === 0) {
+        setIsSearchTriggered(false);
+     }
+  }, [filters]);
 
   return (
     <main className="relative h-screen flex flex-col bg-white overflow-hidden">
@@ -97,7 +112,7 @@ export default function Main() {
                 <div className="flex-shrink-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 z-30 shadow-sm">
                    <div className="max-w-7xl mx-auto w-full px-4 py-4">
                       <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between">
-                         <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => window.location.reload()}>
+                         <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setIsSearchTriggered(false)}>
                             <h1 className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                               HealthForAll
                             </h1>
@@ -122,7 +137,12 @@ export default function Main() {
                 {error && (
                   <div className="flex-shrink-0 p-4 bg-red-50/50">
                     <div className="w-full max-w-5xl mx-auto bg-red-50 border border-red-200 rounded-lg p-3 shadow-sm">
-                      <p className="text-red-800 text-sm font-medium">{error}</p>
+                      <p className="text-red-800 text-sm font-medium">
+                        {/* Customize error message for better UX */}
+                        {error.includes("required") 
+                          ? "Por favor selecciona una ubicación o especialidad para buscar." 
+                          : error}
+                      </p>
                     </div>
                   </div>
                 )}
