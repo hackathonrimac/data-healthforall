@@ -96,15 +96,20 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
         
         <Button
           type="button"
-          size="icon"
           onClick={handleSubmit}
           disabled={isLoading || !input.trim()}
-          className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-lg"
+          className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-auto rounded-lg"
         >
           {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Analizando...</span>
+            </>
           ) : (
-            <Send className="h-4 w-4" />
+            <>
+              <Send className="h-4 w-4" />
+              <span>Preguntar</span>
+            </>
           )}
         </Button>
       </div>
@@ -132,20 +137,20 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.4 }}
             >
               <DialogContent className="max-w-2xl overflow-hidden">
                 <DialogHeader>
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1, duration: 0.4 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
                   >
-                    <DialogTitle className="flex items-center gap-2 text-xl">
+                    <DialogTitle className="flex items-center gap-2 text-xl py-2">
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                        transition={{ delay: 0.4, type: "spring", stiffness: 150 }}
                       >
                         <CheckCircle2 className="w-6 h-6 text-green-600" />
                       </motion.div>
@@ -160,8 +165,8 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9, y: 20 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.5, type: "spring" }}
-                      className="relative overflow-hidden"
+                      transition={{ delay: 0.5, duration: 0.8, type: "spring" }}
+                      className="relative overflow-hidden py-2"
                     >
                       <motion.div
                         className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-blue-500/20 to-blue-400/20"
@@ -169,7 +174,7 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                           x: ['-100%', '100%'],
                         }}
                         transition={{
-                          duration: 2,
+                          duration: 3,
                           ease: "easeInOut",
                           times: [0, 1],
                         }}
@@ -190,7 +195,7 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5, duration: 0.4 }}
+                      transition={{ delay: 0.8, duration: 0.6 }}
                       className={`p-4 rounded-xl border-2 ${getUrgencyColor(object.urgencia)} flex items-center gap-3 shadow-sm`}
                     >
                       <motion.div
@@ -198,7 +203,7 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                           scale: [1, 1.2, 1],
                         }}
                         transition={{ 
-                          duration: 2,
+                          duration: 3,
                           repeat: Infinity,
                           repeatType: "reverse"
                         }}
@@ -216,13 +221,13 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.6, duration: 0.4 }}
+                      transition={{ delay: 1.0, duration: 0.6 }}
                       className="space-y-3 p-4 bg-gray-50 rounded-xl"
                     >
                       <h4 className="text-sm font-bold text-gray-700 flex items-center gap-2">
                         <motion.div
                           animate={{ rotate: [0, 10, -10, 0] }}
-                          transition={{ delay: 0.8, duration: 0.5 }}
+                          transition={{ delay: 1.3, duration: 0.8 }}
                         >
                           💡
                         </motion.div>
@@ -238,7 +243,7 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8, duration: 0.4 }}
+                    transition={{ delay: 1.3, duration: 0.6 }}
                     className="pt-3 border-t border-gray-200"
                   >
                     <p className="text-xs text-gray-500 italic">
@@ -251,7 +256,7 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9, duration: 0.4 }}
+                    transition={{ delay: 1.5, duration: 0.6 }}
                     className="pt-4"
                   >
                     <Button 
@@ -264,7 +269,7 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
                         className="ml-2"
                         animate={{ x: [0, 5, 0] }}
                         transition={{ 
-                          duration: 1.5,
+                          duration: 2,
                           repeat: Infinity,
                           repeatType: "reverse"
                         }}

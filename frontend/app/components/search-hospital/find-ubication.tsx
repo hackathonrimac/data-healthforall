@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { MapPin } from 'lucide-react';
 import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
 
@@ -24,8 +25,15 @@ export function FindUbication({ onLocationSelect, selectedLocation, className }:
   const [districts, setDistricts] = useState<UbigeoDistrict[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  const [isMounted, setIsMounted] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Ensure component is mounted (for portal)
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Update internal state when selectedLocation prop changes
   useEffect(() => {
@@ -75,10 +83,40 @@ export function FindUbication({ onLocationSelect, selectedLocation, className }:
     fetchDistricts();
   }, []);
 
+  // Update dropdown position when opening or on scroll/resize
+  useEffect(() => {
+    const updatePosition = () => {
+      if (inputRef.current && isOpen) {
+        const rect = inputRef.current.getBoundingClientRect();
+        setDropdownPosition({
+          top: rect.bottom + window.scrollY + 8,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+        });
+      }
+    };
+
+    if (isOpen) {
+      updatePosition();
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [isOpen]);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current && 
+        !dropdownRef.current.contains(event.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         // Reset search term to selected district name when closing
         if (selectedDistrict) {
@@ -126,30 +164,20 @@ export function FindUbication({ onLocationSelect, selectedLocation, className }:
 
   const selectedDistrictData = districts.find(d => d.code === selectedDistrict);
 
-  return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
-      <div className="relative">
-        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
-        <input
-          ref={inputRef}
-          type="text"
-          value={searchTerm}
-          onChange={handleInputChange}
-          onFocus={handleInputFocus}
-          placeholder={
-            isLoading 
-              ? "Cargando distritos..." 
-              : error 
-                ? error 
-                : "Ubicación"
-          }
-          disabled={isLoading || !!error}
-          className="w-full h-12 pl-11 pr-4 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-gray-900 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
-        />
-      </div>
-
-      {isOpen && !isLoading && !error && filteredDistricts.length > 0 && (
-        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 max-h-80 overflow-hidden backdrop-blur-md">
+  // Dropdown content to be rendered in portal
+  const dropdownContent = isOpen && !isLoading && !error && isMounted && (
+    <div
+      ref={dropdownRef}
+      style={{
+        position: 'fixed',
+        top: `${dropdownPosition.top}px`,
+        left: `${dropdownPosition.left}px`,
+        width: `${dropdownPosition.width}px`,
+        zIndex: 99999,
+      }}
+    >
+      {filteredDistricts.length > 0 ? (
+        <div className="bg-white rounded-lg shadow-2xl border border-gray-200/50 max-h-80 overflow-hidden backdrop-blur-md">
           <div className="max-h-80 overflow-y-auto p-2">
             {filteredDistricts.map((district) => (
               <button
@@ -167,14 +195,39 @@ export function FindUbication({ onLocationSelect, selectedLocation, className }:
             ))}
           </div>
         </div>
-      )}
-
-      {isOpen && !isLoading && !error && filteredDistricts.length === 0 && (
-        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 px-4 py-3 text-sm text-gray-500">
+      ) : (
+        <div className="bg-white rounded-lg shadow-2xl border border-gray-200/50 px-4 py-3 text-sm text-gray-500">
           No se encontraron distritos
         </div>
       )}
     </div>
+  );
+
+  return (
+    <>
+      <div className={`relative ${className}`}>
+        <div className="relative">
+          <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+          <input
+            ref={inputRef}
+            type="text"
+            value={searchTerm}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            placeholder={
+              isLoading 
+                ? "Cargando distritos..." 
+                : error 
+                  ? error 
+                  : "Ubicación"
+            }
+            disabled={isLoading || !!error}
+            className="w-full h-12 pl-11 pr-4 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-gray-900 placeholder:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+        </div>
+      </div>
+      {isMounted && typeof document !== 'undefined' && createPortal(dropdownContent, document.body)}
+    </>
   );
 }
 

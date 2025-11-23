@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Stethoscope, Check, ChevronDown, Search } from 'lucide-react';
 
 interface Specialty {
@@ -28,7 +29,15 @@ export function FindSpeciality({
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  const [isMounted, setIsMounted] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  // Ensure component is mounted (for portal)
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Update internal state when selectedSpecialties prop changes
   useEffect(() => {
@@ -39,10 +48,40 @@ export function FindSpeciality({
     fetchSpecialties();
   }, []);
 
+  // Update dropdown position when opening or on scroll/resize
+  useEffect(() => {
+    const updatePosition = () => {
+      if (buttonRef.current && isOpen) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        setDropdownPosition({
+          top: rect.bottom + window.scrollY + 8,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+        });
+      }
+    };
+
+    if (isOpen) {
+      updatePosition();
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [isOpen]);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current && 
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -143,14 +182,132 @@ export function FindSpeciality({
     return nameMatch || descriptionMatch;
   });
 
+  // Dropdown content to be rendered in portal
+  const dropdownContent = isOpen && !loading && isMounted && (
+    <div
+      ref={dropdownRef}
+      style={{
+        position: 'fixed',
+        top: `${dropdownPosition.top}px`,
+        left: `${dropdownPosition.left}px`,
+        width: `${dropdownPosition.width}px`,
+        zIndex: 99999,
+      }}
+    >
+      <div className="bg-white rounded-lg shadow-2xl border border-gray-200/50 overflow-hidden backdrop-blur-md">
+        {/* Search Input */}
+        <div className="p-3 border-b border-gray-200">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar especialidad..."
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-gray-900 placeholder:text-gray-400"
+              autoFocus
+            />
+          </div>
+        </div>
+
+        {/* Selection Counter */}
+        {selectedSpecialties.length > 0 && (
+          <div className="bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+            <span className="text-sm text-gray-600 font-medium">
+              {selectedSpecialties.length} seleccionada{selectedSpecialties.length !== 1 ? 's' : ''}
+              {maxSelections && <span className="text-gray-500"> / {maxSelections} máx.</span>}
+            </span>
+            <button
+              onClick={clearAll}
+              className="text-sm text-gray-700 hover:text-gray-500 transition-colors font-medium"
+            >
+              Limpiar
+            </button>
+          </div>
+        )}
+
+        {/* Specialty Options */}
+        <div className="max-h-80 overflow-y-auto p-2">
+          {filteredSpecialties.length === 0 && (
+            <div className="text-center py-8 text-gray-500 text-sm">
+              {searchTerm ? (
+                <>No se encontraron especialidades</>
+              ) : (
+                <>No hay especialidades disponibles</>
+              )}
+            </div>
+          )}
+          
+          {filteredSpecialties.map((specialty) => {
+            if (!specialty || !specialty.EspecialidadId) return null;
+            
+            const isSelected = selectedSpecialties.includes(specialty.EspecialidadId);
+            const isMaxReached = selectedSpecialties.length >= maxSelections && !isSelected;
+            
+            return (
+              <button
+                key={specialty.EspecialidadId}
+                type="button"
+                onClick={() => toggleSpecialty(specialty.EspecialidadId)}
+                disabled={isMaxReached}
+                className={`
+                  w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                  ${
+                    isSelected
+                      ? ''
+                      : isMaxReached
+                      ? 'opacity-40 cursor-not-allowed'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }
+                `}
+                title={specialty.Descripcion || specialty.Nombre || 'Especialidad'}
+              >
+                {/* Specialty Name */}
+                <div className="flex-1 text-left min-w-0">
+                  <span className={`text-sm font-medium block ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
+                    {specialty.Nombre || 'Sin nombre'}
+                  </span>
+                </div>
+
+                {/* Checkbox Indicator */}
+                <div
+                  className={`
+                    flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 transition-colors
+                    ${
+                      isSelected
+                        ? 'bg-gray-900 border-gray-900'
+                        : 'bg-white border-gray-300'
+                    }
+                  `}
+                >
+                  {isSelected && <Check className="w-3 h-3 text-white" />}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Error message */}
+        {error && (
+          <div className="bg-gray-50 border-t border-gray-200 px-4 py-2">
+            <p className="text-sm text-gray-600">
+              {error}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
-      <div className="relative">
-        <Stethoscope className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
-        <div 
-          className="w-full h-12 pl-11 pr-10 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-gray-900/10 flex items-center cursor-text"
-          onClick={() => !loading && setIsOpen(true)}
-        >
+    <>
+      <div className={`relative ${className}`} ref={buttonRef}>
+        <div className="relative">
+          <Stethoscope className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+          <div 
+            className="w-full h-12 pl-11 pr-10 bg-white/50 hover:bg-white/70 focus-within:bg-white rounded-lg border border-gray-200/50 transition-colors focus-within:ring-2 focus-within:ring-gray-900/10 flex items-center cursor-text"
+            onClick={() => !loading && setIsOpen(true)}
+          >
           <div className="flex-1 overflow-hidden">
             {loading ? (
               <span className="text-gray-400 text-sm">Cargando...</span>
@@ -184,118 +341,9 @@ export function FindSpeciality({
         </div>
         <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 transition-transform pointer-events-none ${isOpen ? 'rotate-180' : ''}`} />
       </div>
-
-      {/* Dropdown Menu */}
-      {isOpen && !loading && (
-        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 overflow-hidden backdrop-blur-md">
-          {/* Search Input */}
-          <div className="p-3 border-b border-gray-200">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Buscar especialidad..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-gray-900 placeholder:text-gray-400"
-                autoFocus
-              />
-            </div>
-          </div>
-
-          {/* Selection Counter */}
-          {selectedSpecialties.length > 0 && (
-            <div className="bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
-              <span className="text-sm text-gray-600 font-medium">
-                {selectedSpecialties.length} seleccionada{selectedSpecialties.length !== 1 ? 's' : ''}
-                {maxSelections && <span className="text-gray-500"> / {maxSelections} máx.</span>}
-              </span>
-              <button
-                onClick={clearAll}
-                className="text-sm text-gray-700 hover:text-gray-500 transition-colors font-medium"
-              >
-                Limpiar
-              </button>
-            </div>
-          )}
-
-          {/* Specialty Options */}
-          <div className="max-h-80 overflow-y-auto p-2">
-            {filteredSpecialties.length === 0 && (
-              <div className="text-center py-8 text-gray-500 text-sm">
-                {searchTerm ? (
-                  <>No se encontraron especialidades</>
-                ) : (
-                  <>No hay especialidades disponibles</>
-                )}
-              </div>
-            )}
-            
-            {filteredSpecialties.map((specialty) => {
-              if (!specialty || !specialty.EspecialidadId) return null;
-              
-              const isSelected = selectedSpecialties.includes(specialty.EspecialidadId);
-              const isMaxReached = selectedSpecialties.length >= maxSelections && !isSelected;
-              
-              return (
-                <button
-                  key={specialty.EspecialidadId}
-                  type="button"
-                  onClick={() => toggleSpecialty(specialty.EspecialidadId)}
-                  disabled={isMaxReached}
-                  className={`
-                    w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                    ${
-                      isSelected
-                        ? ''
-                        : isMaxReached
-                        ? 'opacity-40 cursor-not-allowed'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }
-                  `}
-                  title={specialty.Descripcion || specialty.Nombre || 'Especialidad'}
-                >
-                  {/* Specialty Name */}
-                  <div className="flex-1 text-left min-w-0">
-                    <span className={`text-sm font-medium block ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
-                      {specialty.Nombre || 'Sin nombre'}
-                    </span>
-                    {/* {specialty.Descripcion && (
-                      <span className={`text-xs block mt-0.5 line-clamp-1 ${isSelected ? 'text-gray-600' : 'text-gray-500'}`}>
-                        {specialty.Descripcion}
-                      </span>
-                    )} */}
-                  </div>
-
-                  {/* Checkbox Indicator */}
-                  <div
-                    className={`
-                      flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 transition-colors
-                      ${
-                        isSelected
-                          ? 'bg-gray-900 border-gray-900'
-                          : 'bg-white border-gray-300'
-                      }
-                    `}
-                  >
-                    {isSelected && <Check className="w-3 h-3 text-white" />}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Error message */}
-          {error && (
-            <div className="bg-gray-50 border-t border-gray-200 px-4 py-2">
-              <p className="text-sm text-gray-600">
-                {error}
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+      </div>
+      {isMounted && typeof document !== 'undefined' && createPortal(dropdownContent, document.body)}
+    </>
   );
 }
 

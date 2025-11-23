@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Shield, Check, ChevronDown } from 'lucide-react';
 
 interface InsuranceCompany {
@@ -25,7 +26,15 @@ export function FindInsurance({
   const [insuranceCompanies, setInsuranceCompanies] = useState<InsuranceCompany[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  const [isMounted, setIsMounted] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Ensure component is mounted (for portal)
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Update internal state when selectedInsurances prop changes
   useEffect(() => {
@@ -80,10 +89,40 @@ export function FindInsurance({
     fetchInsuranceCompanies();
   }, []);
 
+  // Update dropdown position when opening or on scroll/resize
+  useEffect(() => {
+    const updatePosition = () => {
+      if (buttonRef.current && isOpen) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        setDropdownPosition({
+          top: rect.bottom + window.scrollY + 8,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+        });
+      }
+    };
+
+    if (isOpen) {
+      updatePosition();
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [isOpen]);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current && 
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -118,16 +157,99 @@ export function FindInsurance({
     setSelectedInsurances([]);
   };
 
+  // Dropdown content to be rendered in portal
+  const dropdownContent = isOpen && !isLoading && !error && isMounted && (
+    <div
+      ref={dropdownRef}
+      style={{
+        position: 'fixed',
+        top: `${dropdownPosition.top}px`,
+        left: `${dropdownPosition.left}px`,
+        width: `${dropdownPosition.width}px`,
+        zIndex: 99999,
+      }}
+    >
+      <div className="bg-white rounded-lg shadow-2xl border border-gray-200/50 max-h-96 overflow-hidden backdrop-blur-md">
+        {/* Clear All Button */}
+        {selectedInsurances.length > 0 && (
+          <div className="sticky top-0 bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+            <span className="text-sm text-gray-600 font-medium">
+              {selectedInsurances.length} seleccionado{selectedInsurances.length !== 1 ? 's' : ''}
+            </span>
+            <button
+              onClick={clearAll}
+              className="text-sm text-gray-700 hover:text-gray-500 transition-colors font-medium"
+            >
+              Limpiar
+            </button>
+          </div>
+        )}
+
+        {/* Insurance Options */}
+        <div className="max-h-80 overflow-y-auto p-2">
+          {insuranceCompanies.length === 0 ? (
+            <div className="px-4 py-3 text-sm text-gray-500 text-center">
+              No hay seguros disponibles
+            </div>
+          ) : (
+            insuranceCompanies.map((insurance) => {
+              const isSelected = selectedInsurances.includes(insurance.id);
+              
+              return (
+                <button
+                  key={insurance.id}
+                  type="button"
+                  onClick={() => toggleInsurance(insurance.id)}
+                  className={`
+                    w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                    ${
+                      isSelected
+                        ? ''
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }
+                  `}
+                >
+                  {/* Insurance Name */}
+                  <div className="flex-1 text-left">
+                    <span className={`text-sm font-medium ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
+                      {insurance.name}
+                    </span>
+                  </div>
+
+                  {/* Checkbox Indicator */}
+                  <div
+                    className={`
+                      flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0
+                      ${
+                        isSelected
+                          ? 'bg-gray-900 border-gray-900'
+                          : 'bg-white border-gray-300'
+                      }
+                    `}
+                  >
+                    {isSelected && <Check className="w-3 h-3 text-white" />}
+                  </div>
+                </button>
+              );
+            })
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
-      <div className="relative">
-        <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
-        <button
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          disabled={isLoading}
-          className="w-full h-12 pl-11 pr-10 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-left flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+    <>
+      <div className={`relative ${className}`}>
+        <div className="relative">
+          <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+          <button
+            ref={buttonRef}
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            disabled={isLoading}
+            className="w-full h-12 pl-11 pr-10 bg-white/50 hover:bg-white/70 focus:bg-white rounded-lg border border-gray-200/50 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-gray-900/10 text-left flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+          >
           <div className="flex-1 overflow-hidden">
             {isLoading && (
               <span className="text-gray-400">Cargando seguros...</span>
@@ -152,77 +274,9 @@ export function FindInsurance({
         </button>
         <ChevronDown className={`absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 transition-transform pointer-events-none ${isOpen ? 'rotate-180' : ''}`} />
       </div>
-
-      {/* Dropdown Menu */}
-      {isOpen && !isLoading && !error && (
-        <div className="absolute z-[100] w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 max-h-96 overflow-hidden backdrop-blur-md">
-          {/* Clear All Button */}
-          {selectedInsurances.length > 0 && (
-            <div className="sticky top-0 bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
-              <span className="text-sm text-gray-600 font-medium">
-                {selectedInsurances.length} seleccionado{selectedInsurances.length !== 1 ? 's' : ''}
-              </span>
-              <button
-                onClick={clearAll}
-                className="text-sm text-gray-700 hover:text-gray-500 transition-colors font-medium"
-              >
-                Limpiar
-              </button>
-            </div>
-          )}
-
-          {/* Insurance Options */}
-          <div className="max-h-80 overflow-y-auto p-2">
-            {insuranceCompanies.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-gray-500 text-center">
-                No hay seguros disponibles
-              </div>
-            ) : (
-              insuranceCompanies.map((insurance) => {
-                const isSelected = selectedInsurances.includes(insurance.id);
-                
-                return (
-                  <button
-                    key={insurance.id}
-                    type="button"
-                    onClick={() => toggleInsurance(insurance.id)}
-                    className={`
-                      w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                      ${
-                        isSelected
-                          ? ''
-                          : 'text-gray-700 hover:bg-gray-100'
-                      }
-                    `}
-                  >
-                    {/* Insurance Name */}
-                    <div className="flex-1 text-left">
-                      <span className={`text-sm font-medium ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
-                        {insurance.name}
-                      </span>
-                    </div>
-
-                    {/* Checkbox Indicator */}
-                    <div
-                      className={`
-                        flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0
-                        ${
-                          isSelected
-                            ? 'bg-gray-900 border-gray-900'
-                            : 'bg-white border-gray-300'
-                        }
-                      `}
-                    >
-                      {isSelected && <Check className="w-3 h-3 text-white" />}
-                    </div>
-                  </button>
-                );
-              })
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
+      {isMounted && typeof document !== 'undefined' && createPortal(dropdownContent, document.body)}
+    </>
   );
 }
 
