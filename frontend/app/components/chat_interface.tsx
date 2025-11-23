@@ -1,15 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { Send, Loader2 } from 'lucide-react';
+import { experimental_useObject as useObject } from '@ai-sdk/react';
+import { Send, Loader2, MapPin, Stethoscope } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Card, CardContent } from '@/app/components/ui/card';
+import { searchSchema } from '@/lib/types/search-object';
+import { FindUbication } from '@/app/components/search-hospital/find-ubication';
+import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
 
 export function ChatInterface() {
   const [input, setInput] = useState('');
-  const [response, setResponse] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<UbigeoDistrict | null>(null);
+  
+  const { object, submit, isLoading } = useObject({
+    api: '/api/search',
+    schema: searchSchema,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,91 +25,76 @@ export function ChatInterface() {
 
     const userPrompt = input;
     setInput('');
-    setResponse('');
-    setIsLoading(true);
-
-    try {
-      const apiResponse = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [{ role: 'user', content: userPrompt }]
-        }),
-      });
-
-      if (!apiResponse.ok) throw new Error('Failed to fetch');
-
-      const reader = apiResponse.body?.getReader();
-      const decoder = new TextDecoder();
-      let fullResponse = '';
-
-      while (reader) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        fullResponse += chunk;
-        setResponse(fullResponse);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setResponse('Lo siento, ocurrió un error. Por favor, intenta de nuevo.');
-    } finally {
-      setIsLoading(false);
-    }
+    submit(userPrompt);
   };
 
   return (
     <div className="w-full max-w-2xl space-y-6">
       <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl">
-        <CardContent className="pt-6">
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-4">
+        <CardContent className="pt-6 space-y-4">
+          <FindUbication 
+            onLocationSelect={(ubigeo) => setSelectedLocation(ubigeo)}
+          />
+          
+          {/* <form onSubmit={handleSubmit} className="flex gap-2 items-end">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Escribe tu consulta médica..."
-                className="min-h-[100px] bg-white/80 resize-none text-gray-900"
+                className="resize-none text-gray-900 border-none !outline-none !ring-0 !shadow-none focus:!border-none focus:!outline-none focus:!ring-0 focus:!shadow-none active:!border-none active:!outline-none active:!ring-0 active:!shadow-none"
                 disabled={isLoading}
+                onKeyDown={(e) => {
+                  if (
+                    e.key === "Enter" &&
+                    !e.shiftKey &&
+                    !isLoading &&
+                    input.trim()
+                  ) {
+                    e.preventDefault();
+                    handleSubmit(e as any);
+                  }
+                }}
               />
               <Button
                 type="submit"
+                variant="default"
                 disabled={isLoading || !input.trim()}
-                className="w-full"
-                size="lg"
+                size="icon"
               >
                 {isLoading ? (
-                  <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    Enviando...
-                  </>
                 ) : (
-                  <>
                     <Send className="w-5 h-5" />
-                    Enviar consulta
-                  </>
                 )}
               </Button>
-            </div>
-          </form>
+          </form> */}
         </CardContent>
       </Card>
 
-      {(response || isLoading) && (
-        <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl">
+      {object && (
+        <Card className="bg-white/70 backdrop-blur-md border-white/20 shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-500">
           <CardContent className="pt-6">
-            {isLoading && !response ? (
-              <div className="flex items-center gap-3">
-                <div className="flex space-x-2">
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+            <div className="space-y-4">
+              {(object?.especialidad || object?.distrito) && (
+                <div className="flex flex-wrap gap-2">
+                  {object.especialidad && (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-full text-sm font-medium animate-in fade-in slide-in-from-left-2 duration-300 delay-100">
+                      <Stethoscope className="w-4 h-4" />
+                      <span>{object.especialidad}</span>
+                    </div>
+                  )}
+                  {object.distrito && (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-medium animate-in fade-in slide-in-from-left-2 duration-300 delay-150">
+                      <MapPin className="w-4 h-4" />
+                      <span>{object.distrito}</span>
+                    </div>
+                  )}
                 </div>
-                <span className="text-gray-600 text-sm">Generando respuesta...</span>
-              </div>
-            ) : (
-              <p className="text-gray-900 leading-relaxed whitespace-pre-wrap">{response}</p>
-            )}
+              )}
+              {object?.texto && (
+                <p className="text-gray-900 leading-relaxed whitespace-pre-wrap animate-in fade-in duration-500 delay-200">{object.texto}</p>
+              )}
+            </div>
           </CardContent>
         </Card>
       )}

@@ -55,7 +55,7 @@ const API_DOCS: ApiSection[] = [
           { name: 'pageSize', type: 'number', required: false, description: 'Elementos por página', default: '10' },
         ],
         responseExample: `{
-  "doctors": [
+  "items": [
     {
       "doctorId": "CMP-12345",
       "doctorName": "Dr. Juan Pérez",
@@ -65,7 +65,12 @@ const API_DOCS: ApiSection[] = [
       "clinicId": "CLINIC-001",
       "clinicName": "Clínica San Felipe",
       "clinicAddress": "Av. Gregorio Escobedo 650, Jesús María",
-      "seguros": ["RIMAC", "PACIFICO"]
+      "seguros": [
+        {
+          "seguroId": "RIMAC",
+          "nombre": "RIMAC Seguros"
+        }
+      ]
     }
   ],
   "total": 25,
@@ -98,17 +103,17 @@ const API_DOCS: ApiSection[] = [
           { name: 'pageSize', type: 'number', required: false, description: 'Elementos por página', default: '10' },
         ],
         responseExample: `{
-  "clinics": [
+  "items": [
     {
-      "clinicaId": "CLINIC-001",
-      "nombreClinica": "Clínica San Felipe",
-      "ubicacion": "Av. Gregorio Escobedo 650, Jesús María",
-      "ubigeoId": "150117",
-      "especialidadIds": ["CARD", "NEUR", "ONCO"],
+      "clinicaId": "CLIN-001",
+      "nombreClinica": "Clínica Internacional Lima",
+      "ubicacion": "Av. Javier Prado Este 123, San Isidro",
+      "ubigeoId": "150101",
+      "especialidadIds": ["CARD", "NEURO", "TRAUM"],
       "seguroIds": ["RIMAC", "PACIFICO"],
-      "grupoClinicaId": "SANFELIPE",
-      "url": "https://clinicasanfelipe.com",
-      "urlStaffMedico": "https://clinicasanfelipe.com/staff"
+      "grupoClinicaId": "GRP-01",
+      "url": "https://clinicainternacional.com.pe/",
+      "urlStaffMedico": "https://clinicainternacional.com.pe/doctores"
     }
   ],
   "total": 15,
@@ -140,13 +145,12 @@ const API_DOCS: ApiSection[] = [
           { name: 'pageSize', type: 'number', required: false, description: 'Elementos por página', default: '10' },
         ],
         responseExample: `{
-  "doctors": [
+  "items": [
     {
       "doctorId": "CMP-12345",
-      "nombreCompleto": "Dr. Juan Pérez García",
-      "especialidadPrincipalId": "CARD",
-      "subEspecialidadIds": ["CARD-ELECTRO"],
-      "clinicaId": "CLINIC-001",
+      "doctorName": "Dr. Juan Pérez García",
+      "especialidad": "Cardiología",
+      "clinicId": "CLINIC-001",
       "photoUrl": "https://..."
     }
   ],
@@ -175,18 +179,17 @@ const API_DOCS: ApiSection[] = [
           { name: 'especialidadId', type: 'string', required: false, description: 'Obtener especialidad específica por ID' },
         ],
         responseExample: `{
-  "especialidades": [
+  "items": [
     {
       "especialidadId": "CARD",
-      "nombre": "Cardiología",
-      "descripcion": "Especialidad médica que se encarga del estudio, diagnóstico y tratamiento de las enfermedades del corazón"
+      "nombre": "Cardiología"
     },
     {
       "especialidadId": "NEUR",
-      "nombre": "Neurología",
-      "descripcion": "Especialidad médica que trata los trastornos del sistema nervioso"
+      "nombre": "Neurología"
     }
-  ]
+  ],
+  "count": 2
 }`,
       },
       {
@@ -197,14 +200,14 @@ const API_DOCS: ApiSection[] = [
           { name: 'especialidadId', type: 'string', required: true, description: 'ID de especialidad padre' },
         ],
         responseExample: `{
-  "subespecialidades": [
+  "items": [
     {
       "subEspecialidadId": "CARD-ELECTRO",
       "especialidadId": "CARD",
-      "nombre": "Electrofisiología Cardíaca",
-      "descripcion": "Subespecialidad de cardiología enfocada en el sistema eléctrico del corazón"
+      "nombre": "Electrofisiología Cardíaca"
     }
-  ]
+  ],
+  "count": 1
 }`,
       },
     ],
@@ -223,18 +226,17 @@ const API_DOCS: ApiSection[] = [
           { name: 'seguroId', type: 'string', required: false, description: 'Obtener seguro específico por ID' },
         ],
         responseExample: `{
-  "seguros": [
+  "items": [
     {
       "seguroId": "RIMAC",
-      "nombre": "RIMAC Seguros",
-      "descripcion": "Seguros de salud y vida"
+      "nombre": "RIMAC Seguros"
     },
     {
       "seguroId": "PACIFICO",
-      "nombre": "Pacífico Seguros",
-      "descripcion": "Seguros de salud y EPS"
+      "nombre": "Pacífico Seguros"
     }
-  ]
+  ],
+  "count": 2
 }`,
       },
       {
@@ -245,14 +247,17 @@ const API_DOCS: ApiSection[] = [
           { name: 'seguroId', type: 'string', required: true, description: 'ID de proveedor de seguro' },
         ],
         responseExample: `{
-  "seguroId": "RIMAC",
-  "clinics": [
+  "items": [
     {
-      "clinicaId": "CLINIC-001",
+      "clinicaId": "CLIN-003",
       "nombreClinica": "Clínica San Felipe",
-      "ubicacion": "Av. Gregorio Escobedo 650, Jesús María"
+      "ubicacion": "Av. Gregorio Escobedo 650, Jesús María",
+      "ubigeoId": "150108",
+      "especialidadIds": ["GINEC", "PEDIA", "CARD"],
+      "seguroIds": ["RIMAC"]
     }
-  ]
+  ],
+  "count": 1
 }`,
       },
     ],
@@ -571,15 +576,15 @@ export default function DocsPage() {
                 Todos los endpoints pueden ser llamados directamente desde tu navegador o aplicación sin autenticación.
               </p>
               <CodeBlock
-                code={`// Ejemplo: Buscar cardiólogos en Jesús María
-fetch('/api/search/doctors?ubigeoId=150117&especialidadId=CARD')
+                code={`// Ejemplo: Buscar cardiólogos en San Isidro
+fetch('/api/search/doctors?ubigeoId=150101&especialidadId=CARD')
   .then(response => response.json())
-  .then(data => console.log(data.doctors));
+  .then(data => console.log(data.items));
 
 // Ejemplo: Obtener todas las especialidades
 fetch('/api/especialidades')
   .then(response => response.json())
-  .then(data => console.log(data.especialidades));`}
+  .then(data => console.log(data.items));`}
               />
             </div>
 
@@ -603,9 +608,9 @@ fetch('/api/especialidades')
                   Usa estos valores para probar la API:
                 </p>
                 <ul className="space-y-1 text-xs text-gray-600">
-                  <li>• <strong>ubigeoId:</strong> 150117, 150130</li>
-                  <li>• <strong>especialidadId:</strong> CARD, NEUR, ONCO</li>
-                  <li>• <strong>seguroId:</strong> RIMAC, PACIFICO</li>
+                  <li>• <strong>ubigeoId:</strong> 150101 (San Isidro), 150108 (Jesús María), 150132 (Surco)</li>
+                  <li>• <strong>especialidadId:</strong> CARD, DERM, NEURO, TRAUM, GINEC</li>
+                  <li>• <strong>seguroId:</strong> RIMAC, PACIFICO, MAPFRE</li>
                 </ul>
               </div>
             </div>

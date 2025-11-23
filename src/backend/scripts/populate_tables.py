@@ -86,7 +86,7 @@ def main():
             dynamodb,
             f"clinics-{env}",
             sample_data.CLINICS,
-            "ClinicaId"
+            "clinicaId"
         )
     
     if "doctors" in tables_to_populate:
@@ -94,7 +94,7 @@ def main():
             dynamodb,
             f"doctors-{env}",
             sample_data.DOCTORS,
-            "DoctorId"
+            "doctorId"
         )
     
     if "especialidades" in tables_to_populate:
@@ -102,7 +102,7 @@ def main():
             dynamodb,
             f"especialidades-{env}",
             sample_data.SPECIALTIES,
-            "EspecialidadId"
+            "especialidadId"
         )
     
     if "subespecialidades" in tables_to_populate:
@@ -110,7 +110,7 @@ def main():
             dynamodb,
             f"subespecialidades-{env}",
             sample_data.SUBSPECIALTIES,
-            "SubEspecialidadId"
+            "subEspecialidadId"
         )
     
     if "seguros" in tables_to_populate:
@@ -118,7 +118,7 @@ def main():
             dynamodb,
             f"seguros-{env}",
             sample_data.INSURERS,
-            "SeguroId"
+            "seguroId"
         )
     
     if "ubigeo" in tables_to_populate:
@@ -126,7 +126,7 @@ def main():
             dynamodb,
             f"ubigeo-{env}",
             sample_data.UBIGEOS,
-            "UbigeoId"
+            "ubigeoId"
         )
     
     # Print summary

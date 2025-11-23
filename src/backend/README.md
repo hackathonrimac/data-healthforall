@@ -211,42 +211,42 @@ src/backend/
 All tables are provisioned and managed via `aws/backend.yml` (CloudFormation).
 
 - **Doctor**
-  - `DoctorId` (PK) → Número de colegiatura
-  - `NombreCompleto` (String)
-  - `EspecialidadPrincipalId` (ID)
-  - `SubEspecialidadIds` (Array of IDs)
+  - `doctorId` (PK) → Número de colegiatura
+  - `nombreCompleto` (String)
+  - `especialidadPrincipalId` (ID)
+  - `subEspecialidadIds` (Array of IDs)
 
 - **Clinicas**
-  - `ClinicaId` (PK)
-  - `NombreClinica` (String)
-  - `Ubicacion` (String)
-  - `URL` (String)
-  - `URLStaffMedico` (String)
-  - `GrupoClinicaId` (ID)
-  - `EspecialidadIds` (Array of IDs)
-  - `UbigeoId` (ID, e.g. 140101 for Lima Metropolitana)
+  - `clinicaId` (PK)
+  - `nombreClinica` (String)
+  - `ubicacion` (String)
+  - `url` (String)
+  - `urlStaffMedico` (String)
+  - `grupoClinicaId` (ID)
+  - `especialidadIds` (Array of IDs)
+  - `ubigeoId` (ID, e.g. 140101 for Lima Metropolitana)
 
 - **Especialidad**
-  - `EspecialidadId` (PK)
-  - `Nombre` (String)
-  - `Descripcion` (String)
+  - `especialidadId` (PK)
+  - `nombre` (String)
+  - `descripcion` (String)
 
 - **SubEspecialidad**
-  - `SubEspecialidadId` (PK)
-  - `EspecialidadId` (FK)
-  - `Nombre` (String)
-  - `Descripcion` (String)
+  - `subEspecialidadId` (PK)
+  - `especialidadId` (FK)
+  - `nombre` (String)
+  - `descripcion` (String)
 
 - **Seguros**
-  - `SeguroId` (PK)
-  - `Nombre` (String)
-  - `ClinicasAsociadas` (Optional JSON / list of Clinica IDs by network)
+  - `seguroId` (PK)
+  - `nombre` (String)
+  - `clinicasAsociadas` (Optional JSON / list of Clinica IDs by network)
 
 - **Ubigeo**
-  - `UbigeoId` (PK)
-  - `Departamento` (String)
-  - `Provincia` (String)
-  - `DistritoId` (ID principal)
+  - `ubigeoId` (PK)
+  - `departamento` (String)
+  - `provincia` (String)
+  - `distritoId` (ID principal)
   - `NombreDistrito` (String)
 
 ---
@@ -365,7 +365,7 @@ PY
 ### Recommendations and next steps
 
 - **Search-optimized keys**
-  - In `Clinicas`, define a GSI or composite key to efficiently query by `(EspecialidadId, UbigeoId)`:
+  - In `Clinicas`, define a GSI or composite key to efficiently query by `(especialidadId, ubigeoId)`:
     - Example pattern: `PK = "ESPECIALIDAD#<id>"`, `SK = "UBIGEO#<id>#CLINICA#<id>"`.
   - This allows `search_service.py` to avoid table scans and keep queries fast and cheap.
 

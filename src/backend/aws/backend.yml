@@ -57,10 +57,10 @@ Resources:
     Properties:
       TableName: !Sub doctors-${EnvironmentName}
       AttributeDefinitions:
-        - AttributeName: DoctorId
+        - AttributeName: doctorId
           AttributeType: S
       KeySchema:
-        - AttributeName: DoctorId
+        - AttributeName: doctorId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
@@ -69,10 +69,10 @@ Resources:
     Properties:
       TableName: !Sub clinics-${EnvironmentName}
       AttributeDefinitions:
-        - AttributeName: ClinicaId
+        - AttributeName: clinicaId
           AttributeType: S
       KeySchema:
-        - AttributeName: ClinicaId
+        - AttributeName: clinicaId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
@@ -81,10 +81,10 @@ Resources:
     Properties:
       TableName: !Sub especialidades-${EnvironmentName}
       AttributeDefinitions:
-        - AttributeName: EspecialidadId
+        - AttributeName: especialidadId
           AttributeType: S
       KeySchema:
-        - AttributeName: EspecialidadId
+        - AttributeName: especialidadId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
@@ -93,10 +93,10 @@ Resources:
     Properties:
       TableName: !Sub subespecialidades-${EnvironmentName}
       AttributeDefinitions:
-        - AttributeName: SubEspecialidadId
+        - AttributeName: subEspecialidadId
           AttributeType: S
       KeySchema:
-        - AttributeName: SubEspecialidadId
+        - AttributeName: subEspecialidadId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
@@ -105,10 +105,10 @@ Resources:
     Properties:
       TableName: !Sub seguros-${EnvironmentName}
       AttributeDefinitions:
-        - AttributeName: SeguroId
+        - AttributeName: seguroId
           AttributeType: S
       KeySchema:
-        - AttributeName: SeguroId
+        - AttributeName: seguroId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
@@ -117,10 +117,10 @@ Resources:
     Properties:
       TableName: !Sub ubigeo-${EnvironmentName}
       AttributeDefinitions:
-        - AttributeName: UbigeoId
+        - AttributeName: ubigeoId
           AttributeType: S
       KeySchema:
-        - AttributeName: UbigeoId
+        - AttributeName: ubigeoId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
