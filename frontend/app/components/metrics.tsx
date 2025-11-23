@@ -121,7 +121,7 @@ export function Metrics() {
         {/* Metrics grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
           <MetricCard
-            value="1300"
+            value="30000"
             label="Especialistas Verificados"
             delay={0.1}
             suffix="+"
