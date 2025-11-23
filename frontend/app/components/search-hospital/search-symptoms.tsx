@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { experimental_useObject as useObject } from '@ai-sdk/react';
 import { Send, AlertCircle, Stethoscope, Info, Loader2, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'sonner';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Button } from '@/app/components/ui/button';
 import {
@@ -18,11 +19,15 @@ interface SearchSymptomsProps {
   onSpecialtySelected: (specialtyId: string, specialtyName: string) => void;
 }
 
+const TIMEOUT_DURATION = 30000; // 30 seconds
+
 export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
   const [input, setInput] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isTimedOut, setIsTimedOut] = useState(false);
   
-  const { object, submit, isLoading, error } = useObject({
+  const { object, submit, isLoading, error, stop } = useObject({
     api: '/api/symptoms',
     schema: symptomsSchema,
   });
@@ -30,15 +35,56 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
   const handleSubmit = () => {
     if (!input.trim() || isLoading) return;
 
+    setIsTimedOut(false);
+    
+    // Set timeout for the request
+    timeoutRef.current = setTimeout(() => {
+      if (isLoading) {
+        setIsTimedOut(true);
+        stop?.();
+        toast.error('Servicio no disponible', {
+          description: 'El análisis de síntomas no está disponible en este momento. Por favor, intenta más tarde o busca directamente por especialidad.',
+          duration: 6000,
+        });
+      }
+    }, TIMEOUT_DURATION);
+
     submit({ symptoms: input.trim() });
   };
 
+  // Clear timeout when loading completes
+  useEffect(() => {
+    if (!isLoading && timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }, [isLoading]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Handle errors with toast notification
+  useEffect(() => {
+    if (error && !isTimedOut) {
+      toast.error('Servicio no disponible', {
+        description: 'El servicio de análisis de síntomas no está disponible. Por favor, intenta más tarde o busca directamente por especialidad.',
+        duration: 6000,
+      });
+    }
+  }, [error, isTimedOut]);
+
   // Only open dialog when object is fully loaded
   useEffect(() => {
-    if (!isLoading && object?.especialidadId && object?.especialidadNombre && object?.explicacion) {
+    if (!isLoading && object?.especialidadId && object?.especialidadNombre && object?.explicacion && !isTimedOut) {
       setIsDialogOpen(true);
     }
-  }, [isLoading, object]);
+  }, [isLoading, object, isTimedOut]);
 
   const handleAcceptDialog = () => {
     setIsDialogOpen(false);
@@ -114,20 +160,7 @@ export function SearchSymptoms({ onSpecialtySelected }: SearchSymptomsProps) {
         </Button>
       </div>
 
-      {/* Error Display */}
-      {error && (
-        <div className="bg-red-50/70 backdrop-blur-md border border-transparent rounded-xl p-5 shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-300">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-medium text-red-900">Error al procesar síntomas</p>
-              <p className="text-sm text-red-700 mt-1">
-                {error.message || 'Por favor, intenta nuevamente'}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Info Display - Removed error display as we're using toast */}
 
       {/* Results Dialog with Animations */}
       <AnimatePresence>
