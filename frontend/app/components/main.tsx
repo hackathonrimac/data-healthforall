@@ -13,6 +13,13 @@ export default function Main() {
     setSelectedSpecialties,
   } = useSearchFilters();
 
+  // Check if at least one search criterion is provided
+  const hasSearchCriteria = !!(
+    filters.selectedLocation ||
+    filters.selectedSpecialties.length > 0 ||
+    filters.selectedInsurances.length > 0
+  );
+
   // Fetch doctors based on selected filters
   const { data, isLoading, error } = useDoctorSearch({
     ubigeoId: filters.selectedLocation?.code || null,
@@ -20,7 +27,7 @@ export default function Main() {
     seguroId: filters.selectedInsurances[0] || null, // Using first insurance
     page: 1,
     pageSize: 20,
-    enabled: !!(filters.selectedLocation && filters.selectedSpecialties.length > 0),
+    enabled: hasSearchCriteria, // Enable search if at least one criterion is provided
   });
 
   return (
@@ -58,7 +65,7 @@ export default function Main() {
         {!data && !isLoading && !error && (
           <div className="w-full max-w-5xl mx-auto text-center py-12">
             <p className="text-gray-600">
-              Selecciona una ubicación y especialidad para buscar doctores
+              Selecciona al menos una ubicación, especialidad o seguro para buscar doctores
             </p>
           </div>
         )}

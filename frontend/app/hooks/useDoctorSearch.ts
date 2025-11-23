@@ -5,7 +5,6 @@ interface DoctorCard {
   doctorName: string;
   photoUrl?: string;
   mainSpecialty: string;
-  subSpecialties: string[];
   clinicId: string;
   clinicName: string;
   clinicAddress: string;
@@ -33,6 +32,7 @@ export interface UseDoctorSearchParams {
   ubigeoId?: string | null;
   especialidadId?: string | null;
   seguroId?: string | null;
+  rimacEnsured?: boolean | null;
   page?: number;
   pageSize?: number;
   enabled?: boolean; // Only fetch when this is true
@@ -49,6 +49,7 @@ export function useDoctorSearch({
   ubigeoId,
   especialidadId,
   seguroId = null,
+  rimacEnsured = null,
   page = 1,
   pageSize = 10,
   enabled = true,
@@ -63,8 +64,11 @@ export function useDoctorSearch({
   };
 
   useEffect(() => {
-    // Don't fetch if not enabled or missing required params
-    if (!enabled || !ubigeoId || !especialidadId) {
+    // Don't fetch if not enabled or missing ALL params
+    // At least ONE parameter must be provided
+    const hasAtLeastOneParam = ubigeoId || especialidadId || seguroId || rimacEnsured !== null;
+    
+    if (!enabled || !hasAtLeastOneParam) {
       setData(null);
       setIsLoading(false);
       setError(null);
@@ -77,14 +81,24 @@ export function useDoctorSearch({
 
       try {
         const params = new URLSearchParams({
-          ubigeoId,
-          especialidadId,
           page: page.toString(),
           pageSize: pageSize.toString(),
         });
 
+        if (ubigeoId) {
+          params.append('ubigeoId', ubigeoId);
+        }
+
+        if (especialidadId) {
+          params.append('especialidadId', especialidadId);
+        }
+
         if (seguroId) {
           params.append('seguroId', seguroId);
+        }
+
+        if (rimacEnsured !== null) {
+          params.append('rimacEnsured', rimacEnsured.toString());
         }
 
         const url = `/api/search/doctors?${params.toString()}`;
@@ -116,7 +130,7 @@ export function useDoctorSearch({
     };
 
     fetchDoctors();
-  }, [ubigeoId, especialidadId, seguroId, page, pageSize, enabled, refetchTrigger]);
+  }, [ubigeoId, especialidadId, seguroId, rimacEnsured, page, pageSize, enabled, refetchTrigger]);
 
   return {
     data,
@@ -125,4 +139,3 @@ export function useDoctorSearch({
     refetch,
   };
 }
-

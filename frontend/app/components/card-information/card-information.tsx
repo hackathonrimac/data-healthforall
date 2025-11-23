@@ -8,6 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "@/app/components/ui/dialog";
 import { MapPin, User, Stethoscope, Shield } from "lucide-react";
 
 interface DoctorCard {
@@ -15,7 +22,6 @@ interface DoctorCard {
   doctorName: string;
   photoUrl?: string;
   mainSpecialty: string;
-  subSpecialties: string[];
   clinicId: string;
   clinicName: string;
   clinicAddress: string;
@@ -33,7 +39,7 @@ interface SearchResponse {
 }
 
 interface CardInformationProps {
-  data: SearchResponse;
+  data: SearchResponse | null;
   isLoading?: boolean;
 }
 
@@ -46,6 +52,8 @@ interface GroupedClinic {
 }
 
 export function CardInformation({ data, isLoading = false }: CardInformationProps) {
+  const [selectedClinic, setSelectedClinic] = React.useState<GroupedClinic | null>(null);
+  
   // Group doctors by clinic
   const groupedByClinic = React.useMemo(() => {
     if (!data || !data.items) {
@@ -81,7 +89,7 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
     );
   }
 
-  if (!data.items || data.items.length === 0) {
+  if (!data || !data.items || data.items.length === 0) {
     return (
       <Card className="w-full border-none shadow-none bg-transparent" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E5E7EB' }}>
         <CardContent className="flex flex-col items-center justify-center py-12 border-none shadow-none">
@@ -163,9 +171,9 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
                 </h3>
               </div>
 
-              {/* Simple Doctor List without Accordion */}
+              {/* Show only first doctor */}
               <div className="space-y-4">
-                {clinic.doctors.map((doctor) => (
+                {clinic.doctors.slice(0, 1).map((doctor) => (
                   <div key={doctor.doctorId} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '12px', borderRadius: '8px', backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB' }}>
                     {/* Doctor Photo */}
                     <div className="flex-shrink-0">
@@ -190,30 +198,33 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
                       <p style={{ fontSize: '14px', color: '#4B5563' }} className="truncate">
                         {doctor.mainSpecialty}
                       </p>
-                      
-                      {/* Sub-specialties */}
-                      {doctor.subSpecialties && doctor.subSpecialties.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {doctor.subSpecialties.map((subSpec, idx) => (
-                            <span
-                              key={idx}
-                              style={{ 
-                                padding: '2px 8px', 
-                                backgroundColor: '#FFFFFF', 
-                                color: '#4B5563', 
-                                borderRadius: '4px', 
-                                fontSize: '12px', 
-                                border: '1px solid #E5E7EB' 
-                              }}
-                            >
-                              {subSpec}
-                            </span>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}
+
+                {/* Show "y X doctores más" if there are more doctors */}
+                {clinic.doctors.length > 1 && (
+                  <button
+                    onClick={() => setSelectedClinic(clinic)}
+                    style={{
+                      fontSize: '14px',
+                      color: '#2563EB',
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                      padding: '8px 12px',
+                      textAlign: 'left',
+                      width: '100%',
+                      borderRadius: '8px',
+                      transition: 'background-color 0.2s',
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F3F4F6'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                  >
+                    y {clinic.doctors.length - 1} doctores más
+                  </button>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -228,6 +239,85 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
           </p>
         </div>
       )}
+
+      {/* Modal for all doctors */}
+      <Dialog open={!!selectedClinic} onOpenChange={(open) => !open && setSelectedClinic(null)}>
+        <DialogContent>
+          <DialogClose onClose={() => setSelectedClinic(null)} />
+          <DialogHeader>
+            <DialogTitle>
+              {selectedClinic?.clinicName}
+            </DialogTitle>
+            <p style={{ fontSize: '14px', color: '#6B7280', marginTop: '4px' }}>
+              {selectedClinic?.clinicAddress}
+            </p>
+          </DialogHeader>
+          
+          <div style={{ padding: '24px' }}>
+            {/* Insurance badges in modal */}
+            {selectedClinic?.seguros && selectedClinic.seguros.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-6">
+                {selectedClinic.seguros.map((seguro) => (
+                  <span
+                    key={seguro.seguroId}
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '4px', 
+                      padding: '4px 12px', 
+                      backgroundColor: '#F3F4F6', 
+                      borderRadius: '9999px', 
+                      fontSize: '12px', 
+                      fontWeight: 500, 
+                      color: '#374151', 
+                      border: '1px solid #D1D5DB' 
+                    }}
+                  >
+                    <Shield style={{ height: '12px', width: '12px' }} />
+                    {seguro.nombre}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#111827', marginBottom: '16px' }}>
+              Todos los doctores ({selectedClinic?.doctors.length || 0})
+            </h3>
+
+            {/* All doctors list */}
+            <div className="space-y-3">
+              {selectedClinic?.doctors.map((doctor) => (
+                <div key={doctor.doctorId} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '12px', borderRadius: '8px', backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB' }}>
+                  {/* Doctor Photo */}
+                  <div className="flex-shrink-0">
+                    {doctor.photoUrl ? (
+                      <img
+                        src={doctor.photoUrl}
+                        alt={doctor.doctorName}
+                        style={{ height: '48px', width: '48px', borderRadius: '9999px', objectFit: 'cover', border: '2px solid #D1D5DB' }}
+                      />
+                    ) : (
+                      <div style={{ height: '48px', width: '48px', borderRadius: '9999px', backgroundColor: '#E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #D1D5DB' }}>
+                        <User style={{ height: '24px', width: '24px', color: '#4B5563' }} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Doctor Info */}
+                  <div className="flex-1 min-w-0">
+                    <p style={{ fontWeight: 600, color: '#111827' }} className="truncate">
+                      {doctor.doctorName}
+                    </p>
+                    <p style={{ fontSize: '14px', color: '#4B5563' }} className="truncate">
+                      {doctor.mainSpecialty}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

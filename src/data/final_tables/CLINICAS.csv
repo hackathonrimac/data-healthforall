@@ -1,56 +1,56 @@
 ID,nombre_grupo,id_grupo,nombre_clinica,distrito,direccion,ubigeo,url_landing_page,url_lista_medicos
-CLIN-1,Grupo Angloamericana,GRP-1,Clínica Angloamericana,San Isidro,Calle Alfredo Salazar 350,150131,https://clinicaangloamericana.pe,https://clinicaangloamericana.pe/medicos/
-CLIN-2,Auna,GRP-3,Clínica Bellavista,Bellavista,Av. Guardia Chalaca 139,150101,https://auna.org/pe/sedes/clinica-bellavista,https://auna.org/pe/staff-medico
+CLIN-1,Grupo Angloamericana,GRP-1,Clínica Angloamericana,San Isidro,Calle Alfredo Salazar 350,150132,https://clinicaangloamericana.pe,https://clinicaangloamericana.pe/medicos/
+CLIN-2,Auna,GRP-3,Clínica Bellavista,Bellavista,Av. Guardia Chalaca 139,70102,https://auna.org/pe/sedes/clinica-bellavista,https://auna.org/pe/staff-medico
 CLIN-3,Auna,GRP-3,Clínica Delgado,Miraflores,Av. Angamos Oeste 425,150122,https://auna.org/pe/sedes/clinica-delgado-auna,https://auna.org/pe/staff-medico
 CLIN-4,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – Lima,Cercado de Lima,Av. Garcilaso de la Vega 1420,150101,https://clinicainternacional.com.pe/,https://clinicainternacional.com.pe/directorio-medico/
-CLIN-5,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – San Borja,San Borja,Av. Guardia Civil 385,150130,https://clinicainternacional.com.pe/sede/san-borja/,https://clinicainternacional.com.pe/directorio-medico/
-CLIN-6,Grupo Intercorp – Clínica Aviva,GRP-7,Clínica Aviva - Los Olivos,Los Olivos,Av. Alfredo Mendiola 6803,150117,https://www.aviva.pe/,https://www.aviva.pe/directorio-medico?name=
+CLIN-5,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – San Borja,San Borja,Av. Guardia Civil 385,150131,https://clinicainternacional.com.pe/sede/san-borja/,https://clinicainternacional.com.pe/directorio-medico/
+CLIN-6,Grupo Intercorp – Clínica Aviva,GRP-7,Clínica Aviva - Los Olivos,Los Olivos,Av. Alfredo Mendiola 6803,150118,https://www.aviva.pe/,https://www.aviva.pe/directorio-medico?name=
 CLIN-7,Grupo Intercorp – Clínica Aviva,GRP-7,Clínica Aviva - Lima Centro,Lima,Av. Alfredo Mendiola 6803,150101,https://www.aviva.pe/,https://www.aviva.pe/directorio-medico?name=
-CLIN-8,Grupo Intercorp – Clínica Aviva,GRP-7,Clínica Aviva - SMP,San Martín de Porres,Av. Alfredo Mendiola 6803,150135,https://www.aviva.pe/,https://www.aviva.pe/directorio-medico?name=
-CLIN-9,Grupo Angloamericana,GRP-1,Clínica San Bernardo,Santiago de Surco,Av. Caminos del Inca 257,150140,https://www.clinica-sanbernardo.com/,https://www.clinicasanfelipe.com/medicos/
-CLIN-10,Cayetano Heredia,GRP-13,Clínica Cayetano Heredia - Lince,Lince,Jr. Almte. Martín Guisse 2171,150116,https://www.cmch.pe/,https://www.cmch.pe/Contenido/Doctores
-CLIN-11,Cayetano Heredia,GRP-13,Clínica Cayetano Heredia - SMP,San Martín de Porres,Av. Honorio Delgado 262,150135,https://www.cmch.pe/,https://www.cmch.pe/Contenido/Doctores
+CLIN-8,Grupo Intercorp – Clínica Aviva,GRP-7,Clínica Aviva - SMP,San Martín de Porres,Av. Alfredo Mendiola 6803,150136,https://www.aviva.pe/,https://www.aviva.pe/directorio-medico?name=
+CLIN-9,Grupo Angloamericana,GRP-1,Clínica San Bernardo,Santiago de Surco,Av. Caminos del Inca 257,150141,https://www.clinica-sanbernardo.com/,https://www.clinicasanfelipe.com/medicos/
+CLIN-10,Cayetano Heredia,GRP-13,Clínica Cayetano Heredia - Lince,Lince,Jr. Almte. Martín Guisse 2171,150117,https://www.cmch.pe/,https://www.cmch.pe/Contenido/Doctores
+CLIN-11,Cayetano Heredia,GRP-13,Clínica Cayetano Heredia - SMP,San Martín de Porres,Av. Honorio Delgado 262,150136,https://www.cmch.pe/,https://www.cmch.pe/Contenido/Doctores
 CLIN-12,Cayetano Heredia,GRP-13,Clínica Cayetano Heredia - Virtual,,,,https://www.cmch.pe/,https://www.cmch.pe/Contenido/Doctores
 CLIN-13,Red Médica Adventista,GRP-10,Clínica Good Hope,Miraflores,Malecón Balta 956,150122,https://www.goodhope.org.pe/,https://www.goodhope.org.pe/staff-medico/
-CLIN-14,SANNA,GRP-12,Centro Clínico SANNA – La Molina,La Molina,Av. Raúl Ferrero 1256,150114,https://www.sanna.pe/red-sanna/centros-clinicos/la-molina-lima/,https://www.sanna.pe/medicos/
-CLIN-15,SANNA,GRP-12,SANNA Clínica El Golf,San Isidro,Av. Aurelio Miró Quesada 1030,150131,https://www.sanna.pe/clinicas/el-golf-lima/informacion-general,https://www.sanna.pe/medicos/
-CLIN-16,SANNA,GRP-12,SANNA Clínica San Borja,San Borja,Av. Guardia Civil 337,150130,https://www.sanna.pe/red-sanna/clinicas/san-borja-lima/,https://www.sanna.pe/medicos/
-CLIN-17,Grupo San Pablo,GRP-8,Clínica Jesús del Norte,Independencia,Av. Carlos Izaguirre 153,150112,https://www.jesusdelnorte.com.pe/,https://www.sanpablo.com.pe/staff-medico/
-CLIN-18,Grupo San Pablo,GRP-8,Clínica San Gabriel,San Miguel,Av. La Marina 2955,150136,https://www.clinicasangabriel.com.pe/,https://www.sanpablo.com.pe/staff-medico/
-CLIN-19,Grupo San Pablo,GRP-8,Clínica San Juan Bautista,San Juan de Lurigancho,Av. Próceres de la Independencia 1632,150132,https://www.clinicasanjuanbautista.com.pe/,https://www.sanpablo.com.pe/staff-medico/
-CLIN-20,Grupo San Pablo,GRP-8,Clínica San Pablo – Surco,Santiago de Surco,Av. El Polo 789,150140,https://www.clinicasanpablo.com.pe/,https://www.sanpablo.com.pe/staff-medico/
-CLIN-21,Grupo Angloamericana,GRP-1,Clínica Javier Prado,San Isidro,Av. Javier Prado Este 499,150131,https://cjp.pe/,https://cjp.pe/medicos/
-CLIN-22,Grupo Angloamericana,GRP-1,Clínica Mundo Salud,San Miguel,Av. La Marina 1500,150136,https://www.clinicamundosalud.com/,https://clinicasanjudastadeo.com.pe/staff-medico
-CLIN-23,Independiente,GRP-14,Clínica Stella Maris,Pueblo Libre,Av. Bolívar 937,150121,https://www.clinicastellamaris.com.pe/,https://clinicatezza.com.pe/staff-medico/
-CLIN-24,Grupo Angloamericana,GRP-1,Clínica Tezza,Santiago de Surco,Av. El Polo 570,150140,https://www.clinicatezza.com.pe/,https://clinicatezza.com.pe/staff-medico/
-CLIN-25,Grupo Angloamericana,GRP-1,Clínica Versalles,Lince,Av. Militar 262,150116,https://www.clinicaversalles.com.pe/,https://vesalio.com.pe/staffmedico/
-CLIN-26,SANNA,GRP-12,Centro Oncológico Aliada,San Isidro,Av. José Gálvez Barrenechea 1044,150131,https://www.aliada.com.pe/,https://www.aliada.com.pe/nosotros/nuestros-medicos/
-CLIN-27,Clínicas Limatambo,GRP-6,Clínica Limatambo – San Isidro,San Isidro,Av. Paseo de la República 3130,150131,https://clinicalimatambo.com/,https://www.clinicalimatambo.com/search-doctors/?searchby=doctors&keyword=&location=san-isidro&searchby=doctors&specialities=&services=&orderby=&order=ASC
-CLIN-28,Clínicas Limatambo,GRP-6,Clínica Limatambo – San Juan de Lurigancho,San Juan de Lurigancho,Av. Próceres de la Independencia 1781,150132,https://clinicalimatambo.com/,https://www.clinicalimatambo.com/search-doctors/?searchby=doctors&keyword=&location=san-juan-de-lurigancho&searchby=doctors&specialities=&services=&orderby=&order=ASC
-CLIN-29,Grupo Angloamericana,GRP-1,Clínica Montesur,Santiago de Surco,Av. Primavera 2390,150140,https://www.clinicamontesur.com.pe/,https://www.clinicamontesur.com.pe/
-CLIN-30,Grupo Angloamericana,GRP-1,Clínica San Miguel Arcángel,San Miguel,Av. Universitaria 1110,150136,https://www.clinicasanmiguel.pe/,https://www.clinicamontesur.com.pe/staff-medico
-CLIN-31,Asociación Peruano Japonesa,GRP-2,Clínica Centenario Peruano Japonesa,Pueblo Libre,Av. La Marina 2135,150121,https://www.clinicapj.org.pe/,https://www.clinicapj.org.pe/horario-medico
-CLIN-32,Red de Clínicas Maison de Santé,GRP-11,Clínica Maison de Santé – Surco,Santiago de Surco,Av. Caminos del Inca 390,150140,https://www.maisondesante.org.pe/sede-surco/,https://www.clinicaprovidencia.pe/staff-medico/
-CLIN-33,Grupo Angloamericana,GRP-1,Clínica San Felipe,Jesús María,Av. Gregorio Escobedo 650,150113,https://www.clinicasanfelipe.com/,https://www.clinicasangabriel.com.pe/staff-medico/
+CLIN-14,SANNA,GRP-12,Centro Clínico SANNA – La Molina,La Molina,Av. Raúl Ferrero 1256,150115,https://www.sanna.pe/red-sanna/centros-clinicos/la-molina-lima/,https://www.sanna.pe/medicos/
+CLIN-15,SANNA,GRP-12,SANNA Clínica El Golf,San Isidro,Av. Aurelio Miró Quesada 1030,150132,https://www.sanna.pe/clinicas/el-golf-lima/informacion-general,https://www.sanna.pe/medicos/
+CLIN-16,SANNA,GRP-12,SANNA Clínica San Borja,San Borja,Av. Guardia Civil 337,150131,https://www.sanna.pe/red-sanna/clinicas/san-borja-lima/,https://www.sanna.pe/medicos/
+CLIN-17,Grupo San Pablo,GRP-8,Clínica Jesús del Norte,Independencia,Av. Carlos Izaguirre 153,150113,https://www.jesusdelnorte.com.pe/,https://www.sanpablo.com.pe/staff-medico/
+CLIN-18,Grupo San Pablo,GRP-8,Clínica San Gabriel,San Miguel,Av. La Marina 2955,150137,https://www.clinicasangabriel.com.pe/,https://www.sanpablo.com.pe/staff-medico/
+CLIN-19,Grupo San Pablo,GRP-8,Clínica San Juan Bautista,San Juan de Lurigancho,Av. Próceres de la Independencia 1632,150133,https://www.clinicasanjuanbautista.com.pe/,https://www.sanpablo.com.pe/staff-medico/
+CLIN-20,Grupo San Pablo,GRP-8,Clínica San Pablo – Surco,Santiago de Surco,Av. El Polo 789,150141,https://www.clinicasanpablo.com.pe/,https://www.sanpablo.com.pe/staff-medico/
+CLIN-21,Grupo Angloamericana,GRP-1,Clínica Javier Prado,San Isidro,Av. Javier Prado Este 499,150132,https://cjp.pe/,https://cjp.pe/medicos/
+CLIN-22,Grupo Angloamericana,GRP-1,Clínica Mundo Salud,San Miguel,Av. La Marina 1500,150137,https://www.clinicamundosalud.com/,https://clinicasanjudastadeo.com.pe/staff-medico
+CLIN-23,Independiente,GRP-14,Clínica Stella Maris,Pueblo Libre,Av. Bolívar 937,150125,https://www.clinicastellamaris.com.pe/,https://clinicatezza.com.pe/staff-medico/
+CLIN-24,Grupo Angloamericana,GRP-1,Clínica Tezza,Santiago de Surco,Av. El Polo 570,150141,https://www.clinicatezza.com.pe/,https://clinicatezza.com.pe/staff-medico/
+CLIN-25,Grupo Angloamericana,GRP-1,Clínica Versalles,Lince,Av. Militar 262,150117,https://www.clinicaversalles.com.pe/,https://vesalio.com.pe/staffmedico/
+CLIN-26,SANNA,GRP-12,Centro Oncológico Aliada,San Isidro,Av. José Gálvez Barrenechea 1044,150132,https://www.aliada.com.pe/,https://www.aliada.com.pe/nosotros/nuestros-medicos/
+CLIN-27,Clínicas Limatambo,GRP-6,Clínica Limatambo – San Isidro,San Isidro,Av. Paseo de la República 3130,150132,https://clinicalimatambo.com/,https://www.clinicalimatambo.com/search-doctors/?searchby=doctors&keyword=&location=san-isidro&searchby=doctors&specialities=&services=&orderby=&order=ASC
+CLIN-28,Clínicas Limatambo,GRP-6,Clínica Limatambo – San Juan de Lurigancho,San Juan de Lurigancho,Av. Próceres de la Independencia 1781,150133,https://clinicalimatambo.com/,https://www.clinicalimatambo.com/search-doctors/?searchby=doctors&keyword=&location=san-juan-de-lurigancho&searchby=doctors&specialities=&services=&orderby=&order=ASC
+CLIN-29,Grupo Angloamericana,GRP-1,Clínica Montesur,Santiago de Surco,Av. Primavera 2390,150141,https://www.clinicamontesur.com.pe/,https://www.clinicamontesur.com.pe/
+CLIN-30,Grupo Angloamericana,GRP-1,Clínica San Miguel Arcángel,San Miguel,Av. Universitaria 1110,150137,https://www.clinicasanmiguel.pe/,https://www.clinicamontesur.com.pe/staff-medico
+CLIN-31,Asociación Peruano Japonesa,GRP-2,Clínica Centenario Peruano Japonesa,Pueblo Libre,Av. La Marina 2135,150125,https://www.clinicapj.org.pe/,https://www.clinicapj.org.pe/horario-medico
+CLIN-32,Red de Clínicas Maison de Santé,GRP-11,Clínica Maison de Santé – Surco,Santiago de Surco,Av. Caminos del Inca 390,150141,https://www.maisondesante.org.pe/sede-surco/,https://www.clinicaprovidencia.pe/staff-medico/
+CLIN-33,Grupo Angloamericana,GRP-1,Clínica San Felipe,Jesús María,Av. Gregorio Escobedo 650,150114,https://www.clinicasanfelipe.com/,https://www.clinicasangabriel.com.pe/staff-medico/
 CLIN-34,Grupo Angloamericana,GRP-1,Clínica Repromedic,Miraflores,Calle Cantuarias 140,150122,https://www.repromedic.pe/,https://www.clinicasanmiguel.pe/staff_medico.html
 CLIN-35,Grupo Angloamericana,GRP-1,Centro Médico Avendaño,Miraflores,Calle Leonidas Avendaño 116,150122,http://www.clinicadedia.com.pe/,https://www.clinicasantaisabel.com/staff-medico/
-CLIN-36,Grupo Angloamericana,GRP-1,Clínica Santa Isabel,San Borja,Avenida Guardia Civil 135,150130,https://www.clinicasantaisabel.com,https://www.clinicasantaisabel.com/staff-medico/
-CLIN-37,Grupo Angloamericana,GRP-1,Clínica Providencia,Santiago de Surco,Av. Primavera 1200,150140,https://www.clinicaprovidencia.com.pe/,https://www.crp.com.pe/plantel-medico-profesionales-altamente-calificados/
+CLIN-36,Grupo Angloamericana,GRP-1,Clínica Santa Isabel,San Borja,Avenida Guardia Civil 135,150131,https://www.clinicasantaisabel.com,https://www.clinicasantaisabel.com/staff-medico/
+CLIN-37,Grupo Angloamericana,GRP-1,Clínica Providencia,Santiago de Surco,Av. Primavera 1200,150141,https://www.clinicaprovidencia.com.pe/,https://www.crp.com.pe/plantel-medico-profesionales-altamente-calificados/
 CLIN-38,Grupo Ricardo Palma,GRP-1,Clínica Ricardo Palma,Miraflores,Av. Javier Prado Este 1066,150122,https://www.crp.com.pe/,https://www.crp.com.pe/plantel-medico-profesionales-altamente-calificados/
-CLIN-39,Orden Hospitalaria San Juan de Dios,GRP-9,Hogar Clínica San Juan de Dios,San Luis,Av. Nicolás Arriola 3250,150134,https://clinicalima.sanjuandedios.pe/,https://www.integramedica.pe/
-CLIN-40,Independiente,GRP-14,Centro Médico Jockey Salud,Santiago de Surco,Av. Javier Prado Este 4200,150140,http://www.jockeysalud.com.pe/,https://www.jockeysalud.com.pe/staff-medico/
-CLIN-41,Red de Clínicas Maison de Santé,GRP-11,Clínica Maison de Santé – Chorrillos,Chorrillos,Av. Guardia Civil 337,150108,https://www.maisondesante.org.pe/sede-chorrillos/,https://www.maisondesante.org.pe/staff-medico/
+CLIN-39,Orden Hospitalaria San Juan de Dios,GRP-9,Hogar Clínica San Juan de Dios,San Luis,Av. Nicolás Arriola 3250,150135,https://clinicalima.sanjuandedios.pe/,https://www.integramedica.pe/
+CLIN-40,Independiente,GRP-14,Centro Médico Jockey Salud,Santiago de Surco,Av. Javier Prado Este 4200,150141,http://www.jockeysalud.com.pe/,https://www.jockeysalud.com.pe/staff-medico/
+CLIN-41,Red de Clínicas Maison de Santé,GRP-11,Clínica Maison de Santé – Chorrillos,Chorrillos,Av. Guardia Civil 337,150109,https://www.maisondesante.org.pe/sede-chorrillos/,https://www.maisondesante.org.pe/staff-medico/
 CLIN-42,Red de Clínicas Maison de Santé,GRP-11,Clínica Maison de Santé – Lima,Cercado de Lima,Av. Miguel Grau 271,150101,https://www.maisondesante.org.pe/sede-lima/,https://www.maisondesante.org.pe/staff-medico/
-CLIN-43,BUPA – IntegraMédica,GRP-4,Integramédica,Independencia,Av. Alfredo Mendiola 3698 (MegaPlaza),150112,https://www.integramedica.pe/,https://www.medex.pe/
-CLIN-44,Grupo Angloamericana,GRP-1,Centro Médico Medex,San Isidro,Av. República de Panamá 3065,150131,https://www.medex.pe/,https://www.medex.pe/staff-medico
-CLIN-45,Independiente,GRP-14,Clínica Vesalio,San Borja,Calle Joseph Thompson 140,150130,https://www.vesalio.com.pe/,https://www.montefiori.com.pe/
-CLIN-46,Grupo Angloamericana,GRP-1,Clínica Montefiori,Santiago de Surco,Av. Monte de los Olivos 492,150140,https://www.montefiori.com.pe/,https://www.montefiori.com.pe/#staff
-CLIN-47,Grupo Angloamericana,GRP-1,Clínica San Judas Tadeo,Pueblo Libre,Av. Sucre 1271,150121,https://clinicasanjudastadeo.com.pe/,https://www.repromedic.pe/staff-medico/
-CLIN-48,SANNA,GRP-12,Centro Clínico Los Olivos,Los Olivos,Av. Alfredo Mendiola 3549-3551 – Los Olivos (Lima),150117,https://www.sanna.pe/red-sanna/centros-clinicos/los-olivos-lima/,https://www.sanna.pe/medicos/
+CLIN-43,BUPA – IntegraMédica,GRP-4,Integramédica,Independencia,Av. Alfredo Mendiola 3698 (MegaPlaza),150113,https://www.integramedica.pe/,https://www.medex.pe/
+CLIN-44,Grupo Angloamericana,GRP-1,Centro Médico Medex,San Isidro,Av. República de Panamá 3065,150132,https://www.medex.pe/,https://www.medex.pe/staff-medico
+CLIN-45,Independiente,GRP-14,Clínica Vesalio,San Borja,Calle Joseph Thompson 140,150131,https://www.vesalio.com.pe/,https://www.montefiori.com.pe/
+CLIN-46,Grupo Angloamericana,GRP-1,Clínica Montefiori,Santiago de Surco,Av. Monte de los Olivos 492,150141,https://www.montefiori.com.pe/,https://www.montefiori.com.pe/#staff
+CLIN-47,Grupo Angloamericana,GRP-1,Clínica San Judas Tadeo,Pueblo Libre,Av. Sucre 1271,150125,https://clinicasanjudastadeo.com.pe/,https://www.repromedic.pe/staff-medico/
+CLIN-48,SANNA,GRP-12,Centro Clínico Los Olivos,Los Olivos,Av. Alfredo Mendiola 3549-3551 – Los Olivos (Lima),150118,https://www.sanna.pe/red-sanna/centros-clinicos/los-olivos-lima/,https://www.sanna.pe/medicos/
 CLIN-49,SANNA,GRP-12,Centro Clínico Miraflores,Miraflores,"Av. Alfredo Benavides 1936, Miraflores",150122,https://www.sanna.pe/red-sanna/centros-clinicos/miraflores-lima/,https://www.sanna.pe/medicos/
-CLIN-50,Grupo San Pablo,GRP-8,Clínica San Pablo – Lima,La Victoria,Av. Iquitos 1401,150115,https://www.clinicasanpablo.com.pe/,https://www.santamarthadelsur.com.pe/staff-medico/
-CLIN-51,Grupo San Pablo,GRP-8,Clínica Santa Martha del Sur,Chorrillos,Av. Defensores del Morro 1680,150108,https://www.santamarthadelsur.com.pe,https://www.santamarthadelsur.com.pe/staff-medico/
-CLIN-52,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – La Molina,La Molina,"Jr. Los Bambúes N° 250, Mzna 1 Lote 13-14, Urb. El Remanso de La Molina",150114,https://clinicainternacional.com.pe/sede/la-molina/?utm_source=chatgpt.com,https://auna.org/pe/staff-medico
-CLIN-53,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – San Isidro,San Isidro,"Av. Paseo de la República N° 3058, San Isidro.",150131,https://clinicainternacional.com.pe/?utm_source=chatgpt.com,https://auna.org/pe/staff-medico
+CLIN-50,Grupo San Pablo,GRP-8,Clínica San Pablo – Lima,La Victoria,Av. Iquitos 1401,150116,https://www.clinicasanpablo.com.pe/,https://www.santamarthadelsur.com.pe/staff-medico/
+CLIN-51,Grupo San Pablo,GRP-8,Clínica Santa Martha del Sur,Chorrillos,Av. Defensores del Morro 1680,150109,https://www.santamarthadelsur.com.pe,https://www.santamarthadelsur.com.pe/staff-medico/
+CLIN-52,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – La Molina,La Molina,"Jr. Los Bambúes N° 250, Mzna 1 Lote 13-14, Urb. El Remanso de La Molina",150115,https://clinicainternacional.com.pe/sede/la-molina/?utm_source=chatgpt.com,https://auna.org/pe/staff-medico
+CLIN-53,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – San Isidro,San Isidro,"Av. Paseo de la República N° 3058, San Isidro.",150132,https://clinicainternacional.com.pe/?utm_source=chatgpt.com,https://auna.org/pe/staff-medico
 CLIN-54,Clínica Internacional – Grupo Breca,GRP-5,Clínica Internacional – Surco,Surco,"Av. El Polo 461, Urb. El Derby de Monterrico, Santiago de Surco",150141,https://centros.unilabs.pe/es/lima/santiago-de-surco/clinica-internacional-surco-1446?utm_source=chatgpt.com,https://auna.org/pe/staff-medico
-CLIN-55,Auna,GRP-3,Clínica Guardia Civil,San Isidro,"Av. Guardia Civil 368, Lima 15036",150106,https://auna.org/pe/sedes/clinica-guardia-civil,https://auna.org/pe/staff-medico
+CLIN-55,Auna,GRP-3,Clínica Guardia Civil,San Isidro,"Av. Guardia Civil 368, Lima 15036",150132,https://auna.org/pe/sedes/clinica-guardia-civil,https://auna.org/pe/staff-medico

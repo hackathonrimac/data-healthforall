@@ -107,7 +107,16 @@ class SearchService:
         if "clinicaId" in doctor:
             clinica_id = doctor["clinicaId"]
         elif "clinicaIds" in doctor and doctor["clinicaIds"]:
-            clinica_id = doctor["clinicaIds"][0] if isinstance(doctor["clinicaIds"], list) else doctor["clinicaIds"]
+            doctor_clinic_ids = doctor["clinicaIds"] if isinstance(doctor["clinicaIds"], list) else [doctor["clinicaIds"]]
+            # Pick the first clinic that exists in the clinic_lookup
+            # This ensures we show the correct clinic when filters are applied
+            for cid in doctor_clinic_ids:
+                if cid in clinic_lookup:
+                    clinica_id = cid
+                    break
+            # Fallback to first one if none found in lookup
+            if clinica_id is None and doctor_clinic_ids:
+                clinica_id = doctor_clinic_ids[0]
         
         clinic = clinic_lookup.get(clinica_id)
         

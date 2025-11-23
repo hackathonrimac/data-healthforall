@@ -61,7 +61,6 @@ const API_DOCS: ApiSection[] = [
       "doctorName": "Dr. Juan Pérez",
       "photoUrl": "https://...",
       "mainSpecialty": "Cardiología",
-      "subSpecialties": ["Electrofisiología"],
       "clinicId": "CLINIC-001",
       "clinicName": "Clínica San Felipe",
       "clinicAddress": "Av. Gregorio Escobedo 650, Jesús María",
