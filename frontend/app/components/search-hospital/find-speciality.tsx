@@ -166,7 +166,7 @@ export function FindSpeciality({
                 e.stopPropagation();
                 clearAll();
               }}
-              className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-900 transition-colors z-10"
+              className="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors z-10"
               title="Limpiar"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -205,7 +205,7 @@ export function FindSpeciality({
               </span>
               <button
                 onClick={clearAll}
-                className="text-sm text-gray-900 hover:text-gray-700 transition-colors font-medium"
+                className="text-sm text-gray-700 hover:text-gray-500 transition-colors font-medium"
               >
                 Limpiar
               </button>
@@ -240,24 +240,24 @@ export function FindSpeciality({
                     w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
                     ${
                       isSelected
-                        ? 'bg-gray-900 text-white hover:bg-gray-800'
+                        ? ''
                         : isMaxReached
                         ? 'opacity-40 cursor-not-allowed'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        : 'text-gray-700 hover:bg-gray-100'
                     }
                   `}
                   title={specialty.Descripcion || specialty.Nombre || 'Especialidad'}
                 >
                   {/* Specialty Name */}
                   <div className="flex-1 text-left min-w-0">
-                    <span className={`text-sm font-medium block ${isSelected ? 'text-white' : 'text-gray-700'}`}>
+                    <span className={`text-sm font-medium block ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
                       {specialty.Nombre || 'Sin nombre'}
                     </span>
-                    {specialty.Descripcion && (
-                      <span className={`text-xs block mt-0.5 line-clamp-1 ${isSelected ? 'text-gray-300' : 'text-gray-500'}`}>
+                    {/* {specialty.Descripcion && (
+                      <span className={`text-xs block mt-0.5 line-clamp-1 ${isSelected ? 'text-gray-600' : 'text-gray-500'}`}>
                         {specialty.Descripcion}
                       </span>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Checkbox Indicator */}
@@ -266,12 +266,12 @@ export function FindSpeciality({
                       flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0 transition-colors
                       ${
                         isSelected
-                          ? 'bg-white border-white'
+                          ? 'bg-gray-900 border-gray-900'
                           : 'bg-white border-gray-300'
                       }
                     `}
                   >
-                    {isSelected && <Check className="w-3 h-3 text-gray-900" />}
+                    {isSelected && <Check className="w-3 h-3 text-white" />}
                   </div>
                 </button>
               );

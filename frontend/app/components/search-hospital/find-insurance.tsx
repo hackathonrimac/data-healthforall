@@ -145,7 +145,7 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
 
       {/* Dropdown Menu */}
       {isOpen && !isLoading && !error && (
-        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 max-h-96 overflow-hidden backdrop-blur-md">
+        <div className="absolute z-[100] w-full mt-2 bg-white rounded-lg shadow-xl border border-gray-200/50 max-h-96 overflow-hidden backdrop-blur-md">
           {/* Clear All Button */}
           {selectedInsurances.length > 0 && (
             <div className="sticky top-0 bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
@@ -154,7 +154,7 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
               </span>
               <button
                 onClick={clearAll}
-                className="text-sm text-gray-900 hover:text-gray-700 transition-colors font-medium"
+                className="text-sm text-gray-700 hover:text-gray-500 transition-colors font-medium"
               >
                 Limpiar
               </button>
@@ -180,14 +180,14 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
                       w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
                       ${
                         isSelected
-                          ? 'bg-gray-900 text-white hover:bg-gray-800'
-                          : 'text-gray-700 hover:bg-gray-50'
+                          ? ''
+                          : 'text-gray-700 hover:bg-gray-100'
                       }
                     `}
                   >
                     {/* Insurance Name */}
                     <div className="flex-1 text-left">
-                      <span className={`text-sm font-medium ${isSelected ? 'text-white' : 'text-gray-700'}`}>
+                      <span className={`text-sm font-medium ${isSelected ? 'text-gray-900' : 'text-gray-700'}`}>
                         {insurance.name}
                       </span>
                     </div>
@@ -198,12 +198,12 @@ export function FindInsurance({ onInsuranceSelect, className }: FindInsurancePro
                         flex items-center justify-center w-5 h-5 rounded border-2 flex-shrink-0
                         ${
                           isSelected
-                            ? 'bg-white border-white'
+                            ? 'bg-gray-900 border-gray-900'
                             : 'bg-white border-gray-300'
                         }
                       `}
                     >
-                      {isSelected && <Check className="w-3 h-3 text-gray-900" />}
+                      {isSelected && <Check className="w-3 h-3 text-white" />}
                     </div>
                   </button>
                 );

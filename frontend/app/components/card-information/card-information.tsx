@@ -8,12 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/app/components/ui/accordion";
 import { MapPin, User, Stethoscope, Shield } from "lucide-react";
 
 interface DoctorCard {
@@ -78,31 +72,24 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
-        {[1, 2, 3].map((i) => (
-          <Card key={i} className="animate-pulse">
-            <CardHeader>
-              <div className="h-6 bg-gray-200 rounded w-3/4"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2 mt-2"></div>
-            </CardHeader>
-            <CardContent>
-              <div className="h-20 bg-gray-200 rounded"></div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="flex justify-center items-center w-full h-64">
+        <svg className="animate-spin h-10 w-10 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4z" />
+        </svg>
       </div>
     );
   }
 
   if (!data.items || data.items.length === 0) {
     return (
-      <Card className="w-full">
-        <CardContent className="flex flex-col items-center justify-center py-12">
-          <Stethoscope className="h-16 w-16 text-gray-300 mb-4" />
-          <p className="text-lg text-gray-600 text-center">
+      <Card className="w-full border-none shadow-none bg-transparent" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E5E7EB' }}>
+        <CardContent className="flex flex-col items-center justify-center py-12 border-none shadow-none">
+          <Stethoscope style={{ color: '#D1D5DB', width: '64px', height: '64px', marginBottom: '16px' }} />
+          <p style={{ fontSize: '18px', color: '#4B5563', textAlign: 'center' }}>
             No se encontraron doctores para tu búsqueda
           </p>
-          <p className="text-sm text-gray-500 text-center mt-2">
+          <p style={{ fontSize: '14px', color: '#6B7280', textAlign: 'center', marginTop: '8px' }}>
             Intenta ajustar los filtros de búsqueda
           </p>
         </CardContent>
@@ -111,33 +98,33 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
   }
 
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-7xl space-y-6">
       {/* Results Summary */}
       <div className="flex justify-between items-center">
-        <p className="text-sm text-gray-600">
+        <p style={{ fontSize: '14px', color: '#4B5563' }}>
           Mostrando{" "}
-          <span className="font-semibold">
+          <span style={{ fontWeight: 600 }}>
             {(data.page - 1) * data.pageSize + 1} -{" "}
             {Math.min(data.page * data.pageSize, data.total)}
           </span>{" "}
-          de <span className="font-semibold">{data.total}</span> resultados
+          de <span style={{ fontWeight: 600 }}>{data.total}</span> resultados
         </p>
-        <p className="text-sm text-gray-600">
+        <p style={{ fontSize: '14px', color: '#4B5563' }}>
           {groupedByClinic.length} {groupedByClinic.length === 1 ? "clínica" : "clínicas"}
         </p>
       </div>
 
-      {/* Grouped Results */}
-      <div className="space-y-4">
+      {/* Grouped Results - 2 columns grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {groupedByClinic.map((clinic) => (
-          <Card key={clinic.clinicId} className="overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
-              <CardTitle className="text-xl flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
-                <div className="flex-1">
-                  <div className="font-bold text-gray-900">{clinic.clinicName}</div>
-                  <CardDescription className="text-sm text-gray-600 mt-1 flex items-start gap-1">
-                    <span>{clinic.clinicAddress}</span>
+          <Card key={clinic.clinicId} className="overflow-hidden flex flex-col">
+            <CardHeader style={{ background: 'linear-gradient(to right, #F9FAFB, #F3F4F6)', borderBottom: '1px solid #E5E7EB' }}>
+              <CardTitle className="text-lg flex items-start gap-3">
+                <MapPin style={{ height: '20px', width: '20px', color: '#4B5563', marginTop: '4px' }} className="flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontWeight: 700, color: '#111827' }} className="truncate">{clinic.clinicName}</div>
+                  <CardDescription style={{ fontSize: '14px', color: '#4B5563', marginTop: '4px' }}>
+                    <span className="line-clamp-1">{clinic.clinicAddress}</span>
                   </CardDescription>
                 </div>
               </CardTitle>
@@ -148,9 +135,20 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
                   {clinic.seguros.map((seguro) => (
                     <span
                       key={seguro.seguroId}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-white rounded-full text-xs font-medium text-blue-700 border border-blue-200"
+                      style={{ 
+                        display: 'inline-flex', 
+                        alignItems: 'center', 
+                        gap: '4px', 
+                        padding: '4px 12px', 
+                        backgroundColor: '#FFFFFF', 
+                        borderRadius: '9999px', 
+                        fontSize: '12px', 
+                        fontWeight: 500, 
+                        color: '#374151', 
+                        border: '1px solid #D1D5DB' 
+                      }}
                     >
-                      <Shield className="h-3 w-3" />
+                      <Shield style={{ height: '12px', width: '12px' }} />
                       {seguro.nombre}
                     </span>
                   ))}
@@ -158,91 +156,65 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
               )}
             </CardHeader>
 
-            <CardContent className="p-6">
-              <div className="mb-3">
-                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+            <CardContent style={{ padding: '24px', backgroundColor: '#FFFFFF' }} className="flex-1">
+              <div style={{ marginBottom: '12px' }}>
+                <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   Doctores Disponibles ({clinic.doctors.length})
                 </h3>
               </div>
 
-              <Accordion type="single" collapsible className="w-full">
-                {clinic.doctors.map((doctor, index) => (
-                  <AccordionItem key={doctor.doctorId} value={`doctor-${doctor.doctorId}`}>
-                    <AccordionTrigger className="hover:no-underline">
-                      <div className="flex items-center gap-4 text-left w-full">
-                        {/* Doctor Photo */}
-                        <div className="flex-shrink-0">
-                          {doctor.photoUrl ? (
-                            <img
-                              src={doctor.photoUrl}
-                              alt={doctor.doctorName}
-                              className="h-12 w-12 rounded-full object-cover border-2 border-gray-200"
-                            />
-                          ) : (
-                            <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center border-2 border-gray-200">
-                              <User className="h-6 w-6 text-blue-600" />
-                            </div>
-                          )}
+              {/* Simple Doctor List without Accordion */}
+              <div className="space-y-4">
+                {clinic.doctors.map((doctor) => (
+                  <div key={doctor.doctorId} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '12px', borderRadius: '8px', backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB' }}>
+                    {/* Doctor Photo */}
+                    <div className="flex-shrink-0">
+                      {doctor.photoUrl ? (
+                        <img
+                          src={doctor.photoUrl}
+                          alt={doctor.doctorName}
+                          style={{ height: '48px', width: '48px', borderRadius: '9999px', objectFit: 'cover', border: '2px solid #D1D5DB' }}
+                        />
+                      ) : (
+                        <div style={{ height: '48px', width: '48px', borderRadius: '9999px', backgroundColor: '#E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #D1D5DB' }}>
+                          <User style={{ height: '24px', width: '24px', color: '#4B5563' }} />
                         </div>
+                      )}
+                    </div>
 
-                        {/* Doctor Info */}
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 truncate">
-                            {doctor.doctorName}
-                          </p>
-                          <p className="text-sm text-gray-600 truncate">
-                            {doctor.mainSpecialty}
-                          </p>
+                    {/* Doctor Info */}
+                    <div className="flex-1 min-w-0">
+                      <p style={{ fontWeight: 600, color: '#111827' }} className="truncate">
+                        {doctor.doctorName}
+                      </p>
+                      <p style={{ fontSize: '14px', color: '#4B5563' }} className="truncate">
+                        {doctor.mainSpecialty}
+                      </p>
+                      
+                      {/* Sub-specialties */}
+                      {doctor.subSpecialties && doctor.subSpecialties.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {doctor.subSpecialties.map((subSpec, idx) => (
+                            <span
+                              key={idx}
+                              style={{ 
+                                padding: '2px 8px', 
+                                backgroundColor: '#FFFFFF', 
+                                color: '#4B5563', 
+                                borderRadius: '4px', 
+                                fontSize: '12px', 
+                                border: '1px solid #E5E7EB' 
+                              }}
+                            >
+                              {subSpec}
+                            </span>
+                          ))}
                         </div>
-                      </div>
-                    </AccordionTrigger>
-
-                    <AccordionContent>
-                      <div className="pt-4 pl-16 pr-4 space-y-3">
-                        {/* Main Specialty */}
-                        <div>
-                          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
-                            Especialidad Principal
-                          </p>
-                          <p className="text-sm text-gray-900">{doctor.mainSpecialty}</p>
-                        </div>
-
-                        {/* Sub-specialties */}
-                        {doctor.subSpecialties && doctor.subSpecialties.length > 0 && (
-                          <div>
-                            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                              Sub-especialidades
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                              {doctor.subSpecialties.map((subSpec, idx) => (
-                                <span
-                                  key={idx}
-                                  className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-100"
-                                >
-                                  {subSpec}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Action Button */}
-                        <div className="pt-2">
-                          <button
-                            className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition-colors duration-200"
-                            onClick={() => {
-                              // TODO: Implement booking or doctor profile view
-                              console.log("Ver perfil del doctor:", doctor.doctorId);
-                            }}
-                          >
-                            Ver Perfil y Agendar Cita
-                          </button>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                      )}
+                    </div>
+                  </div>
                 ))}
-              </Accordion>
+              </div>
             </CardContent>
           </Card>
         ))}
@@ -251,7 +223,7 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
       {/* Pagination Info */}
       {data.total > data.pageSize && (
         <div className="flex justify-center items-center gap-4 pt-4">
-          <p className="text-sm text-gray-600">
+          <p style={{ fontSize: '14px', color: '#4B5563' }}>
             Página {data.page} de {Math.ceil(data.total / data.pageSize)}
           </p>
         </div>

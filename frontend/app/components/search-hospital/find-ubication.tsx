@@ -146,8 +146,8 @@ export function FindUbication({ onLocationSelect, className }: FindUbicationProp
                 onClick={() => handleDistrictSelect(district)}
                 className={`w-full text-left px-4 py-3 text-sm rounded-lg transition-colors ${
                   selectedDistrict === district.code 
-                    ? 'bg-gray-900 text-white font-medium' 
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'bg-gray-200 text-gray-900 font-medium' 
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 {district.name}
