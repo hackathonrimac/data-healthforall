@@ -16,7 +16,7 @@ interface DoctorCard {
 }
 
 interface ApiResponse {
-  doctors: DoctorCard[];
+  items: DoctorCard[];
   total: number;
   page: number;
   pageSize: number;
@@ -99,7 +99,7 @@ export function useDoctorSearch({
 
         // Transform API response to match CardInformation expected format
         const transformedData: SearchResponse = {
-          items: apiData.doctors,
+          items: apiData.items,
           page: apiData.page,
           pageSize: apiData.pageSize,
           total: apiData.total,

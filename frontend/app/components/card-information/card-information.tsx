@@ -54,6 +54,10 @@ interface GroupedClinic {
 export function CardInformation({ data, isLoading = false }: CardInformationProps) {
   // Group doctors by clinic
   const groupedByClinic = React.useMemo(() => {
+    if (!data || !data.items) {
+      return [];
+    }
+
     const clinicMap = new Map<string, GroupedClinic>();
 
     data.items.forEach((doctor) => {
@@ -70,7 +74,7 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
     });
 
     return Array.from(clinicMap.values());
-  }, [data.items]);
+  }, [data]);
 
   if (isLoading) {
     return (
