@@ -1,6 +1,4 @@
 {"especialidadId": "1", "nombre": "Anestesiología", "descripcion": "Especialidad médica que se encarga del manejo del dolor y la administración de anestesia durante procedimientos quirúrgicos y diagnósticos"}
-{"especialidadId": "2", "nombre": "Angiología", "descripcion": "Especialidad médica que estudia y trata las enfermedades de los vasos sanguíneos (arterias, venas y capilares) y del sistema linfático"}
-{"especialidadId": "3", "nombre": "Administración De Hospitales", "descripcion": "Especialidad en la gestión y administración eficiente de centros hospitalarios y servicios de salud"}
 {"especialidadId": "4", "nombre": "Anatomía Patológica", "descripcion": "Especialidad médica que estudia las alteraciones estructurales y funcionales de los órganos y tejidos causadas por enfermedades"}
 {"especialidadId": "7", "nombre": "Cirugía Torácica Y Cardiovascular", "descripcion": "Especialidad quirúrgica que trata las enfermedades del corazón, grandes vasos sanguíneos y órganos del tórax"}
 {"especialidadId": "8", "nombre": "Cardiología", "descripcion": "Especialidad médica que se dedica al estudio, diagnóstico y tratamiento de las enfermedades del corazón y del sistema cardiovascular"}
@@ -9,7 +7,6 @@
 {"especialidadId": "12", "nombre": "Cirugía Plástica Y Reparadora", "descripcion": "Especialidad quirúrgica que corrige defectos congénitos, adquiridos o traumáticos, con fines reconstructivos y estéticos"}
 {"especialidadId": "13", "nombre": "Dermatología", "descripcion": "Especialidad médica que estudia y trata las enfermedades de la piel, cabello, uñas y mucosas"}
 {"especialidadId": "27", "nombre": "Medicina Nuclear", "descripcion": "Especialidad médica que utiliza radioisótopos para el diagnóstico y tratamiento de diversas enfermedades"}
-{"especialidadId": "28", "nombre": "Medicina Del Trabajo", "descripcion": "Especialidad médica que se ocupa de la promoción, prevención y manejo de la salud de los trabajadores"}
 {"especialidadId": "29", "nombre": "Medicina Interna", "descripcion": "Especialidad médica que se dedica al diagnóstico y tratamiento no quirúrgico de enfermedades de adultos"}
 {"especialidadId": "30", "nombre": "Medicina Legal", "descripcion": "Especialidad médica que aplica conocimientos médicos en el ámbito jurídico y legal"}
 {"especialidadId": "31", "nombre": "Medicina Física Y Rehabilitación", "descripcion": "Especialidad médica que trata las discapacidades y limitaciones funcionales mediante terapias físicas y rehabilitación"}
@@ -20,7 +17,6 @@
 {"especialidadId": "36", "nombre": "Neurología", "descripcion": "Especialidad médica que estudia y trata las enfermedades del sistema nervioso central y periférico"}
 {"especialidadId": "38", "nombre": "Oftalmología", "descripcion": "Especialidad médica que se dedica al estudio y tratamiento de las enfermedades de los ojos y la visión"}
 {"especialidadId": "39", "nombre": "Oncología Medica", "descripcion": "Especialidad médica que se encarga del diagnóstico y tratamiento no quirúrgico del cáncer"}
-{"especialidadId": "40", "nombre": "Oncología Quirúrgica", "descripcion": "Especialidad quirúrgica dedicada al tratamiento quirúrgico de tumores malignos"}
 {"especialidadId": "41", "nombre": "Ortopedia Y Traumatología", "descripcion": "Especialidad médica que trata las enfermedades y lesiones del sistema musculoesquelético"}
 {"especialidadId": "42", "nombre": "Otorrinolaringología", "descripcion": "Especialidad médica que estudia y trata las enfermedades del oído, nariz, garganta y estructuras relacionadas"}
 {"especialidadId": "43", "nombre": "Patología Clínica", "descripcion": "Especialidad médica que se encarga del diagnóstico de enfermedades mediante análisis de laboratorio"}
@@ -29,9 +25,7 @@
 {"especialidadId": "46", "nombre": "Radiología", "descripcion": "Especialidad médica que utiliza técnicas de imagen para el diagnóstico y tratamiento de enfermedades"}
 {"especialidadId": "47", "nombre": "Radioterapia", "descripcion": "Especialidad médica que utiliza radiaciones ionizantes para el tratamiento de tumores malignos"}
 {"especialidadId": "48", "nombre": "Reumatología", "descripcion": "Especialidad médica que estudia y trata las enfermedades del tejido conectivo, articulaciones y músculos"}
-{"especialidadId": "49", "nombre": "Salud Publica", "descripcion": "Disciplina que se encarga de la protección y mejora de la salud de las poblaciones y comunidades"}
 {"especialidadId": "50", "nombre": "Urología", "descripcion": "Especialidad médica que trata las enfermedades del aparato genitourinario masculino y urinario femenino"}
-{"especialidadId": "51", "nombre": "Venereología", "descripcion": "Especialidad médica que estudia y trata las enfermedades de transmisión sexual"}
 {"especialidadId": "53", "nombre": "Medicina Intensiva", "descripcion": "Especialidad médica que se encarga del manejo de pacientes críticamente enfermos en unidades de cuidados intensivos"}
 {"especialidadId": "54", "nombre": "Medicina Ocupacional Y Medio Ambiente", "descripcion": "Especialidad que se enfoca en la prevención y tratamiento de enfermedades relacionadas con el trabajo y el ambiente"}
 {"especialidadId": "55", "nombre": "Neonatología", "descripcion": "Subespecialidad pediátrica que se dedica al cuidado médico de recién nacidos, especialmente prematuros o con problemas"}
@@ -44,69 +38,28 @@
 {"especialidadId": "64", "nombre": "Radiodiagnóstico", "descripcion": "Especialidad médica que se encarga del diagnóstico por imágenes mediante diferentes técnicas radiológicas"}
 {"especialidadId": "67", "nombre": "Urología General Y Oncológica", "descripcion": "Especialidad urológica que incluye el tratamiento de cánceres del aparato genitourinario"}
 {"especialidadId": "68", "nombre": "Patología Y Laboratorio Clínico", "descripcion": "Especialidad que combina el estudio anatomopatológico con análisis de laboratorio clínico"}
-{"especialidadId": "69", "nombre": "Parasitología", "descripcion": "Especialidad médica que estudia los parásitos y las enfermedades que causan en humanos"}
 {"especialidadId": "70", "nombre": "Cirugía De Mano", "descripcion": "Subespecialidad quirúrgica dedicada al tratamiento de lesiones y enfermedades de la mano y muñeca"}
 {"especialidadId": "72", "nombre": "Neurología Pediátrica", "descripcion": "Subespecialidad que se dedica al diagnóstico y tratamiento de enfermedades neurológicas en niños"}
 {"especialidadId": "74", "nombre": "Oncología Pediátrica", "descripcion": "Subespecialidad que se encarga del diagnóstico y tratamiento del cáncer en niños y adolescentes"}
 {"especialidadId": "75", "nombre": "Medicina Integral Y Gestión En Salud", "descripcion": "Especialidad que combina la atención médica integral con la gestión de servicios de salud"}
-{"especialidadId": "77", "nombre": "Anatomía Patológica - Patología Clínica", "descripcion": "Especialidad que integra el estudio anatomopatológico con análisis clínicos para el diagnóstico"}
-{"especialidadId": "78", "nombre": "Anestesiología Y Terapia Intensiva Cardiovascular", "descripcion": "Especialidad que combina anestesiología con cuidados intensivos en pacientes cardiovasculares"}
 {"especialidadId": "80", "nombre": "Medicina Intensiva Pediátrica", "descripcion": "Subespecialidad que se encarga del cuidado intensivo de niños críticamente enfermos"}
-{"especialidadId": "89", "nombre": "Adolescentología", "descripcion": "Especialidad médica que se dedica a la atención integral de la salud durante la adolescencia"}
-{"especialidadId": "90", "nombre": "Patología", "descripcion": "Especialidad médica que estudia las enfermedades y sus efectos en la estructura y función de órganos y tejidos"}
-{"especialidadId": "92", "nombre": "Cirugía Oncológica De Cabeza Y Cuello", "descripcion": "Subespecialidad quirúrgica que trata tumores malignos de la región de cabeza y cuello"}
-{"especialidadId": "95", "nombre": "Medicina Hiperbárica Y Subacuática", "descripcion": "Especialidad médica que utiliza oxígeno a presión elevada para tratar diversas patologías"}
 {"especialidadId": "97", "nombre": "Cirugía Vascular Y Angiología", "descripcion": "Especialidad quirúrgica que trata las enfermedades de los vasos sanguíneos mediante cirugía"}
 {"especialidadId": "98", "nombre": "Cirugía Gastroenterológica", "descripcion": "Especialidad quirúrgica que se dedica a la cirugía del aparato digestivo"}
 {"especialidadId": "101", "nombre": "Cirugía Ortopédica Y Traumatología", "descripcion": "Especialidad quirúrgica que trata lesiones y enfermedades del sistema musculoesquelético"}
 {"especialidadId": "104", "nombre": "Cirugía Oncológica", "descripcion": "Especialidad quirúrgica dedicada exclusivamente al tratamiento quirúrgico de tumores malignos"}
-{"especialidadId": "107", "nombre": "Dermatología Y Venereología", "descripcion": "Especialidad que combina el tratamiento de enfermedades de la piel con enfermedades de transmisión sexual"}
 {"especialidadId": "108", "nombre": "Cardiología Infantil", "descripcion": "Subespecialidad que se dedica al diagnóstico y tratamiento de enfermedades cardíacas en niños"}
-{"especialidadId": "109", "nombre": "Cirugía General Y Del Aparato Digestivo", "descripcion": "Especialidad quirúrgica que se enfoca en cirugías del sistema digestivo y procedimientos generales"}
 {"especialidadId": "112", "nombre": "Cirugía Cardiovascular", "descripcion": "Especialidad quirúrgica que trata enfermedades del corazón y grandes vasos mediante cirugía"}
-{"especialidadId": "113", "nombre": "Análisis Clínicos", "descripcion": "Especialidad que se encarga del diagnóstico mediante análisis de muestras biológicas en el laboratorio"}
 {"especialidadId": "114", "nombre": "Oncología Radioterápica", "descripcion": "Especialidad médica que utiliza radiaciones para el tratamiento de tumores malignos"}
-{"especialidadId": "118", "nombre": "Terapia Intensiva", "descripcion": "Especialidad médica que se encarga del manejo de pacientes en estado crítico"}
 {"especialidadId": "119", "nombre": "Alergología", "descripcion": "Especialidad médica que estudia, diagnostica y trata las enfermedades alérgicas e inmunológicas"}
 {"especialidadId": "121", "nombre": "Medicina De Rehabilitación", "descripcion": "Especialidad médica que se encarga de la recuperación funcional de pacientes con discapacidades"}
-{"especialidadId": "122", "nombre": "Medicina Interna Pediátrica", "descripcion": "Subespecialidad que aplica principios de medicina interna en el cuidado de adolescentes"}
 {"especialidadId": "123", "nombre": "Medicina Interna - Gastroenterología", "descripcion": "Subespecialidad de medicina interna que se enfoca en enfermedades del aparato digestivo"}
-{"especialidadId": "128", "nombre": "Radiología E Imagen", "descripcion": "Especialidad médica que utiliza diversas técnicas de imagen para diagnóstico y tratamiento"}
-{"especialidadId": "130", "nombre": "Medicina Intensiva Y De Emergencia", "descripcion": "Especialidad que combina cuidados intensivos con medicina de emergencias"}
-{"especialidadId": "133", "nombre": "Medicina Interna Y Pediatría", "descripcion": "Especialidad combinada que atiende tanto adolescentes como adultos jóvenes"}
 {"especialidadId": "135", "nombre": "Aparato Digestivo", "descripcion": "Especialidad médica que se dedica al estudio y tratamiento de enfermedades del sistema digestivo"}
 {"especialidadId": "137", "nombre": "Oncología Clínica", "descripcion": "Especialidad médica que se encarga del manejo clínico integral de pacientes con cáncer"}
-{"especialidadId": "139", "nombre": "Anatomía Patológica Y Laboratorio", "descripcion": "Especialidad que combina el estudio anatomopatológico con análisis de laboratorio"}
-{"especialidadId": "141", "nombre": "Tocoginecología", "descripcion": "Especialidad médica que se encarga de la salud reproductiva femenina, embarazo y parto"}
-{"especialidadId": "146", "nombre": "Otorrinolaringología Y Cirugía De Cabeza Y Cuello", "descripcion": "Especialidad que combina ORL con cirugía oncológica de cabeza y cuello"}
 {"especialidadId": "149", "nombre": "Pediatría Y Puericultura", "descripcion": "Especialidad que se dedica al cuidado integral de la salud infantil desde el nacimiento"}
 {"especialidadId": "152", "nombre": "Cirugía Plástica", "descripcion": "Especialidad quirúrgica que se encarga de la reconstrucción y mejora estética de tejidos"}
 {"especialidadId": "155", "nombre": "Medicina Pediátrica", "descripcion": "Especialidad médica dedicada exclusivamente al cuidado médico de niños y adolescentes"}
 {"especialidadId": "156", "nombre": "Cirugía Plástica Y Reconstructiva", "descripcion": "Especialidad quirúrgica que corrige defectos y mejora la apariencia mediante cirugía"}
 {"especialidadId": "159", "nombre": "Cirugía De Cabeza Y Cuello", "descripcion": "Especialidad quirúrgica que trata tumores y enfermedades de la región cervicofacial"}
-{"especialidadId": "161", "nombre": "Cirugía", "descripcion": "Especialidad médica que trata enfermedades mediante procedimientos quirúrgicos"}
-{"especialidadId": "162", "nombre": "Medicina Familiar Y Salud Comunitaria", "descripcion": "Especialidad que proporciona atención integral a familias y comunidades"}
-{"especialidadId": "167", "nombre": "Salud Ocupacional", "descripcion": "Especialidad que se enfoca en la prevención de enfermedades y accidentes laborales"}
-{"especialidadId": "172", "nombre": "Medicina Familiar", "descripcion": "Especialidad médica que brinda atención integral y continua a individuos y familias"}
-{"especialidadId": "176", "nombre": "Terapéuticas Alternativas Y Farmacología Vegetal", "descripcion": "Especialidad que utiliza medicina alternativa y productos de origen vegetal para tratamiento"}
-{"especialidadId": "177", "nombre": "Alergia E Inmunopatología", "descripcion": "Especialidad que estudia y trata las enfermedades alérgicas y del sistema inmunológico"}
-{"especialidadId": "179", "nombre": "Anestesiología Y Cuidados Intensivos", "descripcion": "Especialidad que combina anestesiología con manejo de pacientes críticos"}
-{"especialidadId": "181", "nombre": "Medicina Preventiva Y Salud Publica", "descripcion": "Especialidad enfocada en la prevención de enfermedades y promoción de la salud poblacional"}
-{"especialidadId": "183", "nombre": "Cirugía Vascular Periférica", "descripcion": "Subespecialidad quirúrgica que trata enfermedades de vasos sanguíneos periféricos"}
-{"especialidadId": "185", "nombre": "Nutrición Con Orientación En Obesidad", "descripcion": "Especialidad nutricional enfocada en el manejo y tratamiento de la obesidad"}
-{"especialidadId": "186", "nombre": "Administración Y Gestión En Salud", "descripcion": "Especialidad en la administración y gestión eficiente de servicios y sistemas de salud"}
 {"especialidadId": "190", "nombre": "Otorrinolaringología Pediátrica", "descripcion": "Subespecialidad que trata enfermedades de oído, nariz y garganta en niños"}
-{"especialidadId": "192", "nombre": "Oncología", "descripcion": "Especialidad médica que se dedica al estudio, diagnóstico y tratamiento integral del cáncer"}
-{"especialidadId": "195", "nombre": "Cirugía Plástica Y Caumatología", "descripcion": "Especialidad que combina cirugía plástica con tratamiento de quemaduras"}
-{"especialidadId": "199", "nombre": "Radiología Y Diagnostico Por Imágenes", "descripcion": "Especialidad médica que utiliza técnicas de imagen para diagnóstico de enfermedades"}
-{"especialidadId": "200", "nombre": "Cirugía De Tórax", "descripcion": "Especialidad quirúrgica que trata enfermedades de los órganos torácicos"}
-{"especialidadId": "203", "nombre": "Toxicología Medica", "descripcion": "Especialidad médica que estudia y trata intoxicaciones y envenenamientos"}
-{"especialidadId": "204", "nombre": "Salud Ocupacional E Higiene Del Ambiente Laboral", "descripcion": "Especialidad enfocada en la prevención de riesgos laborales y ambientales"}
-{"especialidadId": "205", "nombre": "Coloproctología", "descripcion": "Especialidad médica que trata enfermedades del colon, recto y ano"}
-{"especialidadId": "208", "nombre": "Medicina Interna Y Cardiología", "descripcion": "Especialidad que combina medicina interna con cardiología"}
-{"especialidadId": "212", "nombre": "Anestesiología Y Reanimación", "descripcion": "Especialidad que se encarga de la anestesia y reanimación de pacientes"}
 {"especialidadId": "214", "nombre": "Medicina Física Y De Rehabilitación", "descripcion": "Especialidad que se encarga de la rehabilitación física y funcional de pacientes"}
 {"especialidadId": "216", "nombre": "Medicina Oncológica", "descripcion": "Especialidad médica dedicada al tratamiento médico no quirúrgico del cáncer"}
-{"especialidadId": "218", "nombre": "Cirugía De Tórax Y Cardiovascular", "descripcion": "Especialidad quirúrgica que trata enfermedades torácicas y cardiovasculares"}
-{"especialidadId": "219", "nombre": "Administración En Salud", "descripcion": "Especialidad en la gestión administrativa de servicios e instituciones de salud"}
-{"especialidadId": "228", "nombre": "Medicina Tropical", "descripcion": "Especialidad médica que estudia y trata enfermedades prevalentes en regiones tropicales"}

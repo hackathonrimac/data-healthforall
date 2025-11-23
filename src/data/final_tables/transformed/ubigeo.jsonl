@@ -1,49 +1,18 @@
-{"ubigeoId": "70101", "departamento": 7, "provincia": 1, "distrito": 1, "nombreDistrito": "Callao", "idCercanos": ["70102", "70103", "70104", "70105", "70106"]}
 {"ubigeoId": "70102", "departamento": 7, "provincia": 1, "distrito": 2, "nombreDistrito": "Bellavista", "idCercanos": ["70101", "70103", "70104", "70105", "70106"]}
-{"ubigeoId": "70103", "departamento": 7, "provincia": 1, "distrito": 3, "nombreDistrito": "Carmen de la Legua - Reynoso", "idCercanos": ["70102", "70104", "70101", "70105", "70106"]}
-{"ubigeoId": "70104", "departamento": 7, "provincia": 1, "distrito": 4, "nombreDistrito": "La Perla", "idCercanos": ["70103", "70105", "70102", "70106", "70101"]}
-{"ubigeoId": "70105", "departamento": 7, "provincia": 1, "distrito": 5, "nombreDistrito": "La Punta", "idCercanos": ["70104", "70106", "70103", "70102", "70101"]}
-{"ubigeoId": "70106", "departamento": 7, "provincia": 1, "distrito": 6, "nombreDistrito": "Ventanilla", "idCercanos": ["70105", "70104", "70103", "70102", "70101"]}
 {"ubigeoId": "150101", "departamento": 15, "provincia": 1, "distrito": 1, "nombreDistrito": "Lima Cercado", "idCercanos": ["150102", "150104", "150105", "150106", "150107"]}
-{"ubigeoId": "150102", "departamento": 15, "provincia": 1, "distrito": 2, "nombreDistrito": "Ancón", "idCercanos": ["150101", "150104", "150105", "150106", "150107"]}
-{"ubigeoId": "150104", "departamento": 15, "provincia": 1, "distrito": 4, "nombreDistrito": "Ate", "idCercanos": ["150105", "150106", "150102", "150107", "150101"]}
-{"ubigeoId": "150105", "departamento": 15, "provincia": 1, "distrito": 5, "nombreDistrito": "Barranco", "idCercanos": ["150104", "150106", "150107", "150108", "150102"]}
-{"ubigeoId": "150106", "departamento": 15, "provincia": 1, "distrito": 6, "nombreDistrito": "Breña", "idCercanos": ["150107", "150105", "150104", "150108", "150109"]}
-{"ubigeoId": "150107", "departamento": 15, "provincia": 1, "distrito": 7, "nombreDistrito": "Carabayllo", "idCercanos": ["150108", "150106", "150109", "150105", "150104"]}
-{"ubigeoId": "150108", "departamento": 15, "provincia": 1, "distrito": 8, "nombreDistrito": "Chaclacayo", "idCercanos": ["150109", "150107", "150110", "150106", "150105"]}
 {"ubigeoId": "150109", "departamento": 15, "provincia": 1, "distrito": 9, "nombreDistrito": "Chorrillos", "idCercanos": ["150110", "150108", "150107", "150111", "150112"]}
-{"ubigeoId": "150110", "departamento": 15, "provincia": 1, "distrito": 10, "nombreDistrito": "Cieneguilla", "idCercanos": ["150109", "150111", "150112", "150108", "150113"]}
-{"ubigeoId": "150111", "departamento": 15, "provincia": 1, "distrito": 11, "nombreDistrito": "Comas", "idCercanos": ["150112", "150110", "150113", "150109", "150114"]}
-{"ubigeoId": "150112", "departamento": 15, "provincia": 1, "distrito": 12, "nombreDistrito": "El Agustino", "idCercanos": ["150113", "150111", "150114", "150110", "150115"]}
 {"ubigeoId": "150113", "departamento": 15, "provincia": 1, "distrito": 13, "nombreDistrito": "Independencia", "idCercanos": ["150114", "150112", "150115", "150111", "150116"]}
 {"ubigeoId": "150114", "departamento": 15, "provincia": 1, "distrito": 14, "nombreDistrito": "Jesús María", "idCercanos": ["150115", "150113", "150116", "150112", "150117"]}
 {"ubigeoId": "150115", "departamento": 15, "provincia": 1, "distrito": 15, "nombreDistrito": "La Molina", "idCercanos": ["150116", "150114", "150117", "150113", "150118"]}
 {"ubigeoId": "150116", "departamento": 15, "provincia": 1, "distrito": 16, "nombreDistrito": "La Victoria", "idCercanos": ["150117", "150115", "150118", "150114", "150119"]}
 {"ubigeoId": "150117", "departamento": 15, "provincia": 1, "distrito": 17, "nombreDistrito": "Lince", "idCercanos": ["150116", "150118", "150119", "150115", "150114"]}
 {"ubigeoId": "150118", "departamento": 15, "provincia": 1, "distrito": 18, "nombreDistrito": "Los Olivos", "idCercanos": ["150119", "150117", "150120", "150116", "150121"]}
-{"ubigeoId": "150119", "departamento": 15, "provincia": 1, "distrito": 19, "nombreDistrito": "Lurigancho", "idCercanos": ["150120", "150118", "150121", "150117", "150122"]}
-{"ubigeoId": "150120", "departamento": 15, "provincia": 1, "distrito": 20, "nombreDistrito": "Lurín", "idCercanos": ["150119", "150121", "150122", "150118", "150123"]}
-{"ubigeoId": "150121", "departamento": 15, "provincia": 1, "distrito": 21, "nombreDistrito": "Magdalena del Mar", "idCercanos": ["150120", "150122", "150123", "150119", "150124"]}
 {"ubigeoId": "150122", "departamento": 15, "provincia": 1, "distrito": 22, "nombreDistrito": "Miraflores", "idCercanos": ["150123", "150121", "150120", "150124", "150125"]}
-{"ubigeoId": "150123", "departamento": 15, "provincia": 1, "distrito": 23, "nombreDistrito": "Pachacámac", "idCercanos": ["150124", "150122", "150125", "150121", "150120"]}
-{"ubigeoId": "150124", "departamento": 15, "provincia": 1, "distrito": 24, "nombreDistrito": "Pucusana", "idCercanos": ["150123", "150125", "150122", "150126", "150121"]}
 {"ubigeoId": "150125", "departamento": 15, "provincia": 1, "distrito": 25, "nombreDistrito": "Pueblo Libre", "idCercanos": ["150126", "150124", "150127", "150123", "150128"]}
-{"ubigeoId": "150126", "departamento": 15, "provincia": 1, "distrito": 26, "nombreDistrito": "Puente Piedra", "idCercanos": ["150127", "150125", "150124", "150128", "150129"]}
-{"ubigeoId": "150127", "departamento": 15, "provincia": 1, "distrito": 27, "nombreDistrito": "Punta Hermosa", "idCercanos": ["150128", "150126", "150125", "150129", "150124"]}
-{"ubigeoId": "150128", "departamento": 15, "provincia": 1, "distrito": 28, "nombreDistrito": "Punta Negra", "idCercanos": ["150129", "150127", "150126", "150130", "150131"]}
-{"ubigeoId": "150129", "departamento": 15, "provincia": 1, "distrito": 29, "nombreDistrito": "Rímac", "idCercanos": ["150130", "150128", "150127", "150131", "150126"]}
-{"ubigeoId": "150130", "departamento": 15, "provincia": 1, "distrito": 30, "nombreDistrito": "San Bartolo", "idCercanos": ["150131", "150129", "150132", "150128", "150133"]}
 {"ubigeoId": "150131", "departamento": 15, "provincia": 1, "distrito": 31, "nombreDistrito": "San Borja", "idCercanos": ["150132", "150130", "150129", "150133", "150128"]}
 {"ubigeoId": "150132", "departamento": 15, "provincia": 1, "distrito": 32, "nombreDistrito": "San Isidro", "idCercanos": ["150131", "150133", "150130", "150134", "150135"]}
 {"ubigeoId": "150133", "departamento": 15, "provincia": 1, "distrito": 33, "nombreDistrito": "San Juan de Lurigancho", "idCercanos": ["150134", "150132", "150135", "150131", "150136"]}
-{"ubigeoId": "150134", "departamento": 15, "provincia": 1, "distrito": 34, "nombreDistrito": "San Juan de Miraflores", "idCercanos": ["150135", "150133", "150132", "150136", "150137"]}
 {"ubigeoId": "150135", "departamento": 15, "provincia": 1, "distrito": 35, "nombreDistrito": "San Luis", "idCercanos": ["150136", "150134", "150137", "150133", "150138"]}
 {"ubigeoId": "150136", "departamento": 15, "provincia": 1, "distrito": 36, "nombreDistrito": "San Martín de Porres", "idCercanos": ["150137", "150135", "150138", "150134", "150139"]}
 {"ubigeoId": "150137", "departamento": 15, "provincia": 1, "distrito": 37, "nombreDistrito": "San Miguel", "idCercanos": ["150138", "150136", "150139", "150135", "150140"]}
-{"ubigeoId": "150138", "departamento": 15, "provincia": 1, "distrito": 38, "nombreDistrito": "Santa Anita", "idCercanos": ["150139", "150137", "150140", "150136", "150141"]}
-{"ubigeoId": "150139", "departamento": 15, "provincia": 1, "distrito": 39, "nombreDistrito": "Santa María del Mar", "idCercanos": ["150140", "150138", "150141", "150137", "150142"]}
-{"ubigeoId": "150140", "departamento": 15, "provincia": 1, "distrito": 40, "nombreDistrito": "Santa Rosa", "idCercanos": ["150141", "150139", "150142", "150138", "150143"]}
 {"ubigeoId": "150141", "departamento": 15, "provincia": 1, "distrito": 41, "nombreDistrito": "Santiago de Surco", "idCercanos": ["150142", "150140", "150143", "150139", "150144"]}
-{"ubigeoId": "150142", "departamento": 15, "provincia": 1, "distrito": 42, "nombreDistrito": "Surquillo", "idCercanos": ["150143", "150141", "150144", "150140", "150139"]}
-{"ubigeoId": "150143", "departamento": 15, "provincia": 1, "distrito": 43, "nombreDistrito": "Villa El Salvador", "idCercanos": ["150144", "150142", "150141", "150140", "150139"]}
-{"ubigeoId": "150144", "departamento": 15, "provincia": 1, "distrito": 44, "nombreDistrito": "Villa María del Triunfo", "idCercanos": ["150143", "150142", "150141", "150140", "150139"]}
