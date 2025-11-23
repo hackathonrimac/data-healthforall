@@ -7,7 +7,7 @@ from shared.exceptions import ValidationError
 from dto import DoctorsQueryDTO
 from repositories.clinics_repo import ClinicsRepository
 from repositories.doctors_repo import DoctorsRepository
-from repositories.specialties_repo import SpecialtiesRepository, SubSpecialtiesRepository
+from repositories.specialties_repo import SpecialtiesRepository
 
 
 class DoctorsService:
@@ -16,12 +16,10 @@ class DoctorsService:
         doctors_repo: DoctorsRepository | None = None,
         clinics_repo: ClinicsRepository | None = None,
         specialties_repo: SpecialtiesRepository | None = None,
-        subs_repo: SubSpecialtiesRepository | None = None,
     ):
         self._doctors_repo = doctors_repo or DoctorsRepository()
         self._clinics_repo = clinics_repo or ClinicsRepository()
         self._specialties_repo = specialties_repo or SpecialtiesRepository()
-        self._subs_repo = subs_repo or SubSpecialtiesRepository()
 
     def list_doctors(self, dto: DoctorsQueryDTO) -> Dict[str, object]:
         filters = {
@@ -46,15 +44,32 @@ class DoctorsService:
         }
 
     def _to_response_model(self, doctor: Dict[str, object]) -> Dict[str, object]:
-        clinic = self._clinics_repo.get_clinic(doctor["clinicaId"])
-        specialty = self._specialties_repo.list_specialties(doctor["especialidadPrincipalId"])
-        subs = self._subs_repo.list_subspecialties(doctor["especialidadPrincipalId"])
+        # Handle both old format (clinicaId) and new format (clinicaIds array)
+        clinica_id = None
+        if "clinicaId" in doctor:
+            clinica_id = doctor["clinicaId"]
+        elif "clinicaIds" in doctor and doctor["clinicaIds"]:
+            clinica_id = doctor["clinicaIds"][0] if isinstance(doctor["clinicaIds"], list) else doctor["clinicaIds"]
+        
+        clinic = self._clinics_repo.get_clinic(clinica_id) if clinica_id else None
+        
+        # Use especialidadId (the actual field in the data)
+        especialidad_id = doctor.get("especialidadId")
+        specialty = self._specialties_repo.list_specialties(especialidad_id) if especialidad_id else []
+        
+        # Handle both nombreCompleto and separated name fields
+        doctor_name = doctor.get("nombreCompleto")
+        if not doctor_name:
+            nombres = doctor.get("nombres", "")
+            apellido_paterno = doctor.get("apellidoPaterno", "")
+            apellido_materno = doctor.get("apellidoMaterno", "")
+            doctor_name = f"{nombres} {apellido_paterno} {apellido_materno}".strip()
+        
         return {
             "doctorId": doctor["doctorId"],
-            "doctorName": doctor["nombreCompleto"],
+            "doctorName": doctor_name,
             "clinicId": clinic["clinicaId"] if clinic else None,
             "clinicName": clinic["nombreClinica"] if clinic else None,
             "especialidad": specialty[0]["nombre"] if specialty else None,
-            "subEspecialidades": [item["nombre"] for item in subs],
-            "photoUrl": doctor.get("photoUrl"),
+            "photoUrl": doctor.get("photoUrl") or doctor.get("fotoUrl"),
         }

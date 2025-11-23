@@ -40,12 +40,14 @@ class ClinicsService:
 
     @staticmethod
     def _to_response_model(clinic: Dict[str, str]) -> Dict[str, object]:
+        # Handle both old format (ubicacion) and new format (direccion)
+        ubicacion = clinic.get("ubicacion") or clinic.get("direccion", "")
         return {
             "clinicaId": clinic["clinicaId"],
             "nombreClinica": clinic["nombreClinica"],
-            "ubicacion": clinic["ubicacion"],
+            "ubicacion": ubicacion,
             "ubigeoId": clinic["ubigeoId"],
-            "especialidadIds": clinic["especialidadIds"],
-            "seguroIds": clinic["seguroIds"],
-            "url": clinic["url"],
+            "especialidadIds": clinic.get("especialidadIds", []),
+            "seguroIds": clinic.get("seguroIds", []),
+            "url": clinic.get("url") or clinic.get("urlLandingPage", ""),
         }
