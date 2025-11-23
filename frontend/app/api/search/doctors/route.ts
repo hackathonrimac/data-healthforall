@@ -18,19 +18,26 @@ export async function GET(request: NextRequest) {
     const page = searchParams.get('page') || '1';
     const pageSize = searchParams.get('pageSize') || '10';
 
-    if (!ubigeoId || !especialidadId) {
+    // At least one search parameter is required
+    if (!ubigeoId && !especialidadId && !seguroId) {
       return NextResponse.json(
-        { error: 'ubigeoId and especialidadId are required' },
+        { error: 'At least one search parameter (ubigeoId, especialidadId, or seguroId) is required' },
         { status: 400 }
       );
     }
 
     const params = new URLSearchParams({
-      ubigeoId,
-      especialidadId,
       page,
       pageSize,
     });
+
+    if (ubigeoId) {
+      params.append('ubigeoId', ubigeoId);
+    }
+
+    if (especialidadId) {
+      params.append('especialidadId', especialidadId);
+    }
 
     if (seguroId) {
       params.append('seguroId', seguroId);
