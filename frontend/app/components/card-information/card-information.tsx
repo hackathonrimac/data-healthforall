@@ -177,17 +177,20 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
                   <div key={doctor.doctorId} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '12px', borderRadius: '8px', backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB' }}>
                     {/* Doctor Photo */}
                     <div className="flex-shrink-0">
-                      {doctor.photoUrl ? (
+                      {doctor.doctorId ? (
                         <img
-                          src={doctor.photoUrl}
+                          src={`https://aplicaciones.cmp.org.pe/conoce_a_tu_medico/fotos/${doctor.doctorId}.jpg`}
                           alt={doctor.doctorName}
                           style={{ height: '48px', width: '48px', borderRadius: '9999px', objectFit: 'cover', border: '2px solid #D1D5DB' }}
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.nextElementSibling?.setAttribute('style', 'display: flex');
+                          }}
                         />
-                      ) : (
-                        <div style={{ height: '48px', width: '48px', borderRadius: '9999px', backgroundColor: '#E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #D1D5DB' }}>
-                          <User style={{ height: '24px', width: '24px', color: '#4B5563' }} />
-                        </div>
-                      )}
+                      ) : null}
+                      <div style={{ height: '48px', width: '48px', borderRadius: '9999px', backgroundColor: '#E5E7EB', display: 'none', alignItems: 'center', justifyContent: 'center', border: '2px solid #D1D5DB' }}>
+                        <User style={{ height: '24px', width: '24px', color: '#4B5563' }} />
+                      </div>
                     </div>
 
                     {/* Doctor Info */}
@@ -290,17 +293,20 @@ export function CardInformation({ data, isLoading = false }: CardInformationProp
                 <div key={doctor.doctorId} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', padding: '12px', borderRadius: '8px', backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB' }}>
                   {/* Doctor Photo */}
                   <div className="flex-shrink-0">
-                    {doctor.photoUrl ? (
+                    {doctor.doctorId ? (
                       <img
-                        src={doctor.photoUrl}
+                        src={`https://aplicaciones.cmp.org.pe/conoce_a_tu_medico/fotos/${doctor.doctorId}.jpg`}
                         alt={doctor.doctorName}
                         style={{ height: '48px', width: '48px', borderRadius: '9999px', objectFit: 'cover', border: '2px solid #D1D5DB' }}
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.nextElementSibling?.setAttribute('style', 'display: flex');
+                        }}
                       />
-                    ) : (
-                      <div style={{ height: '48px', width: '48px', borderRadius: '9999px', backgroundColor: '#E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #D1D5DB' }}>
-                        <User style={{ height: '24px', width: '24px', color: '#4B5563' }} />
-                      </div>
-                    )}
+                    ) : null}
+                    <div style={{ height: '48px', width: '48px', borderRadius: '9999px', backgroundColor: '#E5E7EB', display: 'none', alignItems: 'center', justifyContent: 'center', border: '2px solid #D1D5DB' }}>
+                      <User style={{ height: '24px', width: '24px', color: '#4B5563' }} />
+                    </div>
                   </div>
 
                   {/* Doctor Info */}
