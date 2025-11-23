@@ -28,44 +28,58 @@ class SearchService:
         self._ubigeo_repo = ubigeo_repo or UbigeoRepository()
 
     def search_doctors(self, dto: SearchDoctorsQueryDTO) -> Dict[str, object]:
-        if not self._ubigeo_repo.exists(dto.ubigeo_id):
+        # Validate ubigeo if provided
+        if dto.ubigeo_id and not self._ubigeo_repo.exists(dto.ubigeo_id):
             raise ValidationError("Invalid ubigeoId")
 
-        # Step 1: Get all clinics in the ubigeo (don't filter by especialidad - doctors are the bridge!)
-        clinics = self._clinics_repo.list_clinics(
-            {
-                "ubigeoId": dto.ubigeo_id,
-                "seguroId": dto.seguro_id,  # Can still filter by insurance if needed
-            }
-        )
-        clinic_ids = {clinic["clinicaId"] for clinic in clinics}
-        if not clinic_ids:
-            return self._empty_payload(dto)
+        # Step 1: Get clinics (filter by ubigeo and/or seguro if provided)
+        clinic_filters = {}
+        if dto.ubigeo_id:
+            clinic_filters["ubigeoId"] = dto.ubigeo_id
+        if dto.seguro_id:
+            clinic_filters["seguroId"] = dto.seguro_id
+        
+        # If we have clinic filters, apply them; otherwise get all clinics
+        if clinic_filters:
+            clinics = self._clinics_repo.list_clinics(clinic_filters)
+            clinic_ids = {clinic["clinicaId"] for clinic in clinics}
+        else:
+            # No clinic filters - we'll filter by doctors only
+            clinics = self._clinics_repo.list_clinics({})
+            clinic_ids = None  # Will skip clinic filtering
 
-        # Step 2: Get all doctors with the especialidad
-        doctors = self._doctors_repo.list_doctors({
-            "especialidadId": dto.especialidad_id,
-            "rimacEnsured": dto.rimac_ensured,
-        })
+        # Step 2: Get doctors (filter by especialidad and/or rimacEnsured if provided)
+        doctor_filters = {}
+        if dto.especialidad_id:
+            doctor_filters["especialidadId"] = dto.especialidad_id
+        if dto.rimac_ensured is not None:
+            doctor_filters["rimacEnsured"] = dto.rimac_ensured
         
-        # Step 3: Filter doctors whose clinicaIds intersect with the clinic_ids
-        filtered_doctors = []
-        for doctor in doctors:
-            if "clinicaId" in doctor and doctor["clinicaId"] in clinic_ids:
-                filtered_doctors.append(doctor)
-            elif "clinicaIds" in doctor:
-                clinica_ids_list = doctor["clinicaIds"] if isinstance(doctor["clinicaIds"], list) else [doctor["clinicaIds"]]
-                if any(cid in clinic_ids for cid in clinica_ids_list):
+        doctors = self._doctors_repo.list_doctors(doctor_filters)
+        
+        # Step 3: Filter doctors whose clinicaIds intersect with clinic_ids (if clinic filters were applied)
+        if clinic_ids is not None:
+            filtered_doctors = []
+            for doctor in doctors:
+                if "clinicaId" in doctor and doctor["clinicaId"] in clinic_ids:
                     filtered_doctors.append(doctor)
+                elif "clinicaIds" in doctor:
+                    clinica_ids_list = doctor["clinicaIds"] if isinstance(doctor["clinicaIds"], list) else [doctor["clinicaIds"]]
+                    if any(cid in clinic_ids for cid in clinica_ids_list):
+                        filtered_doctors.append(doctor)
+            doctors = filtered_doctors
         
-        doctors = filtered_doctors
         total = len(doctors)
         start = (dto.page - 1) * dto.page_size
         end = start + dto.page_size
         paged = doctors[start:end]
 
-        specialty = self._specialties_repo.list_specialties(dto.especialidad_id)
-        specialty_name = specialty[0]["nombre"] if specialty else None
+        # Get specialty name if filtering by specialty
+        specialty_name = None
+        if dto.especialidad_id:
+            specialty = self._specialties_repo.list_specialties(dto.especialidad_id)
+            specialty_name = specialty[0]["nombre"] if specialty else None
+        
         insurer_names = {ins["seguroId"]: ins["nombre"] for ins in self._insurers_repo.list_insurers(None)}
         clinic_lookup = {clinic["clinicaId"]: clinic for clinic in clinics}
 
