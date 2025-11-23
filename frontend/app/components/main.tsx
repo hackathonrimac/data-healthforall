@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
+import Link from 'next/link';
+import { FileText } from 'lucide-react';
 import { SearchHospital } from '@/app/components/search-hospital/search-hospital';
 import { CardInformation } from './card-information/card-information';
 import { useSearchFilters } from './search-hospital/useSearchFilters';
@@ -63,8 +65,17 @@ export default function Main() {
                key="landing"
                exit={{ opacity: 0, y: -50 }}
                transition={{ duration: 0.5, ease: "easeInOut" }}
-               className="flex-1 flex flex-col items-center justify-center px-4 overflow-y-auto"
+               className="flex-1 flex flex-col items-center justify-center px-4 overflow-y-auto relative"
              >
+                {/* Docs Button - Top Right */}
+                <Link 
+                  href="/docs"
+                  className="absolute top-6 right-6 flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200 text-gray-700 hover:text-gray-900 group"
+                >
+                  <FileText className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  <span className="font-medium text-sm">Docs</span>
+                </Link>
+
                 <div className="w-full max-w-5xl space-y-12 py-10 flex flex-col items-center">
                    {/* 1. Title Section */}
                    <motion.div 
