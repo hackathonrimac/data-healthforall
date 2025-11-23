@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/app/components/ui/card';
 import { FindUbication } from '@/app/components/search-hospital/find-ubication';
 import { FindInsurance } from '@/app/components/search-hospital/find-insurance';
 import { FindSpeciality } from '@/app/components/search-hospital/find-speciality';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, Search } from 'lucide-react';
 import type { SearchFilters } from '@/app/components/search-hospital/useSearchFilters';
 import type { UbigeoDistrict } from '@/lib/constants/ubigeo';
 
@@ -14,6 +14,7 @@ interface SearchHospitalProps {
   setSelectedLocation: (location: UbigeoDistrict | null) => void;
   setSelectedInsurances: (insurances: string[]) => void;
   setSelectedSpecialties: (specialties: string[]) => void;
+  onSearch?: () => void;
 }
 
 export function SearchHospital({
@@ -21,6 +22,7 @@ export function SearchHospital({
   setSelectedLocation,
   setSelectedInsurances,
   setSelectedSpecialties,
+  onSearch
 }: SearchHospitalProps) {
   const [showMoreFilters, setShowMoreFilters] = useState(false);
 
@@ -40,8 +42,18 @@ export function SearchHospital({
               className="flex-1"
             />
 
-            {/* More Filters Button */}
+            {/* Search Button (Call to Action) */}
             <button
+              type="button"
+              onClick={onSearch}
+              className="flex items-center justify-center gap-2 w-44 h-12 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-all font-medium text-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5 whitespace-nowrap"
+            >
+               <Search className="w-4 h-4" />
+               <span>Buscar</span>
+            </button>
+
+            {/* More Filters Button - Hidden for now as requested */}
+            {/* <button
               type="button"
               onClick={() => setShowMoreFilters(!showMoreFilters)}
               className="flex items-center justify-center gap-2 w-44 h-12 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-all font-medium text-sm shadow-lg hover:shadow-xl whitespace-nowrap"
@@ -57,13 +69,13 @@ export function SearchHospital({
                   <span>More Filters</span>
                 </>
               )}
-            </button>
+            </button> */}
           </div>
         </CardContent>
       </Card>
 
       {/* Additional Filters Card - Slides in and pushes content */}
-      <div
+      {/* <div
         className={`
           grid transition-all duration-500 ease-out
           ${showMoreFilters 
@@ -99,8 +111,7 @@ export function SearchHospital({
             </Card>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
-
