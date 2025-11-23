@@ -27,9 +27,9 @@
 
 | Nombre completo | Usuario GitHub | Rol | Especialidad |
 |-----------------|----------------|-----|--------------|
-| [Ejemplo: Juan Pérez] | @juanperez | Full Stack Developer | React + Node.js |
-| [Ejemplo: María López] | @marialopez | Data Scientist | ML & Python |
-| [Añade más filas según sea necesario] | | | |
+| [Ejemplo: Raúl Escandon] | @ | AI Engineer | React + Node.js |
+| [Ejemplo: Fiorella Ramírez] | @elmerescandon | Data Scientist | Python |
+| [Ejemplo: Diego Orihuela] | @Insi4990 | PM | Python |
 
 ---
 
@@ -37,12 +37,10 @@
 
 > Describe de manera breve y clara la funcionalidad principal de tu proyecto. ¿Qué problema resuelve y cómo lo hace?
 
-**Ejemplo para Reto 1 - Data:**  
-*"Nuestro proyecto es un buscador inteligente de doctores y clínicas que consolida información dispersa de múltiples fuentes públicas. Permite a cualquier ciudadano encontrar médicos por especialidad, ubicación y disponibilidad en menos de 30 segundos. También muestra medicamentos referenciales por especialidad, facilitando el acceso a información de salud confiable."*
-
 **Tu respuesta:**
 
-[Describe qué hace tu proyecto]
+Nuestro proyecto consolida datos de más de 12 grupos clínicos principales y cerca de 5,000 doctores en un solo lugar, elegibles por especialidad y ubicación. Nuestra solución permite identificar a quién acudir con un asistente de IA conversacional que entiende síntomas y necesidades médicas. Los usuarios pueden buscar doctores por especialidad, clínica y ubicación (Lima Metropolitana y Callao), facilitando la comparación de opciones disponibles y reduciendo el tiempo de búsqueda de información médica. Además, hemos construido una API REST pública y reutilizable que expone toda esta información consolidada a través de endpoints documentados. Esta API puede ser consumida por cualquier aplicación, sistema de salud, o desarrollador externo que necesite acceder a información de doctores y clínicas.
+
 
 ---
 
@@ -50,19 +48,17 @@
 
 > Explica brevemente las tecnologías y herramientas que utilizaste para construir tu proyecto. ¿Qué frameworks o plataformas empleaste y cómo se integraron?
 
-**Ejemplo:**  
-*"Construimos la solución con:"*
-- *Web scrapers en Python (Selenium + BeautifulSoup) para extraer datos de 15 sitios web de clínicas*
-- *Pipeline ETL con Pandas para limpiar y normalizar información de 5,000+ médicos*
-- *Base de datos PostgreSQL para almacenamiento estructurado*
-- *API REST con FastAPI para consultas rápidas*
-- *Frontend en Next.js con diseño responsivo*
-- *Búsqueda semántica con Sentence Transformers para mejorar resultados*
-- *Deploy en AWS usando Lambda, RDS y CloudFront*
-
 **Tu respuesta:**
 
-[Describe cómo construyeron la solución]
+Construimos la solución con:
+
+- **Web scraping en Python** (BeautifulSoup, requests, pandas) para extraer datos de 12+ sitios web de clínicas principales (Anglo Americana, Auna, Aviva, Cayetano Heredia, Good Hope, Clínica Internacional, Jockey Salud, Maison de Santé, Ricardo Palma, San Felipe, San Pablo, Sanna)
+- **Pipeline ETL con Pandas** para limpiar y normalizar información de miles de médicos, incluyendo validación contra datos del Colegio Médico del Perú (CMP) con 37,000+ registros
+- **Base de datos DynamoDB** en AWS para almacenamiento estructurado y escalable de doctores, clínicas, especialidades, seguros y ubicaciones
+- **API REST serverless** con AWS Lambda y API Gateway (múltiples APIs por dominio: Clinics, Doctors, Especialidades, Seguros, Search) 
+- **Frontend en Next.js 16** con React 19, Tailwind CSS y diseño responsivo
+- **Asistente de IA conversacional** usando Amazon Bedrock con Claude Sonnet para ayudar a usuarios a encontrar doctores basándose en síntomas y necesidades
+- **Infraestructura como código** con AWS CloudFormation para deployment automatizado en ambientes dev y prod
 
 ---
 
@@ -70,15 +66,15 @@
 
 > Describe los principales retos y dificultades que encontraron durante el desarrollo del proyecto. ¿Cómo los abordaron y qué soluciones implementaron?
 
-**Ejemplo:**  
-*"Enfrentamos tres desafíos principales:"*
-1. *Variabilidad de estructura web: Cada clínica tiene un diseño diferente. Lo resolvimos creando scrapers específicos con patrones adaptativos.*
-2. *Normalización de datos: Encontramos 15 nomenclaturas distintas para especialidades. Creamos un diccionario de sinónimos y lógica de matching fuzzy.*
-3. *Rendimiento de búsqueda: Con 5,000+ registros, las búsquedas eran lentas. Implementamos indexación con Elasticsearch reduciendo tiempos de 5s a <500ms.*
-
 **Tu respuesta:**
 
-[Describe los desafíos que enfrentaron]
+Enfrentamos tres desafíos principales:
+
+1. **Variabilidad de estructura web**: Cada clínica tiene un diseño y estructura HTML diferente, con algunos sitios usando JavaScript dinámico. Lo resolvimos creando scrapers específicos para cada clínica con patrones adaptativos, usando BeautifulSoup para parsing HTML y manejando casos especiales como APIs internas (Auna, Internacional) y contenido renderizado dinámicamente.
+
+2. **Normalización de datos**: Encontramos múltiples nomenclaturas distintas para especialidades médicas, formatos inconsistentes de nombres, y datos incompletos. Creamos scripts de limpieza y normalización usando pandas, validando información contra el dataset del CMP para asegurar precisión.
+
+3. **Arquitectura serverless compleja**: Implementar múltiples APIs independientes (una por dominio) con Lambda, API Gateway y DynamoDB requirió diseño cuidadoso de tablas, índices y permisos IAM. Lo resolvimos usando CloudFormation para infraestructura como código, creando repositorios compartidos para acceso a datos, y estableciendo ambientes separados (dev/prod) para testing seguro antes de producción.
 
 ---
 
@@ -95,28 +91,19 @@ Si prefieres hacer tus propias diapositivas fuera del deck, igual transpórtalas
 
 ### 📊 Link a tu presentación (solo referencia)
 
-Si tuviste un deck alterno de trabajo: **[URL opcional de tu copia de trabajo]**
+Si tuviste un deck alterno de trabajo: https://docs.google.com/presentation/d/1x8Iblb8d1wzqgh2edXdOkdDYWqAufvXC2iz3E7xNGTQ/edit?usp=sharing
 
 ### 💻 Link a tu código
 
-Indica dónde vive el código final:
-- Si usaste este mismo repositorio: escribe "Código en carpeta `/src` de este repo".
-- Si usaste otro repositorio o servicio (Kaggle, GitHub extra, HuggingFace, Vercel, etc.): lista cada enlace claramente.
-
-**Ejemplo (interno):** Código en `/src` + notebooks de exploración en `src/notebooks/`.
-
-**Ejemplo (externo):**
-- Repo principal: https://github.com/tu-equipo/proyecto-rimac2025
-- Kaggle notebook: https://www.kaggle.com/tuusuario/notebook-procesamiento
-- HuggingFace Space (demo): https://huggingface.co/spaces/tu-equipo/app
+Indica dónde vive el código final: Código en carpeta `/src` de este repo.
 
 ### 🌐 Link a la demo en vivo (si aplica)
 
 Si desplegaste tu aplicación, comparte el enlace aquí.
 
-**Demo URL:** [URL de la aplicación desplegada]
+**Demo URL:** https://data-healthforall.vercel.app
 
-**Ejemplo:** https://buscador-doctores.vercel.app
+**Ejemplo:** 
 
 ### 🎥 Video de demostración (opcional)
 
@@ -124,24 +111,22 @@ Si crearon un video demo, compártelo aquí.
 
 **Video:** [URL de YouTube / Loom / Google Drive]
 
-
 ---
 
 ## (opcional) ¿De qué logros están orgullosos?
 
 > Menciona los logros más significativos de tu proyecto. ¿Qué resultados obtuvieron que consideran importantes o destacables?
 
-**Ejemplo:**  
-*"Estamos orgullosos de:"*
-- *Consolidar información de 15 clínicas principales de Lima y 5,000+ médicos*
-- *Lograr una precisión de búsqueda del 92% validada con usuarios reales*
-- *Reducir el tiempo de búsqueda de doctores de 15 minutos (búsqueda manual) a 30 segundos*
-- *Crear una experiencia de usuario intuitiva con 0 capacitación requerida*
-- *Implementar la solución completa (backend + frontend + deploy) en solo 3 días*
-
 **Tu respuesta:**
 
-[Describe tus logros principales]
+Estamos orgullosos de:
+- Consolidar información de 12+ grupos clínicos principales de Lima y cerca de 5,000 médicos validados
+- Integrar datos del Colegio Médico del Perú (37,000+ doctores) para validación y enriquecimiento
+- Crear una arquitectura serverless escalable en AWS con múltiples APIs independientes
+- Implementar un asistente de IA conversacional que ayuda a usuarios a encontrar doctores basándose en síntomas
+- Desarrollar scrapers robustos que manejan la variabilidad de estructuras web de diferentes clínicas
+- Lograr una solución completa (backend + frontend + deploy) con infraestructura como código
+
 
 ---
 
@@ -151,53 +136,49 @@ Si crearon un video demo, compártelo aquí.
 
 **Aprendizajes técnicos:**
 
-**Ejemplo:**  
-*"Técnicamente aprendimos:"*
-- *Web scraping avanzado con manejo de JavaScript dinámico*
-- *Optimización de búsquedas con índices y caching*
-- *Integración de modelos de NLP para búsqueda semántica*
-- *Mejores prácticas para manejo de datos sensibles de salud*
-- *Deploy serverless en AWS con arquitectura escalable*
+- Web scraping avanzado con manejo de diferentes estructuras HTML y APIs internas
+- Arquitectura serverless en AWS con Lambda, API Gateway y DynamoDB
+- Diseño de tablas DynamoDB optimizado para consultas eficientes
+- Integración de modelos de IA generativa (Claude via Bedrock) para asistentes conversacionales
+- Infraestructura como código con CloudFormation para deployment automatizado
+- Normalización y limpieza de datos de salud con validación cruzada.
 
 **Aprendizajes de trabajo en equipo:**
 
-**Ejemplo:**  
-*"Como equipo aprendimos:"*
-- *La importancia de definir un MVP claro desde el inicio*
-- *Comunicación constante es clave en hackathons intensivos*
-- *Dividir tareas por especialidad acelera el desarrollo*
-- *Pair programming ayuda a resolver problemas más rápido*
-
-**Tu respuesta:**
-
-[Describe qué aprendieron]
-
----
+- La importancia de dividir tareas por especialidad (frontend, backend, data) acelera el desarrollo
+- Comunicación constante es clave en hackathons intensivos para evitar duplicación de trabajo
+- Definir un MVP claro desde el inicio ayuda a mantener el foco
+- Testing incremental en ambiente dev antes de producción previene errores costosos
 
 ## (opcional) ¿Qué harían con más tiempo? opcional
 
 > Ideas de mejora o próximos pasos si tuvieran 1-3 meses adicionales.
 
-**Ejemplo:**
-
-**Expansión de funcionalidades:**
-- Integrar datos de más clínicas (objetivo: 50+ clínicas en todo Perú)
-- Agregar sistema de reseñas y ratings de pacientes
-- Implementar agendamiento de citas directo desde la plataforma
-- Añadir chatbot con IA para asesoría médica básica
-
-**Mejoras técnicas:**
-- Implementar scraping en tiempo real con actualización automática
-- Añadir machine learning para recomendaciones personalizadas
-- Mejorar performance para soportar 10,000+ usuarios concurrentes
-- Implementar análisis predictivo de disponibilidad de doctores
-
-**Integraciones:**
-- APIs con sistemas de ERP de clínicas
-- Integración con seguros de salud para verificar cobertura
-- Conectar con farmacias para disponibilidad de medicamentos
-- Implementar telemedicina básica
-
 **Tu visión:**
 
-[Describe qué harías con más tiempo]
+
+**Expansión de funcionalidades:**
+
+- **Buscador dinámico basado en ubicación**: Implementar integración con Google Maps API para permitir búsqueda de doctores y clínicas por proximidad geográfica en tiempo real. Los usuarios podrían buscar "doctores cerca de mí" usando su ubicación GPS, ver clínicas en un mapa interactivo, calcular distancias y tiempos de viaje, y filtrar resultados por radio de distancia.
+
+- **Sistema de usuarios y personalización**: Añadir funcionalidad de registro de usuarios que permita guardar favoritos de clínicas y doctores, crear listas personalizadas, recibir notificaciones sobre disponibilidad, y mantener un historial de búsquedas.
+
+- **Implementar datos adicionales scrapeados pero no uniformizados**: Durante el scraping logramos extraer información adicional que aún no está completamente integrada en la plataforma:
+  - **Horarios de atención detallados**: De ciertos centros de salud tenemos datos de días de la semana (lunes, martes, miércoles, jueves, viernes, sábado) y horarios de inicio/fin por doctor y sucursal. Implementaríamos normalización de estos datos para permitir búsquedas como "doctores disponibles los sábados" o "atención nocturna después de las 6pm".
+  - **Grados académicos y educación**: De algunas clínicas tenemos campos `education_titles`, `education_places`, `education_dates`, y `education_summary` que contienen información sobre títulos académicos, universidades, y fechas de graduación. Normalizaríamos estos datos para mostrar maestrías, doctorados, y especializaciones adicionales.
+  - **Certificaciones y premios**: También tenemos campos `certification` y `awards` para algunas clínicas que podrían enriquecer los perfiles de doctores con certificaciones internacionales y reconocimientos.
+  - **Idiomas**: Aunque algunos datos de idiomas fueron mencionados durante el scraping, necesitaríamos completar la extracción y normalización de esta información para permitir búsqueda por idioma (español, inglés, quechua, etc.).
+
+- Integrar datos de más clínicas (objetivo: 50+ clínicas en todo Perú, expandir más allá de Lima Metropolitana)
+- Implementar agendamiento de citas directo desde la plataforma (integración con sistemas de calendario de clínicas).
+
+**Mejoras técnicas:**
+
+- Implementar scraping en tiempo real con actualización automática periódica de datos
+- Mejorar performance para soportar 10,000+ usuarios concurrentes con caching inteligente
+
+**Integraciones:**
+
+- APIs con sistemas de ERP de clínicas para sincronización bidireccional de datos en tiempo real
+- Integración con seguros de salud para verificar cobertura en tiempo real
+
