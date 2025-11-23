@@ -11,16 +11,26 @@ interface InsuranceCompany {
 
 interface FindInsuranceProps {
   onInsuranceSelect?: (selectedInsurances: string[]) => void;
+  selectedInsurances?: string[];
   className?: string;
 }
 
-export function FindInsurance({ onInsuranceSelect, className }: FindInsuranceProps) {
-  const [selectedInsurances, setSelectedInsurances] = useState<string[]>([]);
+export function FindInsurance({ 
+  onInsuranceSelect, 
+  selectedInsurances: initialSelectedInsurances = [],
+  className 
+}: FindInsuranceProps) {
+  const [selectedInsurances, setSelectedInsurances] = useState<string[]>(initialSelectedInsurances);
   const [isOpen, setIsOpen] = useState(false);
   const [insuranceCompanies, setInsuranceCompanies] = useState<InsuranceCompany[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Update internal state when selectedInsurances prop changes
+  useEffect(() => {
+    setSelectedInsurances(initialSelectedInsurances);
+  }, [initialSelectedInsurances]);
 
   // Fetch insurance companies from API
   useEffect(() => {

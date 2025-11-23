@@ -13,18 +13,30 @@ interface UbigeoApiResponse {
 
 interface FindUbicationProps {
   onLocationSelect?: (ubigeo: UbigeoDistrict) => void;
+  selectedLocation?: UbigeoDistrict | null;
   className?: string;
 }
 
-export function FindUbication({ onLocationSelect, className }: FindUbicationProps) {
-  const [selectedDistrict, setSelectedDistrict] = useState<string>('');
-  const [searchTerm, setSearchTerm] = useState<string>('');
+export function FindUbication({ onLocationSelect, selectedLocation, className }: FindUbicationProps) {
+  const [selectedDistrict, setSelectedDistrict] = useState<string>(selectedLocation?.code || '');
+  const [searchTerm, setSearchTerm] = useState<string>(selectedLocation?.name || '');
   const [isOpen, setIsOpen] = useState(false);
   const [districts, setDistricts] = useState<UbigeoDistrict[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Update internal state when selectedLocation prop changes
+  useEffect(() => {
+    if (selectedLocation) {
+      setSelectedDistrict(selectedLocation.code);
+      setSearchTerm(selectedLocation.name);
+    } else {
+      setSelectedDistrict('');
+      setSearchTerm('');
+    }
+  }, [selectedLocation]);
 
   // Fetch districts from API
   useEffect(() => {

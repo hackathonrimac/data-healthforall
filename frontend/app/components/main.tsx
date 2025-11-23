@@ -77,7 +77,7 @@ export default function Main() {
 
                    {/* 2. Search Section - Focal Point */}
                    <motion.div 
-                     className="w-full max-w-4xl mx-auto transform transition-all hover:scale-[1.01] z-20"
+                     className="w-full max-w-4xl mx-auto transform transition-all z-20"
                      layoutId="search-container"
                    >
                       <SearchHospital 

@@ -11,22 +11,29 @@ interface Specialty {
 
 interface FindSpecialityProps {
   onSpecialtySelect?: (selectedSpecialties: string[]) => void;
+  selectedSpecialties?: string[];
   className?: string;
   maxSelections?: number;
 }
 
 export function FindSpeciality({ 
   onSpecialtySelect, 
+  selectedSpecialties: initialSelectedSpecialties = [],
   className,
   maxSelections = 3
 }: FindSpecialityProps) {
-  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>(initialSelectedSpecialties);
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Update internal state when selectedSpecialties prop changes
+  useEffect(() => {
+    setSelectedSpecialties(initialSelectedSpecialties);
+  }, [initialSelectedSpecialties]);
 
   useEffect(() => {
     fetchSpecialties();

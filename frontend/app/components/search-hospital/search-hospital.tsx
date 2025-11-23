@@ -34,11 +34,13 @@ export function SearchHospital({
           <div className="flex items-center gap-4">
             <FindUbication 
               onLocationSelect={(ubigeo) => setSelectedLocation(ubigeo)}
+              selectedLocation={filters.selectedLocation}
               className="flex-1"
             />
 
             <FindSpeciality 
               onSpecialtySelect={(specialties) => setSelectedSpecialties(specialties)}
+              selectedSpecialties={filters.selectedSpecialties}
               className="flex-1"
             />
 
