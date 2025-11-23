@@ -28,6 +28,7 @@ class DoctorsService:
             "especialidadId": dto.especialidad_id,
             "clinicaId": dto.clinica_id,
             "doctorId": dto.doctor_id,
+            "rimacEnsured": dto.rimac_ensured,
         }
         doctors = self._doctors_repo.list_doctors(filters)
         total = len(doctors)

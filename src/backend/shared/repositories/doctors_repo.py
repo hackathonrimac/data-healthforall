@@ -16,5 +16,7 @@ class DoctorsRepository:
                 continue
             if filters.get("especialidadId") and doctor["especialidadPrincipalId"] != filters["especialidadId"]:
                 continue
+            if filters.get("rimacEnsured") is not None and doctor.get("rimacEnsured") != filters["rimacEnsured"]:
+                continue
             results.append(doctor)
         return results

@@ -44,7 +44,10 @@ class SearchService:
         if not clinic_ids:
             return self._empty_payload(dto)
 
-        doctors = self._doctors_repo.list_doctors({"especialidadId": dto.especialidad_id})
+        doctors = self._doctors_repo.list_doctors({
+            "especialidadId": dto.especialidad_id,
+            "rimacEnsured": dto.rimac_ensured,
+        })
         doctors = [doctor for doctor in doctors if doctor["clinicaId"] in clinic_ids]
         total = len(doctors)
         start = (dto.page - 1) * dto.page_size

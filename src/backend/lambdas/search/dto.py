@@ -11,6 +11,7 @@ class SearchDoctorsQueryDTO:
     ubigeo_id: str
     especialidad_id: str
     seguro_id: str | None
+    rimac_ensured: bool | None
     page: int
     page_size: int
 
@@ -20,6 +21,10 @@ class SearchDoctorsQueryDTO:
         ubigeo_id = event_utils.require_param(params, "ubigeoId")
         especialidad_id = event_utils.require_param(params, "especialidadId")
         seguro_id = event_utils.optional_param(params, "seguroId")
+        rimac_param = event_utils.optional_param(params, "rimacEnsured")
+        rimac_ensured = None
+        if rimac_param is not None:
+            rimac_ensured = rimac_param.lower() in ("true", "1", "yes")
         page = event_utils.get_int_param(params, "page", default=1, minimum=1)
         page_size = event_utils.get_int_param(params, "pageSize", default=10, minimum=1)
-        return cls(ubigeo_id, especialidad_id, seguro_id, page, page_size)
+        return cls(ubigeo_id, especialidad_id, seguro_id, rimac_ensured, page, page_size)
